@@ -24,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private Button btnRequestSms, btnVerifyOtp;
-    private AutoCompleteTextView inputName, inputEmail, inputMobile, inputOtp;
+    private AutoCompleteTextView inputName, inputEmail, inputMobile, inputOtp, password, confirmpassword;
     private ProgressBar progressBar;
     private PrefManager pref;
     private ImageButton btnEditMobile;
@@ -49,6 +49,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         btnEditMobile =  findViewById(R.id.btn_edit_mobile);
         txtEditMobile =  findViewById(R.id.txt_edit_mobile);
         layoutEditMobile =  findViewById(R.id.layout_edit_mobile);
+        password = findViewById(R.id.userPassword);
+        confirmpassword = findViewById(R.id.userCPassword);
 
         //view click listener
         btnEditMobile.setOnClickListener(this);
@@ -115,6 +117,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_edit_mobile:
                 viewPager.setCurrentItem(0);
                 layoutEditMobile.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
                 pref.setIsWaitingForSms(false);
                 break;
         }
@@ -128,6 +131,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String name = inputName.getText().toString().trim();
         String email = inputEmail.getText().toString().trim();
         String mobile = inputMobile.getText().toString().trim();
+        String pwd = password.getText().toString().trim();
+        String cpwd = confirmpassword.getText().toString().trim();
 
         // validating empty name and email
         if (name.length() == 0 || email.length() == 0) {
@@ -137,7 +142,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         // validating mobile number
         // it should be of 10 digits length
-        if (isValidPhoneNumber(mobile)) {
+        if (isValidPhoneNumber(mobile) && isValidEmail(email) && pwd.equals(cpwd)) {
 
             // request for sms
             progressBar.setVisibility(View.VISIBLE);
@@ -149,7 +154,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             requestForSMS(name,email,mobile);
 
         }else{
-            Toast.makeText(getApplicationContext(), "Please enter valid mobile number", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Please enter valid information", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -167,10 +172,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return mobile.matches(regEx);
     }
 
+    private static boolean isValidEmail(String email){
+        String regEx = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[_A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        return email.matches(regEx);
+    }
+
     //request sms
     private void requestForSMS(final String name, final String email, final String mobile){
-        // checking for error, if not error SMS is initiated
-        // device should receive it shortly
+            // checking for error, if not error SMS is initiated
+            // device should receive it shortly
             // boolean flag saying device is waiting for sms
             pref.setIsWaitingForSms(true);
 

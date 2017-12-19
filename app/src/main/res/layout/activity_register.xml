@@ -7,7 +7,8 @@
     <com.vastquery.www.vastquery.helper.MyViewPager
         android:id="@+id/viewPagerVertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:background="@drawable/background">
         <LinearLayout
             android:id="@+id/layout_sms"
             android:layout_width="fill_parent"

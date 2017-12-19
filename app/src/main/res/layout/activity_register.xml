@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <com.vastquery.www.vastquery.helper.MyViewPager
+        android:id="@+id/viewPagerVertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout
+            android:id="@+id/layout_sms"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/formLogo"
+            android:src="@drawable/ic_logo"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="30dp"
+            />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/formLogo"
+                android:id="@+id/scrollView">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="@drawable/trans_white_rectangle"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Get Started"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="10dp"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Just a few details to get you started"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="30dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+
+                        />
+                    <AutoCompleteTextView
+                        android:id="@+id/inputName"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="@string/lbl_name"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:drawableLeft="@drawable/ic_user_icon"
+                        android:textSize="14sp"
+                        android:drawablePadding="5dp"
+                        android:paddingStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:paddingLeft="10dp" />
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/inputEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="@string/lbl_email"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:drawableLeft="@drawable/ic_user_icon"
+                        android:textSize="14sp"
+                        android:drawablePadding="5dp"
+                        android:paddingStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:paddingLeft="10dp" />
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/inputMobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="@string/lbl_mobile"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:drawableLeft="@drawable/ic_pass_icon"
+                        android:textSize="14sp"
+                        android:drawablePadding="5dp"
+                        android:paddingStart="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:paddingLeft="10dp" />
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="Password"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:drawableLeft="@drawable/ic_confirm_icon"
+                        android:textSize="14sp"
+                        android:drawablePadding="5dp"
+                        android:paddingStart="10dp"
+                        android:inputType="textPassword"
+                        android:id="@+id/userPassword"
+                        android:layout_marginBottom="10dp"
+
+                        android:paddingLeft="10dp" />
+
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="Confirm Password"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:drawableLeft="@drawable/ic_confirm_icon"
+                        android:textSize="14sp"
+                        android:drawablePadding="5dp"
+                        android:paddingStart="10dp"
+                        android:inputType="textPassword"
+                        android:id="@+id/userCPassword"
+                        android:layout_marginBottom="10dp"
+
+                        android:paddingLeft="10dp" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="I agree to the Terms and Conditions"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:button="@drawable/radio_button"
+                        android:paddingLeft="5dp"
+                        android:textSize="13sp" />
+
+                    <Button
+                        android:id="@+id/btn_request_sms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:textColor="@color/white"
+                        android:text="@string/lbl_next"
+                        android:textStyle="normal"
+                        android:background="@drawable/register_button"
+                        android:layout_gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="36dp" />
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/layout_otp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_logo"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="30dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_horizontal"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:text="@string/msg_sit_back"
+                android:textColor="@android:color/white"
+                android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:gravity="center_horizontal"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:text="@string/msg_manual_otp"
+                android:textColor="@android:color/white"
+                android:textSize="12dp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/inputOtp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="@string/lbl_enter_otp"
+                android:background="@drawable/rounded_white"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:drawableLeft="@drawable/ic_user_icon"
+                android:textSize="14sp"
+                android:drawablePadding="5dp"
+                android:paddingStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:maxLength="6"/>
+
+            <Button
+                android:id="@+id/btn_verify_otp"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textColor="@color/white"
+                android:text="@string/lbl_submit"
+                android:textStyle="normal"
+                android:background="@drawable/register_button"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="36dp"
+                />
+        </LinearLayout>
+    </com.vastquery.www.vastquery.helper.MyViewPager>
+
+</RelativeLayout>

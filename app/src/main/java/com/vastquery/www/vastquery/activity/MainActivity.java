@@ -1,17 +1,23 @@
 package com.vastquery.www.vastquery.activity;
 
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -22,6 +28,8 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private DrawerLayout mDrawerLayout;
     //sliding image
     private ViewPager viewpager;
     LinearLayout sliderDotsPanel;
@@ -40,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         /*for keyboard and background image
         getWindow().setBackgroundDrawableResource(R.drawable.background);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);*/
@@ -50,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //Navigation View
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView =  findViewById(R.id.nav_view);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
 
 
         //Tabbeb activities
@@ -86,6 +106,54 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sample_actions, menu);
         return true;
+    }
+
+    //Navigation view
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        switch(menuItem.getItemId()){
+                            case R.id.nav_wishlist:
+                                toast("wishlist yet to be created");
+                                break;
+                            case R.id.nav_changenumber:
+                                toast("change number yet to be created");
+                                break;
+                            case R.id.nav_affiliatedwork:
+                                toast("affiliatedwork yet to be created");
+                                break;
+                            case R.id.nav_changemail:
+                                toast("change mail yet to be created");
+                                break;
+                        }
+                        menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.filter:
+                toast("filter yet to be created");
+                break;
+            case R.id.action_search:
+                toast("search yet to be created");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //toast something
+    public void toast(String message){
+        Toast.makeText(MainActivity.this,message,Toast.LENGTH_LONG).show();
     }
 
     //Tabbed Layout

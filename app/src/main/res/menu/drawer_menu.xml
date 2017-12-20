@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_wishlist"
+                android:icon="@drawable/ic_favorite"
+                android:title="Wishlist" />
+            <item
+                android:id="@+id/nav_changenumber"
+                android:icon="@drawable/ic_phone"
+                android:title="ChangeNumber" />
+            <item
+                android:id="@+id/nav_changemail"
+                android:icon="@drawable/ic_email"
+                android:title="ChangeEmail" />
+
+            <item
+                android:id="@+id/nav_affiliatedwork"
+                android:title="Premium Ads"
+                android:icon="@drawable/ic_filter_black_24dp"/>
+        </group>
+    </menu>

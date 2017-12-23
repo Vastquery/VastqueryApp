@@ -7,9 +7,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textviewProf"
-        android:text="Professional"
+        android:id="@+id/textviewcategory"
+        android:text="Category"
         android:textAlignment="center"
         />
-
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.vastquery.www.vastquery.activity;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setAdapter(sectionsPagerAdapter);
         }
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout =  findViewById(R.id.tabs);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
@@ -90,11 +91,26 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.setItemsFromMenu(R.menu.bottom_navigation, new OnMenuTabClickListener() {
             @Override
             public void onMenuTabSelected(int menuItemId) {
+                switch (menuItemId){
+                    case R.id.post_ads:
+                        startActivity(new Intent(MainActivity.this,PostAdds.class));
+                        break;
+                    case R.id.chat:
+                        toast("chat yet to be created");
+                        break;
+                }
 
             }
             @Override
             public void onMenuTabReSelected(int menuItemId) {
-
+                switch (menuItemId){
+                    case R.id.post_ads:
+                        startActivity(new Intent(MainActivity.this,PostAdds.class));
+                        break;
+                    case R.id.chat:
+                        toast("chat yet to be created");
+                        break;
+                }
             }
         });
 
@@ -167,14 +183,14 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
+                    category_fragment categoryFragment = new category_fragment();
+                    return categoryFragment;
+                case 1:
                     shopwise_fragment shopwiseFragment = new shopwise_fragment();
                     return shopwiseFragment;
-                case 1:
+                case 2:
                     professionalwise_fragment professionalwiseFragment = new professionalwise_fragment();
                     return professionalwiseFragment;
-                case 2:
-                    events_fragment eventsFragment = new events_fragment();
-                    return eventsFragment;
                 default:
                     return null;
             }

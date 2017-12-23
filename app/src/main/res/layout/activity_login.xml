@@ -40,7 +40,6 @@ tools:context="com.vastquery.www.vastquery.activity.MainActivity">
         android:background="@drawable/trans_white_rectangle"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-
         >
         <TextView
             android:layout_width="match_parent"

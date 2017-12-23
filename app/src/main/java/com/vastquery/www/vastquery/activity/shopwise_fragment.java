@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.vastquery.www.vastquery.R;
 
@@ -18,7 +19,7 @@ public class shopwise_fragment  extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        RecyclerView rv = (RecyclerView) inflater.inflate(R.layout.shopwise_activity, container, false);
+        RelativeLayout rv =(RelativeLayout) inflater.inflate(R.layout.shopwise_activity, container, false);
         return rv;
 
     }

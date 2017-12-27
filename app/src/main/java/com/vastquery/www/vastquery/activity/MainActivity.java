@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             public void onMenuTabSelected(int menuItemId) {
                 switch (menuItemId){
                     case R.id.post_ads:
-                        startActivity(new Intent(MainActivity.this,PostAdds.class));
+                        startActivity(new Intent(MainActivity.this,PostAdd.class));
                         break;
                     case R.id.chat:
                         toast("chat yet to be created");
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             public void onMenuTabReSelected(int menuItemId) {
                 switch (menuItemId){
                     case R.id.post_ads:
-                        startActivity(new Intent(MainActivity.this,PostAdds.class));
+                        startActivity(new Intent(MainActivity.this,PostAdd.class));
                         break;
                     case R.id.chat:
                         toast("chat yet to be created");
@@ -273,6 +273,5 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
 
 }

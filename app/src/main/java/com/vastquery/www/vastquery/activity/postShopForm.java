@@ -45,12 +45,10 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
 
 
 
-
-        GetData getData = new GetData("select State_Name from tblStates","State_Name");
         List<String> list_states = null;
+        GetData getData = new GetData("select State_Name from tblStates","State_Name");
         list_states = getData.doInBackground();
         list_states.add(0,"-please select the state-");
-
         //shop type adapter
         ArrayAdapter<String> shopTypeAdapter = new ArrayAdapter<String>(postShopForm.this,
                 android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.shoptype));
@@ -84,8 +82,8 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        //Button action
-        shop_clear.setOnClickListener(this);
+            //Button action
+            shop_clear.setOnClickListener(this);
     }
 
     @Override
@@ -100,7 +98,7 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
     }
 
     //clear button
-    public void clearData(){
+    private void clearData(){
         shop_name.setText("");
         shop_type.setSelection(0);
         shop_state.setSelection(0);
@@ -115,7 +113,7 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public class GetData {
+    public static class GetData {
 
         Connection connect;
         String ConnectionResult = "";

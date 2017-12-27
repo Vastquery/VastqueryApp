@@ -293,6 +293,7 @@
                     android:text="Clear"
                     android:textStyle="normal"
                     android:background="@drawable/register_button"
+                    android:layout_marginRight="10dp"
                     />
                  <Button
                      android:id="@+id/shop_submit"

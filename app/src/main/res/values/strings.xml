@@ -14,11 +14,22 @@
     <string name="lbl_enter_otp">Enter OTP</string>
     <string name="lbl_submit">SUBMIT</string>
     <string name="don_t_have_account">Don\'t have account?click here</string>
+    <string name="postshop">Shopwise adds                                                      ></string>
+    <string name="postproffesion">Proffesional adds                                                  ></string>
+    <string name="editshop">Shopwise adds                                                      ></string>
+    <string name="editproffession">Proffesional adds                                                  ></string>
 
     <string-array name="shoptype">
         <item>-please select the shop type-</item>
         <item>Accomodation</item>
         <item>Agriculture</item>
         <item>Autocare</item>
+    </string-array>
+
+    <string-array name="proftype">
+        <item>-please select the proffesional type-</item>
+        <item>Accountant</item>
+        <item>Administrator</item>
+        <item>Analyst</item>
     </string-array>
 </resources>

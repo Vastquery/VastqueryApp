@@ -226,7 +226,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view == ((View) object);
+            return view == ( object);
         }
 
         public Object instantiateItem(View collection, int position) {

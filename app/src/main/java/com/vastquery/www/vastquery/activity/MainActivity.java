@@ -1,5 +1,7 @@
 package com.vastquery.www.vastquery.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -16,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private DrawerLayout mDrawerLayout;
+
     //sliding image
     private ViewPager viewpager;
     LinearLayout sliderDotsPanel;
@@ -96,8 +100,9 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this,PostAdd.class));
                         break;
                     case R.id.chat:
-                        toast("chat yet to be created");
+                        Toast.makeText(MainActivity.this,"chat yet to be created",Toast.LENGTH_LONG).show();
                         break;
+
                 }
 
             }
@@ -108,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this,PostAdd.class));
                         break;
                     case R.id.chat:
-                        toast("chat yet to be created");
+                        Toast.makeText(MainActivity.this,"chat yet to be created",Toast.LENGTH_LONG).show();
                         break;
+
                 }
             }
         });
-
         //Image slider
         SlidingImage();
     }

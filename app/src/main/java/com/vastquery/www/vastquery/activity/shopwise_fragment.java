@@ -22,8 +22,8 @@ public class shopwise_fragment  extends Fragment{
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
 
-    String[] names={"Automobile","Bakery Shop","Beauty salon","Book shop","Butcher shop","Fruit & vegetables",
-            "Furniture Shop", "Jewelry Shop","computer&Mobile showroom","Pet shop","Printing shop","Gift shop",
+    String[] names={"Automobile","Bakery Shop","Beauty salon","Book shop","Butcher shop","Computers showroom",
+            "Fruit & vegetables","Furniture Shop","Gift shop", "Jewelry Shop","Mobile showroom","Pet shop","Printing shop",
             "Utensils shop"};
 
     int[] images={R.drawable.automobileshop,
@@ -31,13 +31,14 @@ public class shopwise_fragment  extends Fragment{
             R.drawable.beautysalon,
             R.drawable.bookshop,
             R.drawable.butchershop,
+            R.drawable.computers,
             R.drawable.fruitshop,
             R.drawable.furniture,
+            R.drawable.gift,
             R.drawable.jewelry,
             R.drawable.mobiles,
             R.drawable.petshop,
             R.drawable.printingshop,
-            R.drawable.gift,
             R.drawable.utensils};
     @Nullable
     @Override

@@ -23,7 +23,8 @@
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.postShopForm" />
         <activity android:name=".activity.postProfForm" />
-        <activity android:name=".activity.PostAdd"></activity>
+        <activity android:name=".activity.PostAdd" />
+        <activity android:name=".activity.RequiredList"></activity>
     </application>
 
 </manifest>

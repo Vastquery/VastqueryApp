@@ -17,4 +17,8 @@
         android:title="Ads"
         android:icon = "@drawable/ic_filter_black_24dp"/>
 
+    <item
+        android:id="@+id/nav_wishlist"
+        android:icon="@drawable/ic_favorite"
+        android:title="Wishlist" />
 </menu>

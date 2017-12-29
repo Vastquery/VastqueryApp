@@ -22,7 +22,7 @@ public class category_fragment extends Fragment{
 
     String[] names = {"Agriculture","Accommodation","Caterers","Civil Contractor","Daily Needs","Dance & Music",
             "Driving School","Education & Training","Electronics","Emergency","Fitness","Hospitals","Hotels",
-            "House keeping","Jobs","Real Estate","Repairs","Transporters","Training center","Travels","Wedding"};
+            "House keeping","Jobs consultancy","Real Estate","Repairs","Transporters","Travels","Wedding"};
 
     int[] images = { R.drawable.farmer,R.drawable.accommodation,R.drawable.utensils,R.drawable.construcion,
                     R.drawable.furniture,R.drawable.ic_music,R.drawable.drivingschool,R.drawable.trainingcenter,

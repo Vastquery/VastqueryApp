@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="com.vastquery.www.vastquery.activity.PostAdd">
+
+    <ImageView
+        android:id="@+id/login_logo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_logo"
+        android:scaleType="fitCenter"
+        android:layout_marginBottom="30dp"
+        />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_logo">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Post New Add"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+                android:background="@drawable/rectangle_background"
+                />
+            <Button
+                android:id="@+id/shop_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Shopwise adds                                                          >"
+                android:textStyle="normal"
+                android:background="@drawable/register_button"
+                android:paddingLeft="5dp"
+
+                android:layout_marginBottom="5dp"/>
+            <Button
+                android:id="@+id/prof_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Proffesional adds                                                  >"
+                android:textStyle="normal"
+                android:background="@drawable/register_button"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Edit "
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+                android:background="@drawable/rectangle_background"
+                />
+
+            <Button
+                android:id="@+id/shop_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Shopwise edit                                                          >"
+                android:textStyle="normal"
+                android:background="@drawable/register_button"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <Button
+                android:id="@+id/prof_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Proffesional edit                                                  >"
+                android:textStyle="normal"
+                android:background="@drawable/register_button"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+
+
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

@@ -39,7 +39,7 @@ public class category_fragment extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        MyAdapter myAdapter = new MyAdapter(context,names,images);r
+        MyAdapter myAdapter = new MyAdapter(context,names,images);
         recyclerView.setAdapter(myAdapter);
 
         return view;

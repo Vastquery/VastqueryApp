@@ -43,7 +43,7 @@ public class RequiredList extends AppCompatActivity {
         String text = intent.getStringExtra(extra_name);
 
         //toolbar
-        toolbar =  findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         recyclerView = findViewById(R.id.recyclerview_requiredlist);
@@ -51,43 +51,8 @@ public class RequiredList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(RequiredList.this,names,images);
+        SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(RequiredList.this, names, images);
         recyclerView.setAdapter(myAdapter);
-
-
-        //Bottom Bar
-        BottomBar bottomBar = BottomBar.attach(RequiredList.this, savedInstanceState);
-        bottomBar.setItemsFromMenu(R.menu.bottom_navigation, new OnMenuTabClickListener() {
-            @Override
-            public void onMenuTabSelected(int menuItemId) {
-                switch (menuItemId){
-                    case R.id.post_ads:
-                        startActivity(new Intent(RequiredList.this,PostAdd.class));
-                        break;
-                    case R.id.chat:
-                        Toast.makeText(RequiredList.this,"chat yet to be created",Toast.LENGTH_LONG).show();
-                        break;
-                    case R.id.Home:
-                        startActivity(new Intent(RequiredList.this,MainActivity.class));
-                        break;
-                }
-
-            }
-            @Override
-            public void onMenuTabReSelected(int menuItemId) {
-                switch (menuItemId){
-                    case R.id.post_ads:
-                        startActivity(new Intent(RequiredList.this,PostAdd.class));
-                        break;
-                    case R.id.chat:
-                        Toast.makeText(RequiredList.this,"chat yet to be created",Toast.LENGTH_LONG).show();
-                        break;
-                    case R.id.Home:
-                        startActivity(new Intent(RequiredList.this,MainActivity.class));
-                        break;
-                }
-            }
-        });
 
     }
 }

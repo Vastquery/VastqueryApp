@@ -1,6 +1,8 @@
 package com.vastquery.www.vastquery.helper;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.activity.ClassListItems;
+
+import java.util.List;
 
 public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.MyHolder> {
 
     Context context;
-    private String[] names;
-    private int[] images;
+    List<ClassListItems> requiredList;
 
-    public SimpleStringRecyclerViewAdapter(Context context, String[] names, int[] images) {
+    public SimpleStringRecyclerViewAdapter(Context context,List<ClassListItems> requiredList ) {
         this.context = context;
-        this.names = names;
-        this.images = images;
+        this.requiredList = requiredList;
     }
 
     @Override
@@ -31,14 +34,16 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-        holder.recycler_imageview.setImageResource(images[position]);
-        holder.textView.setText(names[position]);
+        holder.textView.setText(requiredList.get(position).getName()+"");
+        byte[] decodestring = requiredList.get(position).getImg();
+        Bitmap decodebitmap = BitmapFactory.decodeByteArray(decodestring,0,decodestring.length);
+        holder.recycler_imageview.setImageBitmap(decodebitmap);
     }
 
 
     @Override
     public int getItemCount() {
-        return names.length;
+        return requiredList.size();
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder{

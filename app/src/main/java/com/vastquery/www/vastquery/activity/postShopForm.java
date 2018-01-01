@@ -22,7 +22,7 @@ import java.util.List;
 public class postShopForm extends AppCompatActivity implements View.OnClickListener {
 
 
-    String[] names = {"-please select the shop type-","Agriculture","Accommodation","Automobile","Bakery Shop","Beauty salon","Book shop",
+    String[] names = {"-please select the shop type-","Agriculture","Accommodation","Automobile","Bakeries","Beauty salon","Book shop",
                 "Butcher shop","Caterers","Civil Contractor","Computers showroom","Daily Needs","Dance & Music",
                 "Fitness","Driving School","Education & Training","Electronics","Emergency","Fruit & vegetables",
                 "Furniture Shop","Hospitals","Hotels","House keeping","Jewelry Shop","Jobs consultancy",
@@ -109,31 +109,36 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
             this.column = column;
         }
 
+
         public List<String> doInBackground() {
-
-            List<String> data = null;
-            data = new ArrayList<>();
-            try {
-                ConnectionHelper conStr = new ConnectionHelper();
-                connect = conStr.connectionclass();        // Connect to database
-                if (connect == null) {
-                    ConnectionResult = "Check Your Internet Access!";
-                } else {
-                    // Change below query according to your own database.
-                    Statement stmt = connect.createStatement();
-                    ResultSet rs = stmt.executeQuery(query);
-                    while (rs.next()) {
-                        data.add(rs.getString(column));
+            final List<String> data = new ArrayList<>();
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        ConnectionHelper conStr = new ConnectionHelper();
+                        connect = conStr.connectionclass();        // Connect to database
+                        if (connect == null) {
+                            ConnectionResult = "Check Your Internet Access!";
+                        } else {
+                            // Change below query according to your own database.
+                            Statement stmt = connect.createStatement();
+                            ResultSet rs = stmt.executeQuery(query);
+                            while (rs.next()) {
+                                data.add(rs.getString(column));
+                            }
+                            ConnectionResult = " successful";
+                            isSuccess = true;
+                            connect.close();
+                        }
+                    } catch (Exception ex) {
+                        isSuccess = false;
+                        ConnectionResult = ex.getMessage();
                     }
-                    ConnectionResult = " successful";
-                    isSuccess = true;
-                    connect.close();
                 }
-            } catch (Exception ex) {
-                isSuccess = false;
-                ConnectionResult = ex.getMessage();
-            }
-
+            };
+            Thread helperthread = new Thread(r);
+            helperthread.start();
             return data;
         }
     }

@@ -22,7 +22,7 @@ public class shopwise_fragment  extends Fragment{
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
 
-    String[] names={"Automobile","Bakery Shop","Beauty salon","Book shop","Butcher shop","Computers showroom",
+    String[] names={"Automobile","Bakeries","Beauty salon","Book shop","Butcher shop","Computers showroom",
             "Fruit & vegetables","Furniture Shop","Gift shop", "Jewelry Shop","Mobile showroom","Pet shop","Printing shop",
             "Utensils shop"};
 

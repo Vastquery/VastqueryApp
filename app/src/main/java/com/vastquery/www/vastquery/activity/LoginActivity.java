@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getWindow().setBackgroundDrawableResource(R.drawable.background);
+        //getWindow().setBackgroundDrawableResource(R.drawable.background);
 
         //initialization
         login_Button =  findViewById(R.id.login_button);
@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.login_button:
-                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                startActivity(new Intent(LoginActivity.this,BottomNavi.class));
                 finish();
                 break;
             case R.id.Goto_Register:

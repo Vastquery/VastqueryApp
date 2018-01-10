@@ -1,6 +1,7 @@
 package com.vastquery.www.vastquery.helper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -9,9 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vastquery.www.vastquery.R;
-import com.vastquery.www.vastquery.activity.ClassListItems;
+import com.vastquery.www.vastquery.PropertyClasses.ClassListItems;
+import com.vastquery.www.vastquery.activity.DetailsActivity;
+import com.vastquery.www.vastquery.activity.ProfessionalActivity;
 
 import java.util.List;
 
@@ -19,10 +23,12 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
 
     Context context;
     List<ClassListItems> requiredList;
+    boolean isShop;
 
-    public SimpleStringRecyclerViewAdapter(Context context,List<ClassListItems> requiredList ) {
+    public SimpleStringRecyclerViewAdapter(Context context,List<ClassListItems> requiredList ,boolean isShop) {
         this.context = context;
         this.requiredList = requiredList;
+        this.isShop = isShop;
     }
 
     @Override
@@ -33,11 +39,34 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
     }
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position) {
+    public void onBindViewHolder(final MyHolder holder, final int position) {
         holder.textView.setText(requiredList.get(position).getName()+"");
-        byte[] decodestring = requiredList.get(position).getImg();
-        Bitmap decodebitmap = BitmapFactory.decodeByteArray(decodestring,0,decodestring.length);
+        final byte[] decodestring = requiredList.get(position).getImg();
+        final Bitmap decodebitmap = BitmapFactory.decodeByteArray(decodestring,0,decodestring.length);
         holder.recycler_imageview.setImageBitmap(decodebitmap);
+        holder.address.setText(requiredList.get(position).getAddress());
+        holder.mview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                if(isShop){
+                    Intent intent = new Intent(context, DetailsActivity.class);
+                    intent.putExtra(DetailsActivity.EXTRA_NAME,holder.textView.getText().toString());
+                    intent.putExtra(String.valueOf(DetailsActivity.EXTRA_ID),requiredList.get(position).getId());
+                    intent.putExtra("address",requiredList.get(position).getAddress());
+                    intent.putExtra("BitmapImage",decodestring);
+                    context.startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(context, ProfessionalActivity.class);
+                    intent.putExtra("name",requiredList.get(position).getName());
+                    intent.putExtra("address",requiredList.get(position).getAddress());
+                    intent.putExtra("image",decodebitmap);
+                    context.startActivity(intent);
+                }
+            }
+        });
+
     }
 
 
@@ -49,12 +78,15 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
     public static class MyHolder extends RecyclerView.ViewHolder{
 
         ImageView recycler_imageview;
-        TextView textView;
+        TextView textView,address;
+        View mview;
         public MyHolder(View itemView) {
             super(itemView);
 
+            mview=itemView;
             recycler_imageview = itemView.findViewById(R.id.avatar_list);
             textView = itemView.findViewById(R.id.text_list);
+            address = itemView.findViewById(R.id.address_list);
 
         }
     }

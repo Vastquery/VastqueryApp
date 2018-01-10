@@ -8,10 +8,6 @@
                 android:id="@+id/nav_changenumber"
                 android:icon="@drawable/ic_phone"
                 android:title="ChangeNumber" />
-            <item
-                android:id="@+id/nav_changemail"
-                android:icon="@drawable/ic_email"
-                android:title="ChangeEmail" />
 
             <item
                 android:id="@+id/nav_affiliatedwork"

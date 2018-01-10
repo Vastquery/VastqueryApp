@@ -8,13 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnMenuTabClickListener;
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
+import com.vastquery.www.vastquery.PropertyClasses.ClassListItems;
 import com.vastquery.www.vastquery.R;
-import com.vastquery.www.vastquery.helper.MyAdapter;
 import com.vastquery.www.vastquery.helper.SimpleStringRecyclerViewAdapter;
 
 import java.sql.Connection;
@@ -33,6 +33,7 @@ public class RequiredList extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     String requested_list;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class RequiredList extends AppCompatActivity {
         //toolbar
         toolbar = findViewById(R.id.toolbar_requiredlist);
         setSupportActionBar(toolbar);
+        progressBar=findViewById(R.id.progressBar_requriedList);
 
         recyclerView = findViewById(R.id.recyclerview_requiredlist);
         linearLayoutManager = new LinearLayoutManager(RequiredList.this);
@@ -67,11 +69,11 @@ public class RequiredList extends AppCompatActivity {
     public class SyncData extends AsyncTask<String,String,String> {
 
         String ConnectionResult;
-        boolean isSuccess=false;
+        boolean isSuccess,isShop=false;
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -84,22 +86,21 @@ public class RequiredList extends AppCompatActivity {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
                     // Change below query according to your own database.
-                    String query = "select Prof_Name,Logo from tblProffesional  where Prof_Type='"+requested_list+"'";
+                    String query = "select Prof_ID,Prof_Name,Address,Logo from tblProffesional  where Prof_Type='"+requested_list+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         do {
-                            itemArrayList.add(new ClassListItems(rs.getString("Prof_Name"), rs.getBytes("Logo")));
+                            itemArrayList.add(new ClassListItems(rs.getInt("Prof_ID"),rs.getString("Prof_Name"),rs.getString("Address"), rs.getBytes("Logo")));
                         }while (rs.next());
-                        isSuccess = true;
                     }else{
-                        String shop_query = "select S_Name,Shop_Photo from tblShop where S_Type='"+requested_list+"'";
+                        String shop_query = "select S_ID,S_Name,Address,Shop_Photo from tblShop where S_Type='"+requested_list+"'";
                         Statement shop_stmt = connect.createStatement();
                         ResultSet shop_rs = shop_stmt.executeQuery(shop_query);
                         while (shop_rs.next()) {
-                            itemArrayList.add(new ClassListItems(shop_rs.getString("S_Name"), shop_rs.getBytes("Shop_Photo")));
+                            itemArrayList.add(new ClassListItems(shop_rs.getInt("S_ID"),shop_rs.getString("S_Name"),shop_rs.getString("Address"), shop_rs.getBytes("Shop_Photo")));
                         }
-                        isSuccess = true;
+                        isShop=true;
                     }
                     ConnectionResult = "successful";
                     isSuccess = true;
@@ -113,12 +114,13 @@ public class RequiredList extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
+            progressBar.setVisibility(View.GONE);
             if(isSuccess){
-                SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(RequiredList.this, itemArrayList);
+                SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(RequiredList.this, itemArrayList,isShop);
                 recyclerView.setAdapter(myAdapter);
             }
             else {
-                Toast.makeText(RequiredList.this,"No Items",Toast.LENGTH_LONG).show();
+                Toast.makeText(RequiredList.this,s,Toast.LENGTH_LONG).show();
 
             }
         }

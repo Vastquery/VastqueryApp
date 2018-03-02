@@ -1,5 +1,6 @@
 package com.vastquery.www.vastquery.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,7 +35,7 @@ public class RequiredList extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     String requested_list;
-    ProgressBar progressBar;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +49,13 @@ public class RequiredList extends AppCompatActivity {
         //toolbar
         toolbar = findViewById(R.id.toolbar_requiredlist);
         setSupportActionBar(toolbar);
-        progressBar=findViewById(R.id.progressBar_requriedList);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView = findViewById(R.id.recyclerview_requiredlist);
         linearLayoutManager = new LinearLayoutManager(RequiredList.this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         itemArrayList = new ArrayList<>();
-
         SyncData syncData = new SyncData();
         syncData.execute();
 
@@ -62,8 +63,16 @@ public class RequiredList extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class SyncData extends AsyncTask<String,String,String> {
@@ -73,7 +82,7 @@ public class RequiredList extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
+           dialog =  ProgressDialog.show(RequiredList.this,"","Loading...",true);
         }
 
         @Override
@@ -85,13 +94,21 @@ public class RequiredList extends AppCompatActivity {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    // Change below query according to your own database.
+                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory  where Cat_Id='"+requested_list+"'";
+                    Statement stmt = connect.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+                    if(rs.next()) {
+                        do {
+                            itemArrayList.  add(new ClassListItems(rs.getString("Group_Id"),rs.getString("SubCategory_Id"),rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
+                        }while (rs.next());
+
+                    /* Change below query according to your own database.
                     String query = "select Prof_ID,Prof_Name,Address,Logo from tblProffesional  where Prof_Type='"+requested_list+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         do {
-                            itemArrayList.add(new ClassListItems(rs.getInt("Prof_ID"),rs.getString("Prof_Name"),rs.getString("Address"), rs.getBytes("Logo")));
+                            itemArrayList.  add(new ClassListItems(rs.getInt("Prof_ID"),rs.getString("Prof_Name"),rs.getString("Address"), rs.getBytes("Logo")));
                         }while (rs.next());
                     }else{
                         String shop_query = "select S_ID,S_Name,Address,Shop_Photo from tblShop where S_Type='"+requested_list+"'";
@@ -99,7 +116,7 @@ public class RequiredList extends AppCompatActivity {
                         ResultSet shop_rs = shop_stmt.executeQuery(shop_query);
                         while (shop_rs.next()) {
                             itemArrayList.add(new ClassListItems(shop_rs.getInt("S_ID"),shop_rs.getString("S_Name"),shop_rs.getString("Address"), shop_rs.getBytes("Shop_Photo")));
-                        }
+                        }*/
                         isShop=true;
                     }
                     ConnectionResult = "successful";
@@ -114,7 +131,8 @@ public class RequiredList extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            progressBar.setVisibility(View.GONE);
+            //progressBar.setVisibility(View.GONE);
+            dialog.dismiss();
             if(isSuccess){
                 SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(RequiredList.this, itemArrayList,isShop);
                 recyclerView.setAdapter(myAdapter);

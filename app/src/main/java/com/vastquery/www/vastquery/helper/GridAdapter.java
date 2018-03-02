@@ -1,6 +1,7 @@
 package com.vastquery.www.vastquery.helper;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,52 +9,49 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.vastquery.www.vastquery.PropertyClasses.SearchClass;
 import com.vastquery.www.vastquery.R;
 
+import java.util.List;
 
-public class GridAdapter extends BaseAdapter {
+
+public class GridAdapter extends RecyclerView.Adapter<GridAdapter.MyHolder> {
 
     Context context;
-    private final String[] values;
-    private final int[] images;
-    View view;
-    LayoutInflater layoutInflater;
+    List<SearchClass> values;
 
-    public GridAdapter(Context context, String[] values, int[] images) {
+    public GridAdapter(Context context, List<SearchClass> values) {
         this.context = context;
-        this.images = images;
         this.values = values;
     }
 
     @Override
-    public int getCount() {
-        return values.length;
+    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_item,null);
+        GridAdapter.MyHolder gridAdapter = new GridAdapter.MyHolder(layout);
+        return gridAdapter;
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public void onBindViewHolder(MyHolder holder, int position) {
+        final SearchClass value = values.get(position);
+        holder.name.setText(value.getName());
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public int getItemCount() {
+        return values.size();
     }
 
-    @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
+    public static class MyHolder extends RecyclerView.ViewHolder{
 
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View mview;
+        TextView name;
 
-        if(convertView == null ){
-
-            view = new View(context);
-            view = layoutInflater.inflate(R.layout.single_item,null);
-            ImageView imageView = view.findViewById(R.id.grid_imageview);
-            TextView textView = view.findViewById(R.id.grid_textview);
-            imageView.setImageResource(images[i]);
-            textView.setText(values[i]);
+        public MyHolder(View itemView) {
+            super(itemView);
+            mview=itemView;
+            name = itemView.findViewById(R.id.textview);
         }
-        return view;
     }
 }

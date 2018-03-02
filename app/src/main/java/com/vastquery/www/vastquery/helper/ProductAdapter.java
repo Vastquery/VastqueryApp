@@ -50,12 +50,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
     public void onBindViewHolder(final MyHolder holder, final int position) {
         final ProductClass product = products.get(position);
         context = holder.mview.getContext();
-        holder.producti_name.setText(product.getProduct_name());
+        holder.product_name.setText(product.getProduct_name());
         holder.product_price.setText(""+product.getPrice());
         byte[] decodestring = product.getFront();
         Bitmap decodebitmap = BitmapFactory.decodeByteArray(decodestring,0,decodestring.length);
         holder.product_imageview.setImageBitmap(decodebitmap);
-        /*holder.heart_button.setOnLikeListener(new OnLikeListener() {
+        holder.heart_button.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
                 Toast.makeText(holder.mview.getContext(),"liked",Toast.LENGTH_LONG).show();
@@ -65,7 +65,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
             public void unLiked(LikeButton likeButton) {
                 Toast.makeText(holder.mview.getContext(),"unliked",Toast.LENGTH_LONG).show();
             }
-        });*/
+        });
         holder.product_imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +87,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
     public static class MyHolder extends RecyclerView.ViewHolder{
 
         ImageView product_imageview;
-        TextView producti_name,product_price;
+        TextView product_name,product_price;
         View mview;
         LikeButton heart_button;
         public MyHolder(View itemView) {
@@ -95,9 +95,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
 
             mview=itemView;
             product_imageview = itemView.findViewById(R.id.product_image);
-            producti_name = itemView.findViewById(R.id.product_name);
+            product_name = itemView.findViewById(R.id.product_name);
             product_price = itemView.findViewById(R.id.product_price);
-            //heart_button = itemView.findViewById(R.id.heart_button);
+            heart_button = itemView.findViewById(R.id.heart_button);
 
 
         }

@@ -7,23 +7,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.vastquery.www.vastquery.PropertyClasses.CategoryDetails;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.activity.RequiredList;
+
+import java.util.List;
 
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
 
     Context context;
-    String[] names;
-    int[] images;
+    List<CategoryDetails> details;
 
 
-    public MyAdapter(Context context, String[] names, int[] images) {
+    public MyAdapter(Context context, List<CategoryDetails> details) {
         this.context = context;
-        this.names = names;
-        this.images = images;
+        this.details = details;
     }
 
     @Override
@@ -36,15 +39,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(final MyHolder holder, int position) {
-        holder.recycler_imageview.setImageResource(images[position]);
-        holder.textView.setText(names[position]);
+        final CategoryDetails detail = details.get(position);
+        Glide.with(context).load(detail.getImage()).asBitmap().centerCrop().into(holder.recycler_imageview);
+        holder.textView.setText(detail.getName());
 
         holder.recycler_imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent  intent = new Intent(context, RequiredList.class);
-                intent.putExtra(RequiredList.extra_name,holder.textView.getText().toString());
+                intent.putExtra(RequiredList.extra_name,detail.getCatId());
                 context.startActivity(intent);
             }
         });
@@ -54,7 +58,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
 
     @Override
     public int getItemCount() {
-        return names.length;
+        return details.size();
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder{
@@ -63,7 +67,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
         TextView textView;
         public MyHolder(View itemView) {
             super(itemView);
-
             recycler_imageview = itemView.findViewById(R.id.grid_imageview);
             textView = itemView.findViewById(R.id.grid_textview);
 

@@ -49,19 +49,14 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
-                if(isShop){
+                if(requiredList.get(position).getGroup_id().equals("G_1") || requiredList.get(position).getGroup_id().equals("G_3")){
                     Intent intent = new Intent(context, DetailsActivity.class);
-                    intent.putExtra(DetailsActivity.EXTRA_NAME,holder.textView.getText().toString());
                     intent.putExtra(String.valueOf(DetailsActivity.EXTRA_ID),requiredList.get(position).getId());
-                    intent.putExtra("address",requiredList.get(position).getAddress());
-                    intent.putExtra("BitmapImage",decodestring);
                     context.startActivity(intent);
                 }
                 else{
                     Intent intent = new Intent(context, ProfessionalActivity.class);
-                    intent.putExtra("name",requiredList.get(position).getName());
-                    intent.putExtra("address",requiredList.get(position).getAddress());
-                    intent.putExtra("image",decodebitmap);
+                    intent.putExtra("id",requiredList.get(position).getId());
                     context.startActivity(intent);
                 }
             }

@@ -3,6 +3,7 @@ package com.vastquery.www.vastquery.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -19,15 +20,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
 import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.helper.ViewPageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +45,8 @@ public class MainActivity extends Fragment {
 
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
+
+
 
     //sliding image
     private ViewPager viewpager;
@@ -100,19 +107,19 @@ public class MainActivity extends Fragment {
             setupDrawerContent(navigationView);
         }
 
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         /*for keyboard and background image
-        getWindow().setBackgroundDrawableResource(R.drawable.background);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);*/
+        getWindow().setBackgroundDrawableResource(R.drawable.background);*/
         // tooolbar
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         //Navigation View
-
         //Tabbeb activities
+
         ViewPager viewPager = view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-       /*if(viewPager != null) {
+
+        /*if(viewPager != null) {
             sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
             viewPager.setAdapter(sectionsPagerAdapter);
         }*/
@@ -130,18 +137,26 @@ public class MainActivity extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.sample_actions, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch(item.getItemId()){
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.filter:
-                toast("filter yet to be created");
+                intent = new Intent(context, postShopForm.class);
+                context.startActivity(intent);
                 break;
             case R.id.action_search:
-                toast("search yet to be created");
+                intent = new Intent(context, SearchActivity.class);
+                context.startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -153,9 +168,6 @@ public class MainActivity extends Fragment {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch(menuItem.getItemId()){
-                            case R.id.nav_wishlist:
-                                toast("wishlist yet to be created");
-                                break;
                             case R.id.nav_changenumber:
                                 toast("change number yet to be created");
                                 break;
@@ -171,12 +183,11 @@ public class MainActivity extends Fragment {
     }
 
 
-
     private void setupViewPager(ViewPager viewPager) {
 
 
         Adapter adapter = new Adapter(getChildFragmentManager());
-        adapter.addFragment(new category_fragment(), "Category");
+        adapter.addFragment(new category_fragment(), "ServiceProvider");
         adapter.addFragment(new shopwise_fragment(), "Shop");
         adapter.addFragment(new professionalwise_fragment(), "Professionals");
         viewPager.setAdapter(adapter);
@@ -289,11 +300,8 @@ public class MainActivity extends Fragment {
         }
     }
 
-
-    //toast something
+    // toast something
     public void toast(String message){
         Toast.makeText(context,message,Toast.LENGTH_LONG).show();
     }
-
-
 }

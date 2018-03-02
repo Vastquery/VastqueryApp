@@ -37,6 +37,7 @@ public class ProductActivity extends Fragment {
     Context context;
     ProgressBar progressBar;
     public int Shop_id;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,13 +80,13 @@ public class ProductActivity extends Fragment {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                        String query = "select P_ID,Name,Price,Front_View,Back_View,Side_View,Date from tblProduct where S_ID="+Shop_id;
+                        String query = "select P_ID,Name,Price,Front_View from tblProduct where S_ID="+Shop_id;
                         Statement stmt = connect.createStatement();
                         ResultSet rs = stmt.executeQuery(query);
                         if(rs.next()){
                             hasProduct = true;
                             do{
-                                products.add(new ProductClass(rs.getInt("P_ID"),rs.getString("Name"),rs.getString("Price"),rs.getBytes("Front_View")));
+                                products.add(new ProductClass(rs.getInt("P_ID"),Shop_id,rs.getString("Name"),rs.getString("Price"),rs.getBytes("Front_View")));
                             }while (rs.next());
                         }
                     isSuccess = true;

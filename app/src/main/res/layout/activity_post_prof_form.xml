@@ -158,6 +158,19 @@
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:hint="Pincode"
+                android:background="@drawable/rounded_white"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="14sp"
+                android:drawablePadding="5dp"
+                android:paddingLeft="10dp"
+                android:id="@+id/prof_email"
+                android:layout_marginBottom="10dp" />
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:hint="Phone Number"
                 android:background="@drawable/rounded_white"
                 android:layout_marginStart="15dp"
@@ -209,8 +222,9 @@
                 />
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp">
@@ -222,21 +236,19 @@
                     android:src="@drawable/ic_edit_mobile"
                     />
 
-
-                <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:hint="Photo"
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/image_photo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
                     android:background="@drawable/rounded_white"
-                    android:textSize="14sp"
-                    android:drawablePadding="5dp"
-                    android:paddingLeft="10dp"
-                    android:id="@+id/prof_photo"
-                    android:layout_marginBottom="10dp"/>
+                    android:clickable="true"/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:orientation="horizontal"

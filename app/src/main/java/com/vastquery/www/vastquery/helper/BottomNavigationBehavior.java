@@ -1,6 +1,8 @@
 package com.vastquery.www.vastquery.helper;
 
+
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
@@ -20,12 +22,11 @@ public class BottomNavigationBehavior extends CoordinatorLayout.Behavior<BottomN
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, BottomNavigationView child, View dependency) {
-        boolean dependsOn = dependency instanceof FrameLayout;
-        return dependsOn;
+        return dependency instanceof FrameLayout;
     }
 
     @Override
-    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, BottomNavigationView child, View directTargetChild, View target, int nestedScrollAxes) {
+    public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull BottomNavigationView child, View directTargetChild, View target, int nestedScrollAxes) {
         return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL;
     }
 

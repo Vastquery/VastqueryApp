@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.vastquery.www.vastquery.DatabaseConnection.GetResources;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.GridSpacingItemDecoration;
 import com.vastquery.www.vastquery.helper.MyAdapter;
@@ -28,8 +29,8 @@ public class professionalwise_fragment extends Fragment {
     String[] names = {"Accountant","Adminstrator","Analyst","Architect","Archivist","Artist","Author",
                         "Baker","Barber","Bartender","Beautician","Broadcaster","Bookkeeper","Bricklayer",
                         "Care worker","Carpenter","Chef","Cleaner","Counselor","Decorater",
-                        "Doctor","Driver","Electrician","Engineer","Enterpreneur","Farmer",
-                        "Firefighter","Florist","Instructor","Journalist","Labourer",
+                        "Doctor","Driver","Electrician","Engineer","Enterpreneur",
+                        "Firefighter","Farmer","Florist","Instructor","Journalist","Labourer",
                         "Lawyer","Librarian","Mechanic","Masseur","Musician",
                         "Nurse","Painter","Photographer","Plumber","Police","Politician","Scientist",
                         "Social worker","Stock broker","Vocalist","Water supplier"};
@@ -40,8 +41,8 @@ public class professionalwise_fragment extends Fragment {
                     R.drawable.broadcaster,R.drawable.bookkeeper,R.drawable.dricklayer,R.drawable.careworker,
                     R.drawable.carpenter,R.drawable.chef,R.drawable.cleaner,R.drawable.counselor,
                     R.drawable.decorator,R.drawable.doctor,R.drawable.driver,R.drawable.electrician,
-                    R.drawable.engineer,R.drawable.entrepreneur,R.drawable.farmer,R.drawable.firefighter,
-                    R.drawable.florist,R.drawable.instructor,R.drawable.journalist,R.drawable.labourer,
+                    R.drawable.engineer,R.drawable.entrepreneur,R.drawable.farmer,
+                    R.drawable.instructor,R.drawable.firefighter,R.drawable.journalist,R.drawable.labourer,
                     R.drawable.lawyer,R.drawable.librarian,R.drawable.mechanic,R.drawable.masseur,
                     R.drawable.musician,R.drawable.nurse,R.drawable.painter,R.drawable.photographer,
                     R.drawable.plumber,R.drawable.police,R.drawable.politician,R.drawable.scientist,
@@ -62,8 +63,8 @@ public class professionalwise_fragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
 
-        MyAdapter myAdapter = new MyAdapter(context,names,images);
-        recyclerView.setAdapter(myAdapter);
+        GetResources getResources = new GetResources(context,recyclerView,"G_2");
+        getResources.execute();
 
         return view;
     }

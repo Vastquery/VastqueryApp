@@ -7,6 +7,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -57,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         btnRequestSms.setOnClickListener(this);
         btnVerifyOtp.setOnClickListener(this);
 
-        //
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         layoutEditMobile.setVisibility(View.GONE);
 
         pref = new PrefManager(this);
@@ -75,19 +76,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
-            public void onPageSelected(int position) {
-
-            }
+            public void onPageSelected(int position) {}
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
 
         /**
@@ -98,8 +93,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             viewPager.setCurrentItem(1);
             layoutEditMobile.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     @Override
@@ -167,12 +160,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @param mobile
      * @return
      */
-    private static boolean isValidPhoneNumber(String mobile) {
+    public static boolean isValidPhoneNumber(String mobile) {
         String regEx = "^[0-9]{10}$";
         return mobile.matches(regEx);
     }
 
-    private static boolean isValidEmail(String email){
+    public static boolean isValidEmail(String email){
         String regEx = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[_A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         return email.matches(regEx);
     }
@@ -203,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String otp = inputOtp.getText().toString().trim();
 
         if (!otp.isEmpty()) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), BottomNavi.class);
             //grapprIntent.putExtra("otp", otp);
             //startService(grapprIntent);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

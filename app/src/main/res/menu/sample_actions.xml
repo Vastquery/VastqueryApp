@@ -7,9 +7,11 @@
             android:id="@+id/action_search"
             android:icon="@drawable/ic_search"
             android:title="search"
-            app:actionViewClass="android.support.v7.widget.SearchView"
-            app:showAsAction="ifRoom|collapseActionView"/>
-        <item
+            app:showAsAction="ifRoom|collapseActionView"
+            />
+    <!--app:actionViewClass="android.support.v7.widget.SearchView" -->
+
+    <item
             android:id="@+id/filter"
             android:title="LocationFilter"
             app:showAsAction="ifRoom|collapseActionView"

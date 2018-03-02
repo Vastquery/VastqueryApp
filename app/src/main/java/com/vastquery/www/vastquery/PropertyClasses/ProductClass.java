@@ -11,15 +11,17 @@ import java.util.Date;
 
 public class ProductClass implements Serializable {
 
-    String product_name,price;
-    byte[] front;
-    int Id;
+    private String product_name,price;
+    private byte[] front;
+    private int Id,shop_Id;
 
-    public ProductClass(int Id,String product_name, String price, byte[] front) {
+
+    public ProductClass(int Id,int shop_Id,String product_name, String price, byte[] front) {
         this.product_name = product_name;
         this.price = price;
         this.front = front;
         this.Id = Id;
+        this.shop_Id = shop_Id;
     }
 
     public String getProduct_name(){
@@ -34,6 +36,7 @@ public class ProductClass implements Serializable {
         return front;
     }
 
+    public int getShop_Id(){ return shop_Id;}
 
     public int getId() {
         return Id;

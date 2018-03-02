@@ -33,7 +33,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.MyHolder> 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
         holder.user_name.setText(requiredList.get(position).getUser_name());
-        holder.user_comment.setText(requiredList.get(position).getUser_review()+"\n"+requiredList.get(position).getDate());
+        holder.user_comment.setText(requiredList.get(position).getUser_review()+"\n\n"+requiredList.get(position).getDate());
 
     }
 

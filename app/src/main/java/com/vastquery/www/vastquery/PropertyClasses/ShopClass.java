@@ -2,19 +2,22 @@ package com.vastquery.www.vastquery.PropertyClasses;
 
 
 public class ShopClass {
-    String pincode,email,phone,mobile1,mobile2,website,ownername;
-    byte[] logo,owner;
+    private String address,pincode,email,phone,mobile1,mobile2,website,owner_name;
+    private byte[] logo,owner;
+    private float rating;
 
-    public ShopClass( String pincode, String email, String phone, String mobile1, String mobile2, String website, byte[] logo, byte[] owner, String ownername) {
+    public ShopClass( String address,String pincode, String email, String phone, String mobile1, String mobile2, String website, byte[] logo, byte[] owner, String owner_name, float rating) {
+        this.address = address;
         this.pincode = pincode;
         this.email = email;
         this.phone = phone;
         this.mobile1 = mobile1;
         this.mobile2 = mobile2;
         this.website = website;
-        this.ownername = ownername;
+        this.owner_name = owner_name;
         this.logo = logo;
         this.owner = owner;
+        this.rating = rating;
     }
 
     public String getPincode() {
@@ -41,8 +44,8 @@ public class ShopClass {
         return website;
     }
 
-    public String getOwnername() {
-        return ownername;
+    public String getOwnerName() {
+        return owner_name;
     }
 
     public byte[] getLogo() {
@@ -51,5 +54,11 @@ public class ShopClass {
 
     public byte[] getOwner() {
         return owner;
+    }
+
+    public float getRating() { return rating;}
+
+    public String getAddress(){
+        return address;
     }
 }

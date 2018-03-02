@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -26,24 +29,27 @@ import java.util.List;
 public class UserReviewActivity extends AppCompatActivity {
 
     public int Shop_id;
-    Button post_button;
     AutoCompleteTextView  comment_box;
     ProgressBar progressBar;
-
+    Toolbar toolbar;
     RecyclerView recyler_review_resoruce;
     LinearLayoutManager linearLayoutManager;
     List<ReviewClass> reviews;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_review);
+
         Intent intent = getIntent();
 
         Shop_id = intent.getIntExtra("shop_id",0);
-        post_button = findViewById(R.id.post_button);
         comment_box = findViewById(R.id.comment_box);
         progressBar = findViewById(R.id.progressBar_reviews);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyler_review_resoruce = findViewById(R.id.recyler_review_resoruce);
         linearLayoutManager = new LinearLayoutManager(UserReviewActivity.this);
@@ -51,15 +57,24 @@ public class UserReviewActivity extends AppCompatActivity {
         recyler_review_resoruce.setLayoutManager(linearLayoutManager);
         reviews = new ArrayList<>();
 
-        post_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateReviews(comment_box.getText().toString());
-            }
-        });
 
         SyncData_reviews details = new SyncData_reviews();
         details.execute();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class SyncData_reviews extends AsyncTask<String,String,String> {

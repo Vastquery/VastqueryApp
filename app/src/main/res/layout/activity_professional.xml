@@ -44,6 +44,20 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+
+    <ProgressBar
+        android:id="@+id/progressBar_prof"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="60dp"
+        android:indeterminateTint="@color/colorAccent"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone"
+        />
+
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,29 +75,76 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp">
 
+
+                        <LinearLayout
+                            android:layout_marginLeft="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:text="vastquery ID"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/vp_id"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+                            <TextView
+                                android:id="@+id/sub_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sub_type"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                                android:layout_marginBottom="10dp"/>
+
+
+                        </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+
                     <LinearLayout
-                        style="@style/Widget.CardContent"
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:text="Address"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="40dp"
+                            android:id="@+id/detail_address"
+                            android:layout_marginBottom="10dp"/>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
 
 
-                            <TextView
-                                android:id="@+id/owner_name"
-                                android:layout_marginLeft="10dp"
-                                android:layout_width="200dp"
-                                android:layout_height="wrap_content"
-                                android:text="Professional Name"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-
-                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_marginTop="10dp"
@@ -106,135 +167,32 @@
                                 android:layout_height="wrap_content"
                                 android:text="phone number"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
                         </LinearLayout>
-
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
-
-
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
-
-                    <LinearLayout
-                        style="@style/Widget.CardContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
 
                         <LinearLayout
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_marginLeft="10dp"
+                                android:id="@+id/imagemail"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/ic_email"
+                                android:clickable="true"/>
 
                             <TextView
-                                android:layout_width="match_parent"
+                                android:id="@+id/maild_id"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="200dp"
                                 android:layout_height="wrap_content"
-                                android:text="Address"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-                            <TextView
-                                android:layout_marginTop="10dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/detail_address" />
                         </LinearLayout>
-
                     </LinearLayout>
 
-                </android.support.v7.widget.CardView>
-
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
-
-                    <LinearLayout
-                        style="@style/Widget.CardContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Rating"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                        <RatingBar
-                            android:id="@+id/ratingbar"
-                            android:layout_marginTop="10dp"
-                            android:layout_width="245dp"
-                            android:layout_height="wrap_content"
-                            android:stepSize="1"/>
-
-
-                        <TextView
-                            android:id="@+id/ratingText"
-                            android:layout_width="150dp"
-                            android:layout_height="wrap_content"
-                            android:text="Average Rating" />
-
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
-
-                    <LinearLayout
-                        style="@style/Widget.CardContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_marginTop="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Reviews"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
-
-
-                        <AutoCompleteTextView
-                            android:id="@+id/comment_box"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:hint="Comment"
-                            android:gravity="top|left"
-                            android:background="@drawable/rounded_white"
-                            android:textSize="14sp"
-                            android:drawablePadding="5dp"
-                            android:paddingRight="10dp"
-                            android:layout_marginTop="10dp"
-                            android:paddingLeft="10dp" />
-
-                        <Button
-                            android:id="@+id/post_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:textColor="@color/white"
-                            android:text="Post"
-                            android:textStyle="normal"
-                            android:background="@drawable/register_button"
-                            android:layout_marginLeft="230dp"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp"
-                            android:layout_marginTop="10dp"/>
-                        <TextView
-                            android:id="@+id/reviews"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tab here to see others review"/>
-                    </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

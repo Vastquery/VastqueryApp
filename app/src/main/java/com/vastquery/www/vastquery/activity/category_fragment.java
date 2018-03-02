@@ -1,7 +1,9 @@
 package com.vastquery.www.vastquery.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,18 +14,28 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
+import com.vastquery.www.vastquery.DatabaseConnection.GetResources;
+import com.vastquery.www.vastquery.PropertyClasses.CategoryDetails;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.GridSpacingItemDecoration;
 import com.vastquery.www.vastquery.helper.MyAdapter;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class category_fragment extends Fragment {
 
     RecyclerView recyclerView;
     GridLayoutManager gridLayoutManager;
-
-
+    Context context;
+    List<CategoryDetails> details;
     String[] names = {"Agriculture", "Accommodation", "Caterers", "Civil Contractor", "Daily Needs", "Dance & Music",
             "Driving School", "Education & Training", "Electronics", "Emergency", "Fitness", "Hospitals", "Hotels",
             "House keeping", "Jobs consultancy", "Real Estate", "Repairs", "Transporters", "Travels", "Wedding"};
@@ -38,7 +50,8 @@ public class category_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.category_activity, container, false);
-        Context context = view.getContext();
+        details = new ArrayList<>();
+        context = view.getContext();
         recyclerView = view.findViewById(R.id.recyler_view);
         gridLayoutManager = new GridLayoutManager(context, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -46,8 +59,8 @@ public class category_fragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
 
-        MyAdapter myAdapter = new MyAdapter(context, names, images);
-        recyclerView.setAdapter(myAdapter);
+        GetResources getResources = new GetResources(context,recyclerView,"G_3");
+        getResources.execute();
 
         return view;
     }
@@ -56,6 +69,7 @@ public class category_fragment extends Fragment {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
 
-
     }
+
+
 }

@@ -6,16 +6,18 @@ public class ClassListItems {
 
 
     public byte[] img; //Image URL
-    public String name,address; //Name
-    public int id;
-    public ClassListItems(int id,String name,String address,byte[] img){
+    public String name,address,id,group_id;
+    public ClassListItems(String group_id,String id,String name,String address,byte[] img){
+        this.group_id = group_id;
         this.id = id;
         this.img = img;
         this.name = name;
         this.address = address;
     }
 
-    public int getId() {
+    public String getGroup_id(){return  group_id;}
+
+    public String getId() {
         return id;
     }
 

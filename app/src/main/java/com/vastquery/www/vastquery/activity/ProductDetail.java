@@ -34,7 +34,7 @@ public class ProductDetail extends AppCompatActivity {
 
     ViewPager viewpager;
     LinearLayout sliderDotsPanel;
-    List<byte[]> photos,temp;
+    List<byte[]> photos;
     private int dotscount;
     byte[] front;
     int id;
@@ -48,9 +48,7 @@ public class ProductDetail extends AppCompatActivity {
         Intent intent = getIntent();
 
         photos = new ArrayList<>();
-        temp = new ArrayList<>();
         id = intent.getIntExtra("id",0);
-        front = intent.getByteArrayExtra("front");
 
 
         SyncData_Photos syncData_photos = new SyncData_Photos();
@@ -78,12 +76,13 @@ public class ProductDetail extends AppCompatActivity {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    String query = "select Back_View,Side_View from tblProduct where P_ID="+id;
+                    String query = "select Front_View,Back_View,Side_View from tblProduct where P_ID="+id;
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()){
-                        photos.add(rs.getBytes("Back_view"));
-                        photos.add(rs.getBytes("Side_view"));
+                        photos.add(rs.getBytes("Front_View"));
+                        photos.add(rs.getBytes("Back_View"));
+                        photos.add(rs.getBytes("Side_View"));
                     }
                     isSuccess = true;
                     ConnectionResult = "successful";
@@ -98,7 +97,6 @@ public class ProductDetail extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
                 if(isSuccess){
-                    photos.add(front);
                     viewpager = findViewById(R.id.photo_viewpager);
                     PhotoAdapter photoAdapter = new PhotoAdapter(ProductDetail.this,photos);
                     viewpager.setAdapter(photoAdapter);
@@ -108,8 +106,6 @@ public class ProductDetail extends AppCompatActivity {
 
                     ImageSliderClass imageSliderClass = new ImageSliderClass(ProductDetail.this,viewpager,sliderDotsPanel,dotscount);
                     imageSliderClass.imageSlide();
-
-
                 }
                 else Toast.makeText(ProductDetail.this,s,Toast.LENGTH_LONG).show();
         }

@@ -2,6 +2,7 @@ package com.vastquery.www.vastquery.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -19,15 +20,17 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.BottomNavigationBehavior;
+import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.helper.BottomNaviHelper;
 
 public class BottomNavi extends AppCompatActivity {
 
-    private ActionBar toolbar;
-
+    private Toolbar toolbar;
+    BottomNavigationView navigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +40,8 @@ public class BottomNavi extends AppCompatActivity {
             setContentView(R.layout.activity_bottom_navi);
         }
 
-        toolbar = getSupportActionBar();
-
-        BottomNavigationView navigation =  findViewById(R.id.navigation);
+        navigation =  findViewById(R.id.bottom_navigation);
+        BottomNaviHelper.removeShiftMode(navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
@@ -49,11 +51,6 @@ public class BottomNavi extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
-        return true;
-    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,9 +70,14 @@ public class BottomNavi extends AppCompatActivity {
                     loadFragment(fragment);
                     return true;
                 case R.id.nav_wishlist:
+                    fragment = new WishList();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.nav_shops:
+                    fragment = new CustomerPost();
+                    loadFragment(fragment);
                     return true;
             }
-
             return false;
         }
     };
@@ -115,18 +117,11 @@ public class BottomNavi extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 finish();
             }
         });
-
         return builder;
     }
-
-
-
-
-   //Navigation view
 
 
 

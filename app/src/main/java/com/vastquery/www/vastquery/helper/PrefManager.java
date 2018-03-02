@@ -20,7 +20,7 @@ public class PrefManager {
     int PRIVATE_MODE = 0;
 
     // Shared preferences file name
-    private static final String PREF_NAME = "AndroidHive";
+    private static final String PREF_NAME = "Vastquery";
 
     // All Shared Preferences Keys
     private static final String KEY_IS_WAITING_FOR_SMS = "IsWaitingForSms";
@@ -71,7 +71,7 @@ public class PrefManager {
         editor.commit();
     }
 
-    public HashMap<String, String> getUserDetails() {
+    public  HashMap<String, String> getUserDetails() {
         HashMap<String, String> profile = new HashMap<>();
         profile.put("name", pref.getString(KEY_NAME, null));
         profile.put("email", pref.getString(KEY_EMAIL, null));

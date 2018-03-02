@@ -19,7 +19,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/login_logo">
+        android:layout_below="@id/login_logo"
+        android:background="@drawable/rounded_white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,9 +37,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="10dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingTop="10dp"
+                android:padding="10dp"
                 android:background="@drawable/rectangle_background"
                 />
             <Button
@@ -46,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Shopwise adds                                                          >"
+                android:text="Shopwise adds                                                        >>>"
                 android:textStyle="normal"
                 android:background="@drawable/register_button"
                 android:paddingLeft="5dp"
@@ -57,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Proffesional adds                                                  >"
+                android:text="Proffesional adds                                                >>>"
                 android:textStyle="normal"
                 android:background="@drawable/register_button"
                 android:paddingLeft="5dp"
@@ -70,9 +69,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="5dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingTop="10dp"
+                android:padding="10dp"
                 android:background="@drawable/rectangle_background"
                 />
 
@@ -81,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Shopwise edit                                                          >"
+                android:text="Shopwise edit                                                        >>>"
                 android:textStyle="normal"
                 android:background="@drawable/register_button"
                 android:paddingLeft="5dp"
@@ -92,20 +89,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Proffesional edit                                                  >"
+                android:text="Proffesional edit                                                >>>"
                 android:textStyle="normal"
                 android:background="@drawable/register_button"
                 android:paddingLeft="5dp"
                 android:layout_marginBottom="5dp"/>
-
-
-
-
-
         </LinearLayout>
-
-
     </ScrollView>
-
-
 </RelativeLayout>

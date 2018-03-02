@@ -8,7 +8,7 @@
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="colorPrimary">#ff1f57</item>
+        <item name="colorPrimary">#fe485a</item>
         <item name="colorPrimaryDark">#2d2a26</item>
         <item name="colorAccent">#000000</item>
     </style>
@@ -24,7 +24,20 @@
 
     <style name="my_tab_text" parent="Base.TextAppearance.AppCompat">
         <item name = "android:textColor">#c0c5ce</item>
-        <item name = "android:textSize">10sp</item>
+        <item name = "android:textSize">20sp</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#D4AF37</item>
+        <item name="colorControlActivated">#D4AF37</item>
+    </style>
+    <style name="FullHeightDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">#000</item>
+        <item name="android:background">#c0c5ce</item>
     </style>
 
 </resources>

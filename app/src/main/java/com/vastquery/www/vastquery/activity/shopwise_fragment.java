@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 
+import com.vastquery.www.vastquery.DatabaseConnection.GetResources;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.GridAdapter;
 import com.vastquery.www.vastquery.helper.GridSpacingItemDecoration;
@@ -57,9 +58,8 @@ public class shopwise_fragment  extends Fragment{
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
 
-        MyAdapter myAdapter = new MyAdapter(context,names,images);
-        recyclerView.setAdapter(myAdapter);
-
+        GetResources getResources = new GetResources(context,recyclerView,"G_1");
+        getResources.execute();
 
         return view;
 

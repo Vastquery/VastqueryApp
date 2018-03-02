@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rating"
+        android:textColor="#000"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <RatingBar
+        android:id="@+id/ratingbar_id"
+        android:layout_marginTop="5dp"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+        android:stepSize="1"
+        android:theme="@style/RatingBar"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/cancel"
+        android:layout_margin="10dp"
+        android:text="Cancel"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/register_button"
+        />
+
+
+
+</LinearLayout>

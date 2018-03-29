@@ -46,6 +46,7 @@ public class CustomerPost extends Fragment {
     PrefManager pref;
     HashMap<String, String> profile;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

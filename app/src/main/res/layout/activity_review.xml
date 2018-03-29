@@ -162,59 +162,6 @@
                     </LinearLayout>
 
             </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
-
-                <LinearLayout
-                    style="@style/Widget.CardContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_marginTop="10dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Reviews"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
-
-
-                    <AutoCompleteTextView
-                        android:id="@+id/comment_box"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:hint="Comment"
-                        android:gravity="top|left"
-                        android:paddingTop="10dp"
-                        android:background="@drawable/rounded_white"
-                        android:textSize="14sp"
-                        android:drawablePadding="5dp"
-                        android:paddingRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:paddingLeft="10dp" />
-
-                    <Button
-                        android:id="@+id/post_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:textColor="@color/white"
-                        android:text="Post"
-                        android:textStyle="normal"
-                        android:background="@drawable/register_button"
-                        android:layout_marginLeft="230dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:layout_marginTop="10dp"/>
-                    <TextView
-                        android:id="@+id/reviews_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tab here to see others review"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

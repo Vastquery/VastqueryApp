@@ -29,6 +29,7 @@ public class PrefManager {
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_MOBILE = "mobile";
+    //private static final int KEY_ID = 0;
 
     public PrefManager(Context context) {
         this._context = context;

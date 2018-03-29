@@ -6,12 +6,12 @@
         <group android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_changenumber"
-                android:icon="@drawable/ic_phone"
-                android:title="ChangeNumber" />
+                android:icon="@drawable/ic_user_icon"
+                android:title="EditProfile" />
 
             <item
                 android:id="@+id/nav_affiliatedwork"
-                android:title="Premium Ads"
-                android:icon="@drawable/ic_filter_black_24dp"/>
+                android:title="LogOut"
+                android:icon="@drawable/ic_logout"/>
         </group>
     </menu>

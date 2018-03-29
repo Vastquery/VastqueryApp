@@ -1,5 +1,6 @@
 package com.vastquery.www.vastquery.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -15,7 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
+import com.vastquery.www.vastquery.DatabaseConnection.GetContact;
+import com.vastquery.www.vastquery.PropertyClasses.ContactInfo;
 import com.vastquery.www.vastquery.PropertyClasses.ProfClass;
 import com.vastquery.www.vastquery.R;
 
@@ -25,47 +29,44 @@ import java.sql.Statement;
 
 public class ProfessionalActivity extends AppCompatActivity {
 
-    String name,Address;
-    int id;
-    TextView phone_number,address,sub_type,vp_id,mail_id;
-    Bitmap bitmap;
+    String id;
+    TextView phone_number,address,sub_type,vp_id,mail_id,decription;
+
     ProfClass prof;
-    ProgressBar progressBar;
+    ProgressDialog dialog;
+    CollapsingToolbarLayout collapsingToolbar;
+    ContactInfo info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professional);
         Intent intent = getIntent();
-        id = intent.getIntExtra("id",0);
-        name = intent.getStringExtra("name");
+        id = intent.getStringExtra("id");
+        /*name = intent.getStringExtra("name");
         Address = intent.getStringExtra("address");
-        bitmap = intent.getParcelableExtra("image");
-
+        bitmap = intent.getParcelableExtra("image");*/
 
         phone_number = findViewById(R.id.phonenumber);
         vp_id = findViewById(R.id.vp_id);
         address = findViewById(R.id.detail_address);
         sub_type = findViewById(R.id.sub_type);
         mail_id = findViewById(R.id.maild_id);
-        progressBar = findViewById(R.id.progressBar_prof);
+        decription = findViewById(R.id.description);
 
-
-
+        info = new ContactInfo();
         Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar_details);
-        collapsingToolbar.setTitle(name);
-
-        loadbackdrop();
+        collapsingToolbar = findViewById(R.id.collapsing_toolbar_details);
 
         SyncData_prof syncDataProf = new SyncData_prof();
         syncDataProf.execute();
     }
-    void loadbackdrop(){
+    void loadbackdrop(byte[] bytes){
         ImageView prof_image = findViewById(R.id.backdrop_prof);
-        prof_image.setImageBitmap(bitmap);
+        Glide.with(this).load(bytes).asBitmap().centerCrop().into(prof_image);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class ProfessionalActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
+            dialog =  ProgressDialog.show(ProfessionalActivity.this,"","Loading...",true);
         }
 
         @Override
@@ -104,13 +105,17 @@ public class ProfessionalActivity extends AppCompatActivity {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
                     // Change below query according to your own database.
-                    String query = "select Pin_Code,Email,Phone,Mobile1,Mobile2,Website,Sub_Type from tblProffesional where Prof_ID="+id;
+
+                    GetContact contact = new GetContact(id,ProfessionalActivity.this);
+                    info = contact.getInfo();
+                    String query = "select SubCategory_Name,SubCategory_Address,SubCategory_Pincode,SubCategory_City,SubCategory_Logo,RollNo,SubCategory_Description,tblSubcategorySkills.Skill_desc as skill from tblSubCategory join tblSubcategorySkills on " +
+                            "tblSubCategory.SubCategory_Id=tblSubcategorySkills.SubCategory_Id  where tblSubCategory.SubCategory_Id='"+id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         isSuccess = true;
-                        prof = new ProfClass(rs.getString("Pin_Code"),rs.getString("Email"),rs.getString("Phone")
-                        ,rs.getString("Mobile1"),rs.getString("Mobile2"),rs.getString("Website"),rs.getString("Sub_Type"));
+                        prof = new ProfClass(rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"),rs.getString("SubCategory_Pincode")
+                        ,rs.getString("SubCategory_City"),rs.getBytes("SubCategory_Logo"),rs.getString("RollNo"),rs.getString("SubCategory_Description"),rs.getString("skill"));
                     }
                     ConnectionResult = "successful";
                     connect.close();
@@ -124,14 +129,18 @@ public class ProfessionalActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             if(isSuccess){
-                progressBar.setVisibility(View.GONE);
-                sub_type.setText(prof.getSub_Type());
-                address.setText(Address+"\n"+prof.getPin_Code()+"\n"+prof.getWebsite());
-                phone_number.setText(prof.getPhone()+"\n"+prof.getMobile1()+"\n"+prof.getMobile2());
-                mail_id.setText(prof.getEmail());
-
+                dialog.dismiss();
+                collapsingToolbar.setTitle(prof.getName());
+                sub_type.setText(prof.getCode());
+                address.setText(prof.getAddress()+"\n"+prof.getCity()+"\n"+prof.getPin_Code()+"\n"+prof.getSkills());
+                decription.setText(prof.getDescription());
+                phone_number.setText(info.getMobile());
+                mail_id.setText(info.getEmail()+"\n"+info.getWebsite()+"\nwhatsapp:"+info.getWhatsapp());
+                loadbackdrop(prof.getPhoto());
             }
-            else Toast.makeText(ProfessionalActivity.this,s,Toast.LENGTH_LONG).show();
+            else {
+                Toast.makeText(ProfessionalActivity.this,id,Toast.LENGTH_LONG).show();
+            }
         }
 
     }

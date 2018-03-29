@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.vastquery.www.vastquery.PropertyClasses.CategoryDetails;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.activity.RequiredList;
+import com.vastquery.www.vastquery.activity.ServiceActivity;
 
 import java.util.List;
 
@@ -47,8 +47,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
-                Intent  intent = new Intent(context, RequiredList.class);
-                intent.putExtra(RequiredList.extra_name,detail.getCatId());
+                Intent intent;
+                if(detail.getGroupid().equals("G_3")){
+                    intent = new Intent(context, ServiceActivity.class);
+                    intent.putExtra("cat_id", detail.getCatId());
+                }else {
+                    intent = new Intent(context, RequiredList.class);
+                    intent.putExtra(RequiredList.extra_name, detail.getCatId());
+                }
                 context.startActivity(intent);
             }
         });

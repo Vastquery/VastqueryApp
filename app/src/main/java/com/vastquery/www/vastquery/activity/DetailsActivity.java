@@ -33,8 +33,8 @@ import java.sql.Statement;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    public static final int EXTRA_ID = 0;
-    public  int shop_id;
+    public static final String EXTRA_ID = "";
+    public  String shop_id;
     public byte[] bytes;
     public String address,name;
 
@@ -48,7 +48,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         Intent intent = getIntent();
 
-        shop_id = intent.getIntExtra(String.valueOf(EXTRA_ID),0);
+        shop_id = intent.getStringExtra(String.valueOf(EXTRA_ID));
 
         Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
@@ -107,7 +107,7 @@ public class DetailsActivity extends AppCompatActivity {
                 case 0:
                     ReviewActivity reviewActivity = new ReviewActivity();
                     Bundle data = new Bundle();
-                    data.putInt("data",shop_id);
+                    data.putString("data",shop_id);
                     data.putString("address",address);
                     reviewActivity.setArguments(data);
                     fragmentManager.beginTransaction();
@@ -115,7 +115,7 @@ public class DetailsActivity extends AppCompatActivity {
                 case 1:
                     ProductActivity productActivity = new ProductActivity();
                     Bundle datashop = new Bundle();
-                    datashop.putInt("data",shop_id);
+                    datashop.putString("data",shop_id);
                     productActivity.setArguments(datashop);
                     fragmentManager.beginTransaction();
                     return productActivity;

@@ -3,6 +3,7 @@ package com.vastquery.www.vastquery.activity;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,27 +49,25 @@ import static com.vastquery.www.vastquery.activity.RegisterActivity.isValidPhone
 public class postShopForm extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RESULT_LOAD_IMAGE = 1;
-    String[] names = {"-select the shop type-","Agriculture","Accommodation","Automobile","Bakeries","Beauty salon","Book shop",
-                "Butcher shop","Caterers","Civil Contractor","Computers showroom","Daily Needs","Dance & Music",
-                "Fitness","Driving School","Education & Training","Electronics","Emergency","Fruit & vegetables",
-                "Furniture Shop","Hospitals","Hotels","House keeping","Jewelry Shop","Jobs consultancy",
-                "Mobile showroom","Pet shop","Printing shop","Real Estate","Repairs","Transporters","Travels",
-                "Utensils shop","Wedding"};
 
-    private AutoCompleteTextView shop_name,shop_email,shop_address, shop_city, shop_pincode, shop_phone, shop_mobile1, shop_mobile2, shop_website, shop_owner;
-    private Spinner shop_type, shop_state, shop_district;
-    private Button shop_clear,shop_submit;
+
+    private AutoCompleteTextView shop_name,shop_email,shop_address, shop_city, shop_pincode, shop_phone, whatsapp, facebook,twitter, shop_website, shop_owner;
+    private Spinner  shop_state, shop_district;
+    private Button shop_type,shop_clear,shop_submit;
     private ImageView image_photo,owner_photo,image_logo;
     private ImageButton shoplogo_button,shopphoto_button,ownerphoto_button;
     int value;
     byte[] shop,logo,owner;
     String shopname,shoptype,shopstate,shopemail,shopdistrict,shopaddress,shopcity,shoppincode,shopphone,shopmobile1,shopmobile2,shopwebsite,ownername;
     private ProgressDialog dialog;
-
+    boolean[] checkedItems;
+    List<String> names;
+    ArrayList<Integer> mUserItems;
     PrefManager pref;
     HashMap<String, String> profile;
     SimpleDateFormat formattedDate;
     Date inputDate;
+
     @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +85,11 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
         shop_city = findViewById(R.id.shop_city);
         shop_pincode = findViewById(R.id.shop_pincode);
         shop_phone = findViewById(R.id.shop_phone);
-        shop_mobile1 = findViewById(R.id.shop_mobile1);
-        shop_mobile2 = findViewById(R.id.shop_mobile2);
+        whatsapp = findViewById(R.id.whatsapp);
+        facebook = findViewById(R.id.facebook);
         shop_website = findViewById(R.id.shop_website);
         shop_owner = findViewById(R.id.shop_owner);
+        twitter = findViewById(R.id.twitter);
         image_photo = findViewById(R.id.image_photo);
         owner_photo = findViewById(R.id.owner_photo);
         image_logo = findViewById(R.id.image_logo);
@@ -98,13 +99,53 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        //shop type adapter
-        ArrayAdapter<String> shopTypeAdapter = new ArrayAdapter<String>(postShopForm.this,
-                android.R.layout.simple_list_item_1, names);
-        //to get string from string values getResources().getStringArray(R.array.shoptype)
-        shopTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        shop_type.setAdapter(shopTypeAdapter);
+        GetData getNames = new GetData("select Category_Name from tblCategory where Group_Id='G_1'", "Category_Name");
+        names = getNames.doInBackground();
+        mUserItems = new ArrayList<>();
 
+        shop_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String[] listNames = new String[names.size()];
+                listNames = names.toArray(listNames);
+                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(postShopForm.this);
+                mBuilder.setTitle(R.string.dialog_title);
+                mBuilder.setMultiChoiceItems(listNames, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                        if(isChecked){
+                            mUserItems.add(position+1);
+                        }else{
+                            mUserItems.remove(Integer.valueOf(position+1));
+                        }
+                    }
+                });
+                mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                mBuilder.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mUserItems.clear();
+                    }
+                });
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
+
+        
         setDistrictState(postShopForm.this,shop_state,shop_district);
 
         pref = new PrefManager(getApplicationContext());
@@ -203,16 +244,17 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
     //clear button
     private void clearData() {
         shop_name.setText("");
-        shop_type.setSelection(0);
+        mUserItems.clear();
         shop_state.setSelection(0);
         shop_address.setText("");
         shop_city.setText("");
         shop_pincode.setText("");
         shop_phone.setText("");
-        shop_mobile1.setText("");
-        shop_mobile2.setText("");
         shop_website.setText("");
         shop_owner.setText("");
+        whatsapp.setText("");
+        facebook.setText("");
+        twitter.setText("");
         shop_email.setText("");
         image_photo.setImageDrawable(null);
         image_logo.setImageDrawable(null);
@@ -222,19 +264,18 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
 
     public void validateForm(){
         shopname = shop_name.getText().toString().trim();
-        shoptype = shop_type.getSelectedItem().toString().trim();
         shopstate = shop_state.getSelectedItem().toString().trim();
         shopaddress = shop_address.getText().toString().trim();
         shopcity = shop_city.getText().toString().trim();
         shoppincode = shop_pincode.getText().toString().trim();
         shopphone = shop_phone.getText().toString().trim();
-        shopmobile1 = shop_mobile1.getText().toString().trim();
-        shopmobile2 = shop_mobile2.getText().toString().trim();
+        shopmobile1 = whatsapp.getText().toString().trim();
+        shopmobile2 = facebook.getText().toString().trim();
         shopwebsite = shop_website.getText().toString().trim();
         ownername = shop_owner.getText().toString().trim();
         shopdistrict = shop_district.getSelectedItemPosition()+"";
         shopemail = shop_email.getText().toString().trim();
-        if(shopname.length()==0 || shoptype.equals("-select the shop type-") || shopstate.equals("-select the state-") || shopaddress.length()==0||
+        if(shopname.length()==0 || mUserItems.isEmpty() || shopstate.equals("-select the state-") || shopaddress.length()==0||
                 shopcity.length()==0 || shoppincode.length()==0 || ownername.length()==0 || shopdistrict.equals("-select the District-")){
             Toast.makeText(postShopForm.this,"EnterValid Details",Toast.LENGTH_LONG).show();
         }else{
@@ -312,7 +353,7 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
 
     public static void setDistrictState(final Context context, final Spinner state, final Spinner district) {
         //state
-        List<String> list_states = null;
+        List<String> list_states;
         GetData getData = new GetData("select State_Name from tblStates", "State_Name");
         list_states = getData.doInBackground();
         list_states.add(0, "-select the state-");
@@ -328,15 +369,16 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 //district dropdown
-                String query = "select Dt_Name from tblTN_DTs where St_ID=(select  State_ID from tblStates where State_Name='"+state.getSelectedItem().toString()+"')";
-                GetData getData_district = new GetData(query, "Dt_Name");
-                List<String> list_districts = null;
-                list_districts = getData_district.doInBackground();
-                list_districts.add(0, "-select the District-");
-                ArrayAdapter<String> districtAdapter = new ArrayAdapter<String>(context,
-                        android.R.layout.simple_list_item_1, list_districts);
-                districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                district.setAdapter(districtAdapter);
+
+                    String query = "select Dt_Name from tblTN_DTs where St_ID=(select  State_ID from tblStates where State_Name='" + state.getSelectedItem().toString() + "')";
+                    GetData getData_district = new GetData(query, "Dt_Name");
+                    List<String> list_districts = null;
+                    list_districts = getData_district.doInBackground();
+                    list_districts.add(0, "-select the District-");
+                    ArrayAdapter<String> districtAdapter = new ArrayAdapter<String>(context,
+                            android.R.layout.simple_list_item_1, list_districts);
+                    districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    district.setAdapter(districtAdapter);
 
             }
 
@@ -363,12 +405,12 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    String query = "Insert into tblShop(S_Name,S_type,Address,City,District,State,Pin_Code,Email,"+
-                       "Phone,Mobile1,Mobile2,Website,Logo,Shop_Photo,Owner,Owner_Name,Added_By,A_Date,M_Date)"+
-                            " values ('"+shopname+"','"+shoptype+"','"+shopaddress+"','"+shopcity+"','"+shopdistrict+"'" +
-                            ",'"+shopstate+"','"+shoppincode+"','"+shopemail+"','"+shopphone+"','"+shopmobile1+"'" +
-                            ",'"+shopmobile2+"','"+shopwebsite+"',?,?,?,'"+ownername+"','"+profile.get("email")+"'" +
-                            ",'"+formattedDate.format(inputDate)+"','"+formattedDate.format(inputDate)+"')";
+                    String query = "Insert into tblSubCategory(SubCategory_Name,SubCategory_Address,SubCategory_City,SubCategory_Country," +
+                            "SubCategory_State,SubCategory_District,SubCategory_Pincode"+
+                       ",SubCategory_Logo,SubCategory_FrontLogo,SubCategory_OwnerName,SubCategory_OwnerPhoto)"+
+                            " values ('"+shopname+"','"+shopaddress+"','"+shopcity+"','India','"+shopstate+"'" +
+                            ",'"+shopdistrict+"','"+shoppincode
+                            +"',?,?,'"+ownername+"',?)";
                     PreparedStatement preStmt = connect.prepareStatement(query);
                     preStmt.setBytes(1,logo);
                     preStmt.setBytes(2,shop);

@@ -32,7 +32,18 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/appbar_requiredlist"
             android:clipToPadding="false"
-            android:scrollbars="vertical"/>
-
-
+                android:scrollbars="vertical"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="60dp"
+            android:indeterminateTint="@color/colorAccent"
+            android:indeterminateTintMode="src_atop"
+            android:layout_marginTop="200dp"
+            android:visibility="gone"
+            />
 </RelativeLayout>

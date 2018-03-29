@@ -27,12 +27,16 @@
         <activity android:name=".activity.postProfForm" />
         <activity android:name=".activity.RequiredList" />
         <activity android:name=".activity.DetailsActivity" />
-        <activity android:name=".activity.UserReviewActivity" />
         <activity android:name=".activity.ProfessionalActivity" />
         <activity android:name=".activity.BottomNavi" />
         <activity android:name=".activity.ProductDetail" />
         <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.FilterActivity"></activity>
+        <activity android:name=".activity.FilterActivity" />
+        <activity
+            android:name=".activity.ServiceActivity"
+            android:label="@string/title_activity_service"
+            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".activity.ServiceList" />
     </application>
 
 </manifest>

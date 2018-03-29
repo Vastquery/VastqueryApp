@@ -114,7 +114,6 @@ public class MainActivity extends Fragment {
         // tooolbar
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
         //Navigation View
-        //Tabbeb activities
 
         ViewPager viewPager = view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -150,10 +149,6 @@ public class MainActivity extends Fragment {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.filter:
-                intent = new Intent(context, postShopForm.class);
-                context.startActivity(intent);
-                break;
             case R.id.action_search:
                 intent = new Intent(context, SearchActivity.class);
                 context.startActivity(intent);

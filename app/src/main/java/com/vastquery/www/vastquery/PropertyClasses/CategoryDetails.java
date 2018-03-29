@@ -5,14 +5,17 @@ package com.vastquery.www.vastquery.PropertyClasses;
  */
 
 public class CategoryDetails {
-    String name,catId;
+    String name,catId,groupid;
     byte[] image;
 
-    public CategoryDetails(String catId,String name, byte[] image){
+    public CategoryDetails(String groupid,String catId,String name, byte[] image){
+        this.groupid = groupid;
         this.catId = catId;
         this.name = name;
         this.image = image;
     }
+
+    public String getGroupid(){ return groupid;}
 
     public String getName() {
         return name;

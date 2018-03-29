@@ -11,12 +11,4 @@
             />
     <!--app:actionViewClass="android.support.v7.widget.SearchView" -->
 
-    <item
-            android:id="@+id/filter"
-            android:title="LocationFilter"
-            app:showAsAction="ifRoom|collapseActionView"
-            android:icon="@drawable/ic_edit_location_black_24dp"
-            />
-
-
     </menu>

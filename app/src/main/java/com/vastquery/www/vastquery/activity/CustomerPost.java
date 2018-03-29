@@ -32,9 +32,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by aj-ajay on 1/24/18.
- */
+
 
 public class CustomerPost extends Fragment {
 
@@ -65,14 +63,14 @@ public class CustomerPost extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_user_review, container, false);
+        View view = inflater.inflate(R.layout.activity_required_list, container, false);
         context = view.getContext();
-        progressBar = view.findViewById(R.id.progressBar_reviews);
-        toolbar = view.findViewById(R.id.toolbar);
+        progressBar = view.findViewById(R.id.progressBar);
+        toolbar = view.findViewById(R.id.toolbar_requiredlist);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = view.findViewById(R.id.recyler_review_resoruce);
+        recyclerView = view.findViewById(R.id.recyclerview_requiredlist);
         linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -156,7 +154,7 @@ public class CustomerPost extends Fragment {
         protected void onPostExecute(String s) {
             progressBar.setVisibility(View.GONE);
             if(isSuccess){
-                SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(context, itemArrayList,isShop);
+                SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(context, itemArrayList);
                 recyclerView.setAdapter(myAdapter);
             }
             else {

@@ -10,7 +10,7 @@
         android:layout_height="100dp"
         android:src="@drawable/logo"
         android:scaleType="fitCenter"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         />
 
     <ScrollView
@@ -53,7 +53,8 @@
                 android:id="@+id/prof_name"
                 android:layout_marginBottom="10dp"
                 />
-            <Spinner
+            <Button
+                android:hint="Profession type"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/rounded_white"
@@ -62,6 +63,7 @@
                 android:textSize="14sp"
                 android:drawablePadding="5dp"
                 android:paddingLeft="10dp"
+                android:paddingRight="170dp"
                 android:id="@+id/prof_type"
                 android:layout_marginBottom="10dp"
                 />
@@ -155,71 +157,7 @@
                 android:layout_marginBottom="10dp"
                 />
 
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="Pincode"
-                android:background="@drawable/rounded_white"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:textSize="14sp"
-                android:drawablePadding="5dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/prof_email"
-                android:layout_marginBottom="10dp" />
 
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="Phone Number"
-                android:background="@drawable/rounded_white"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:textSize="14sp"
-                android:drawablePadding="5dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/prof_phone"
-                android:layout_marginBottom="10dp"
-                />
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="Mobile Number1"
-                android:background="@drawable/rounded_white"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:textSize="14sp"
-                android:drawablePadding="5dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/prof_mobile1"
-                android:layout_marginBottom="10dp"
-                />
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="Mobile Number2"
-                android:background="@drawable/rounded_white"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:textSize="14sp"
-                android:drawablePadding="5dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/prof_mobile2"
-                android:layout_marginBottom="10dp"
-                />
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="Website"
-                android:background="@drawable/rounded_white"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:textSize="14sp"
-                android:drawablePadding="5dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/prof_website"
-                android:layout_marginBottom="10dp"
-                />
 
             <LinearLayout
                 android:layout_marginTop="5dp"
@@ -246,6 +184,87 @@
                     android:clickable="true"/>
 
             </LinearLayout>
+
+            <AutoCompleteTextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Mobile Number"
+                android:background="@drawable/rounded_white"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="14sp"
+                android:drawablePadding="5dp"
+                android:paddingLeft="10dp"
+                android:id="@+id/prof_phone"
+                android:layout_marginBottom="10dp"
+                />
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Email"
+                android:background="@drawable/rounded_white"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="14sp"
+                android:drawablePadding="5dp"
+                android:paddingLeft="10dp"
+                android:id="@+id/prof_email"
+                android:layout_marginBottom="10dp"
+                />
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Website"
+                android:background="@drawable/rounded_white"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="14sp"
+                android:drawablePadding="5dp"
+                android:paddingLeft="10dp"
+                android:id="@+id/prof_website"
+                android:layout_marginBottom="10dp"
+                />
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Whatsapp Number"
+                android:background="@drawable/rounded_white"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="14sp"
+                android:drawablePadding="5dp"
+                android:paddingLeft="10dp"
+                android:id="@+id/whatsapp"
+                android:layout_marginBottom="10dp"
+                />
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Facebook Page"
+                android:background="@drawable/rounded_white"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="14sp"
+                android:drawablePadding="5dp"
+                android:paddingLeft="10dp"
+                android:id="@+id/facebook"
+                android:layout_marginBottom="10dp"
+                />
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Twitter Page"
+                android:background="@drawable/rounded_white"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="14sp"
+                android:drawablePadding="5dp"
+                android:paddingLeft="10dp"
+                android:id="@+id/twitter"
+                android:layout_marginBottom="10dp"
+                />
 
             <LinearLayout
                 android:layout_marginTop="5dp"

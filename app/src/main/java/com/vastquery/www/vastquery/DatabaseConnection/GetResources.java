@@ -53,7 +53,7 @@ public class GetResources extends AsyncTask<String,String,String> {
                 ResultSet rs = stmt.executeQuery(query);
                 if(rs.next()){
                     do{
-                        details.add(new CategoryDetails(rs.getString("Cat_Id"),rs.getString("Category_Name"),rs.getBytes("Category_Icon1")));
+                        details.add(new CategoryDetails(group,rs.getString("Cat_Id"),rs.getString("Category_Name"),rs.getBytes("Category_Icon1")));
                     }while (rs.next());
                 }
                 isSuccess = true;

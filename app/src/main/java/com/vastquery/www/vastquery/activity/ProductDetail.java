@@ -36,8 +36,8 @@ public class ProductDetail extends AppCompatActivity {
     LinearLayout sliderDotsPanel;
     List<byte[]> photos;
     private int dotscount;
-    byte[] front;
-    int id;
+    byte[] front,back,side;
+    String id;
 
 
     @Override
@@ -48,66 +48,29 @@ public class ProductDetail extends AppCompatActivity {
         Intent intent = getIntent();
 
         photos = new ArrayList<>();
-        id = intent.getIntExtra("id",0);
+        id = intent.getStringExtra("id");
+        front = intent.getByteArrayExtra("front");
+        back = intent.getByteArrayExtra("back");
+        side = intent.getByteArrayExtra("side");
+        photos.add(front);
+        photos.add(back);
+        photos.add(side);
+        sliderDotsPanel =  findViewById(R.id.dots);
 
 
-        SyncData_Photos syncData_photos = new SyncData_Photos();
-        syncData_photos.execute();
+        viewpager = findViewById(R.id.photo_viewpager);
+        PhotoAdapter photoAdapter = new PhotoAdapter(ProductDetail.this,photos);
+        viewpager.setAdapter(photoAdapter);
+
+
+        dotscount = photos.size();
+
+        ImageSliderClass imageSliderClass = new ImageSliderClass(ProductDetail.this,viewpager,sliderDotsPanel,dotscount);
+        imageSliderClass.imageSlide();
 
 
 
     }
 
 
-    public class SyncData_Photos extends AsyncTask<String,String,String> {
-
-        String ConnectionResult;
-        boolean isSuccess=false;
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            try {
-                ConnectionHelper con = new ConnectionHelper();
-                Connection connect = con.connectionclass();// Connect to database
-                if (connect == null) {
-                    ConnectionResult = "Check Your Internet Access!";
-                } else {
-                    String query = "select Front_View,Back_View,Side_View from tblProduct where P_ID="+id;
-                    Statement stmt = connect.createStatement();
-                    ResultSet rs = stmt.executeQuery(query);
-                    if(rs.next()){
-                        photos.add(rs.getBytes("Front_View"));
-                        photos.add(rs.getBytes("Back_View"));
-                        photos.add(rs.getBytes("Side_View"));
-                    }
-                    isSuccess = true;
-                    ConnectionResult = "successful";
-                    connect.close();
-                }
-            } catch (Exception ex) {
-                ConnectionResult = ex.getMessage();
-            }
-            return ConnectionResult;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-                if(isSuccess){
-                    viewpager = findViewById(R.id.photo_viewpager);
-                    PhotoAdapter photoAdapter = new PhotoAdapter(ProductDetail.this,photos);
-                    viewpager.setAdapter(photoAdapter);
-
-                    sliderDotsPanel =  findViewById(R.id.dots);
-                    dotscount = photoAdapter.getCount();
-
-                    ImageSliderClass imageSliderClass = new ImageSliderClass(ProductDetail.this,viewpager,sliderDotsPanel,dotscount);
-                    imageSliderClass.imageSlide();
-                }
-                else Toast.makeText(ProductDetail.this,s,Toast.LENGTH_LONG).show();
-        }
-    }
 }

@@ -1,24 +1,23 @@
 package com.vastquery.www.vastquery.activity;
 
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
-import com.vastquery.www.vastquery.PropertyClasses.ReviewClass;
+import com.vastquery.www.vastquery.PropertyClasses.FacilityClass;
 import com.vastquery.www.vastquery.R;
-import com.vastquery.www.vastquery.helper.ReviewAdapter;
+import com.vastquery.www.vastquery.helper.FacilityAdapter;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,40 +25,35 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserReviewActivity extends AppCompatActivity {
+public class ServiceActivity extends AppCompatActivity {
 
-    public int Shop_id;
-    AutoCompleteTextView  comment_box;
     ProgressBar progressBar;
-    Toolbar toolbar;
-    RecyclerView recyler_review_resoruce;
+    RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
-    List<ReviewClass> reviews;
-
+    List<FacilityClass> facility;
+    String cat_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_review);
+        setContentView(R.layout.activity_service);
 
-        Intent intent = getIntent();
+        cat_id = getIntent().getStringExtra("cat_id");
 
-        Shop_id = intent.getIntExtra("shop_id",0);
-        comment_box = findViewById(R.id.comment_box);
-        progressBar = findViewById(R.id.progressBar_reviews);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyler_review_resoruce = findViewById(R.id.recyler_review_resoruce);
-        linearLayoutManager = new LinearLayoutManager(UserReviewActivity.this);
-        recyler_review_resoruce.setHasFixedSize(true);
-        recyler_review_resoruce.setLayoutManager(linearLayoutManager);
-        reviews = new ArrayList<>();
+        progressBar = findViewById(R.id.progressBar);
+        facility = new ArrayList<>();
 
+        recyclerView = findViewById(R.id.recyclerview);
+        linearLayoutManager = new LinearLayoutManager(ServiceActivity.this);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-        SyncData_reviews details = new SyncData_reviews();
-        details.execute();
+        Syncdata_facility syncfacility = new Syncdata_facility();
+        syncfacility.execute();
     }
 
 
@@ -77,10 +71,10 @@ public class UserReviewActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class SyncData_reviews extends AsyncTask<String,String,String> {
+    public class Syncdata_facility extends AsyncTask<String,String,String> {
 
         String ConnectionResult;
-        boolean isSuccess;
+        boolean isSuccess=false;
 
         @Override
         protected void onPreExecute() {
@@ -96,14 +90,13 @@ public class UserReviewActivity extends AppCompatActivity {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    // Change below query according to your own database.
-                    String query = "select U_Name,Reviews,Date from tblUser,tblReviews where tblReviews.RIV_UID=tblUser.Usr_ID and tblReviews.RIV_SID="+Shop_id;
+                    String query = "select Facility_Id,Facilities_desc from tblSubCategoryFacility where Cat_Id ='"+cat_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
-                        isSuccess = true;
+                        isSuccess=true;
                         do {
-                            reviews.add(new ReviewClass(rs.getString("U_Name"),rs.getString("Reviews"),rs.getDate("Date")));
+                            facility.add(new FacilityClass(cat_id,rs.getInt("Facility_Id"),rs.getString("Facilities_desc")));
                         }while (rs.next());
                     }
                     ConnectionResult = "successful";
@@ -118,19 +111,17 @@ public class UserReviewActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             progressBar.setVisibility(View.GONE);
+
             if(isSuccess){
-                ReviewAdapter myAdapter = new ReviewAdapter(UserReviewActivity.this, reviews);
-                recyler_review_resoruce.setAdapter(myAdapter);
+                FacilityAdapter facilityAdapter = new FacilityAdapter(ServiceActivity.this,facility);
+                recyclerView.setAdapter(facilityAdapter);
             }
-            else Toast.makeText(UserReviewActivity.this,"No Reviews yet,You add it",Toast.LENGTH_LONG).show();
+            else {
+                Toast.makeText(ServiceActivity.this,s,Toast.LENGTH_LONG).show();
+
+            }
         }
 
     }
-
-    public void updateReviews(String comment){
-
-    }
-
-
 
 }

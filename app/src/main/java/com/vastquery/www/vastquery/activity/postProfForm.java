@@ -1,6 +1,7 @@
 package com.vastquery.www.vastquery.activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +33,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,9 +44,9 @@ import static com.vastquery.www.vastquery.activity.RegisterActivity.isValidPhone
 public class postProfForm extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RESULT_LOAD_IMAGE = 1;
-    private AutoCompleteTextView prof_name,prof_email,prof_address,prof_subtye,prof_city,prof_pincode,prof_phone,prof_mobile1,prof_mobile2,prof_website;
-    private Spinner prof_type,prof_state,prof_district;
-    private Button prof_clear;
+    private AutoCompleteTextView prof_name,prof_email,prof_address,prof_subtye,prof_city,prof_pincode,prof_phone,whatsapp,facebook,prof_website;
+    private Spinner prof_state,prof_district;
+    private Button prof_type,prof_clear;
     private ImageButton shoplogo_button;
     private ImageView image_photo;
     byte[] byteArray;
@@ -54,15 +57,10 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
     HashMap<String, String> profile;
     String shopname,shoptype,shopstate,shopemail,shopdistrict,shopaddress,shopcity,shoppincode,shopphone,shopmobile1,shopmobile2,shopwebsite,ownername;
 
+    boolean[] checkedItems;
+    List<String> names;
+    ArrayList<Integer> mUserItems;
 
-    String[] names = {"-select the professional type-","Accountant","Adminstrator","Analyst","Architect","Archivist","Artist","Author",
-            "Baker","Barber","Bartender","Beautician","Broadcaster","Bookkeeper","Bricklayer",
-            "Care worker","Carpenter","Chef","Cleaner","Counselor","Decorater",
-            "Doctor","Driver","Electrician","Engineer","Enterpreneur","Farmer",
-            "Firefighter","Florist","Instructor","Journalist","Labourer",
-            "Lawyer","Librarian","Mechanic","Masseur","Musician",
-            "Nurse","Painter","Photographer","Plumber","Police","Politician","Scientist",
-            "Social worker","Stock broker","Vocalist","Water supplier"};
 
 
     @Override
@@ -80,8 +78,8 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
         prof_city = findViewById(R.id.prof_city);
         prof_pincode = findViewById(R.id.prof_pincode);
         prof_phone = findViewById(R.id.prof_phone);
-        prof_mobile1 = findViewById(R.id.prof_mobile1);
-        prof_mobile2 = findViewById(R.id.prof_mobile2);
+        whatsapp = findViewById(R.id.whatsapp);
+        facebook = findViewById(R.id.facebook);
         prof_website = findViewById(R.id.prof_website);
         prof_subtye = findViewById(R.id.prof_subtye);
         shoplogo_button = findViewById(R.id.shoplogo_button);
@@ -90,12 +88,51 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        ArrayAdapter<String> shopTypeAdapter = new ArrayAdapter<>(postProfForm.this,
-                android.R.layout.simple_list_item_1,names);
-        shopTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        prof_type.setAdapter(shopTypeAdapter);
-
+        postShopForm.GetData getNames = new postShopForm.GetData("select Category_Name from tblCategory where Group_Id='G_2'", "Category_Name");
+        names = getNames.doInBackground();
+        mUserItems = new ArrayList<>();
         postShopForm.setDistrictState(postProfForm.this,prof_state,prof_district);
+
+        prof_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] listNames = new String[names.size()];
+                listNames = names.toArray(listNames);
+                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(postProfForm.this);
+                mBuilder.setTitle(R.string.dialog_title);
+                mBuilder.setMultiChoiceItems(listNames, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                        if(isChecked){
+                            mUserItems.add(position+1);
+                        }else{
+                            mUserItems.remove(Integer.valueOf(position+1));
+                        }
+                    }
+                });
+                mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                mBuilder.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mUserItems.clear();
+                    }
+                });
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
 
         pref = new PrefManager(getApplicationContext());
         profile = pref.getUserDetails();
@@ -126,28 +163,27 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
     //clear button
     private void clearaboveData(){
         prof_name.setText("");
-        prof_type.setSelection(0);
         prof_state.setSelection(0);
         prof_address.setText("");
         prof_city.setText("");
         prof_pincode.setText("");
         prof_phone.setText("");
-        prof_mobile1.setText("");
-        prof_mobile2.setText("");
+        whatsapp.setText("");
+        facebook.setText("");
         prof_website.setText("");
         image_photo.setImageDrawable(null);
     }
 
     public void validateForm(){
         shopname = prof_name.getText().toString().trim();
-        shoptype = prof_type.getSelectedItem().toString().trim();
+        //shoptype = prof_type.getSelectedItem().toString().trim();
         shopstate = prof_state.getSelectedItem().toString().trim();
         shopaddress = prof_address.getText().toString().trim();
         shopcity = prof_city.getText().toString().trim();
         shoppincode = prof_pincode.getText().toString().trim();
         shopphone = prof_phone.getText().toString().trim();
-        shopmobile1 = prof_mobile1.getText().toString().trim();
-        shopmobile2 = prof_mobile2.getText().toString().trim();
+        shopmobile1 = whatsapp.getText().toString().trim();
+        shopmobile2 = facebook.getText().toString().trim();
         shopwebsite = prof_website.getText().toString().trim();
         shopdistrict = prof_district.getSelectedItemPosition()+"";
         shopemail = prof_email.getText().toString().trim();

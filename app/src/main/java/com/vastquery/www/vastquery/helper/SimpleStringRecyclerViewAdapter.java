@@ -23,12 +23,10 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
 
     Context context;
     List<ClassListItems> requiredList;
-    boolean isShop;
 
-    public SimpleStringRecyclerViewAdapter(Context context,List<ClassListItems> requiredList ,boolean isShop) {
+    public SimpleStringRecyclerViewAdapter(Context context,List<ClassListItems> requiredList) {
         this.context = context;
         this.requiredList = requiredList;
-        this.isShop = isShop;
     }
 
     @Override

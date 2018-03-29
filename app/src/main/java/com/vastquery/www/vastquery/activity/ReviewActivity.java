@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
 
+import com.vastquery.www.vastquery.DatabaseConnection.GetContact;
+import com.vastquery.www.vastquery.PropertyClasses.ContactInfo;
 import com.vastquery.www.vastquery.PropertyClasses.ShopClass;
 import com.vastquery.www.vastquery.R;
 
@@ -35,12 +37,12 @@ import java.sql.Statement;
 public class ReviewActivity extends Fragment{
     Context context;
     RatingBar ratingBar,rate;
-    TextView ratingtext,owner_name,phonenumber,detail_addres,review;
+    TextView ratingtext,owner_name,phonenumber,detail_addres;
     ImageView imageView_owner,imageView_logo;
     ShopClass details;
-    int Shop_id ;
+    String Shop_id ;
     float r;
-    String address;
+    ContactInfo info;
     Dialog rankDialog;
     ProgressDialog dialog;
 
@@ -57,19 +59,11 @@ public class ReviewActivity extends Fragment{
         imageView_logo = view.findViewById(R.id.imageView_logo);
         ratingBar = view.findViewById(R.id.ratingbar);
         ratingtext = view.findViewById(R.id.ratingText);
-        review = view.findViewById(R.id.reviews_list);
 
-        review.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, UserReviewActivity.class);
-                intent.putExtra("shop_id",Shop_id);
-                context.startActivity(intent);
 
-            }
-        });
+        info = new ContactInfo();
 
-        Shop_id = getArguments().getInt("data");
+        Shop_id = getArguments().getString("data");
         SyncData_details syncData_details = new SyncData_details();
         syncData_details.execute();
 
@@ -125,26 +119,27 @@ public class ReviewActivity extends Fragment{
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-
-                    String query = "select Address,City,District,Pin_Code,Email,Phone,Mobile1,Mobile2,Website,Logo,Owner,Owner_Name,avg(Rating) as rate from"+
-                            " tblShop inner join tblRatting on tblShop.S_ID = tblRatting.RS_ID"+
-                            " where tblShop.S_ID ="+Shop_id+" group by "+
-                            " Address,City,District,Pin_Code,Email,Phone,Mobile1,Mobile2,Website,Logo,Owner,Owner_Name";
+                    GetContact contact = new GetContact(Shop_id,context);
+                    info = contact.getInfo();
+                    String query = "select SubCategory_Address,SubCategory_City,SubCategory_District,SubCategory_Pincode,SubCategory_FrontLogo,SubCategory_OwnerName,SubCategory_OwnerPhoto,avg(Rating) as rate from"+
+                            " tblSubCategory inner join tblRatting on tblSubcategory.SubCategory_Id = tblRatting.RS_ID"+
+                            " where tblSubcategory.SubCategory_Id ='"+Shop_id+"' group by "+
+                            " SubCategory_Address,SubCategory_City,SubCategory_District,SubCategory_Pincode,SubCategory_FrontLogo,SubCategory_OwnerName,SubCategory_OwnerPhoto";
                     Statement shop_stmt = connect.createStatement();
                     ResultSet shop_rs = shop_stmt.executeQuery(query);
                     if(shop_rs.next()){
-                        details = new ShopClass(shop_rs.getString("Address"),shop_rs.getString("Pin_Code"),shop_rs.getString("Email"),shop_rs.getString("Phone"),
-                                shop_rs.getString("Mobile1"), shop_rs.getString("Mobile2"),shop_rs.getString("Website"),shop_rs.getBytes("Logo"),
-                                shop_rs.getBytes("Owner"),shop_rs.getString("Owner_name"),shop_rs.getFloat("rate"));
+                        details = new ShopClass(shop_rs.getString("SubCategory_Address"),shop_rs.getString("SubCategory_City"),shop_rs.getString("SubCategory_District"),shop_rs.getString("SubCategory_Pincode"),
+                                shop_rs.getBytes("SubCategory_FrontLogo"),
+                                shop_rs.getString("SubCategory_OwnerName"),shop_rs.getBytes("SubCategory_OwnerPhoto"),shop_rs.getFloat("rate"));
                     }else {
-                        String shop_query = "select Address,City,District,Pin_Code,Email,Phone,Mobile1,Mobile2,Website,Logo,Owner,Owner_Name from tblShop where S_ID=" + Shop_id;
+                        String shop_query = "select SubCategory_Address,SubCategory_City,SubCategory_District,SubCategory_Pincode,SubCategory_FrontLogo,SubCategory_OwnerName,SubCategory_OwnerPhoto from tblSubCategory where SubCategory_Id='" +Shop_id+"'";
                         Statement stmt = connect.createStatement();
                         ResultSet rs = stmt.executeQuery(shop_query);
                         if(rs.next()){
 
-                            details = new ShopClass(rs.getString("Address"),rs.getString("Pin_Code"),rs.getString("Email"),rs.getString("Phone"),
-                                    rs.getString("Mobile1"), rs.getString("Mobile2"),rs.getString("Website"),rs.getBytes("Logo"),
-                                    rs.getBytes("Owner"),rs.getString("Owner_name"),0);
+                            details = new ShopClass(rs.getString("SubCategory_Address"),rs.getString("SubCategory_City"),rs.getString("SubCategory_District"),rs.getString("SubCategory_Pincode"),
+                                    rs.getBytes("SubCategory_FrontLogo"),
+                                    rs.getString("SubCategory_OwnerName"),rs.getBytes("SubCategory_OwnerPhoto"),0);
                         }
                     }
 
@@ -165,9 +160,9 @@ public class ReviewActivity extends Fragment{
             if(isSuccess) {
                 try {
                     owner_name.setText(details.getOwnerName());
-                    detail_addres.setText(details.getAddress() + "\n" + details.getPincode() + "\n" + details.getWebsite()+"\n"+details.getEmail());
-                    phonenumber.setText(details.getPhone() + "\n" + details.getMobile1() + "\n" + details.getMobile2());
-                    //imageView_owner.setImageBitmap(getBitmap(details.getOwner()));
+                    detail_addres.setText(details.getAddress() + "\n" + details.getPincode() + "\n"+info.getEmail()+"\n"+info.getWebsite());
+                    phonenumber.setText( info.getMobile()+"\n"+info.getWhatsapp() + "\n"+info.getTwitter() );
+                    imageView_owner.setImageBitmap(getBitmap(details.getOwner()));
                     Glide.with(getActivity()).load(details.getOwner()).asBitmap().centerCrop().into(imageView_owner);
                     imageView_logo.setImageBitmap(getBitmap(details.getLogo()));
                     ratingBar.setRating(details.getRating());

@@ -19,8 +19,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
+import com.vastquery.www.vastquery.PropertyClasses.ClassListItems;
 import com.vastquery.www.vastquery.PropertyClasses.ProductClass;
 import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.helper.SimpleStringRecyclerViewAdapter;
 import com.vastquery.www.vastquery.helper.WishlistAdapter;
 
 import java.sql.Connection;
@@ -38,6 +40,7 @@ public class WishList extends Fragment {
     List<ProductClass> products;
     Context context;
     ProgressBar progressBar;
+    public List<ClassListItems> itemArrayList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,19 +57,20 @@ public class WishList extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_user_review, container, false);
+        View view = inflater.inflate(R.layout.activity_required_list, container, false);
         context = view.getContext();
-        progressBar = view.findViewById(R.id.progressBar_reviews);
-        toolbar = view.findViewById(R.id.toolbar);
+        progressBar = view.findViewById(R.id.progressBar);
+        toolbar = view.findViewById(R.id.toolbar_requiredlist);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = view.findViewById(R.id.recyler_review_resoruce);
+        recyclerView = view.findViewById(R.id.recyclerview_requiredlist);
         linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         products = new ArrayList<>();
+        itemArrayList = new ArrayList<>();
 
         SyncData_wishlist syncData_wishlist = new SyncData_wishlist();
         syncData_wishlist.execute();
@@ -106,11 +110,12 @@ public class WishList extends Fragment {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
                     // Change below query according to your own database.
-                    String query = "";
+                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory  where Cat_Id='C_55'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         do {
+                            itemArrayList. add(new ClassListItems(rs.getString("Group_Id"),rs.getString("SubCategory_Id"),rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
                         }while (rs.next());
                     }
                     ConnectionResult = "successful";
@@ -127,8 +132,8 @@ public class WishList extends Fragment {
         protected void onPostExecute(String s) {
             progressBar.setVisibility(View.GONE);
             if(isSuccess){
-                WishlistAdapter productAdapter = new WishlistAdapter(context, products);
-                recyclerView.setAdapter(productAdapter);
+                SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(context, itemArrayList);
+                recyclerView.setAdapter(myAdapter);
 
             }
             else {

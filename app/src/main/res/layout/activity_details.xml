@@ -21,8 +21,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"
-            app:collapsedTitleTextAppearance="@style/my_tab_text">
+            app:expandedTitleMarginEnd="64dp">
 
 
             <ImageView

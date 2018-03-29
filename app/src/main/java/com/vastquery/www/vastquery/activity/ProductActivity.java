@@ -36,14 +36,14 @@ public class ProductActivity extends Fragment {
     List<ProductClass> products;
     Context context;
     ProgressBar progressBar;
-    public int Shop_id;
+    public String Shop_id;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.category_activity, container,false);
-        Shop_id = getArguments().getInt("data");
+        Shop_id = getArguments().getString("data");
         context = view.getContext();
         progressBar = view.findViewById(R.id.progressBar);
         recyclerView = view.findViewById(R.id.recyler_view);
@@ -80,13 +80,13 @@ public class ProductActivity extends Fragment {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                        String query = "select P_ID,Name,Price,Front_View from tblProduct where S_ID="+Shop_id;
+                        String query = "select Product_Id,Product_name,Product_price,Front_View,Back_View,Side_View  from tblSubCategoryProducts where SubCategory_Id='"+Shop_id+"'";
                         Statement stmt = connect.createStatement();
                         ResultSet rs = stmt.executeQuery(query);
                         if(rs.next()){
                             hasProduct = true;
                             do{
-                                products.add(new ProductClass(rs.getInt("P_ID"),Shop_id,rs.getString("Name"),rs.getString("Price"),rs.getBytes("Front_View")));
+                                products.add(new ProductClass(rs.getString("Product_Id"),Shop_id,rs.getString("Product_name"),rs.getString("Product_price"),rs.getBytes("Front_View"),rs.getBytes("Back_View"),rs.getBytes("Side_View")));
                             }while (rs.next());
                         }
                     isSuccess = true;

@@ -35,7 +35,7 @@ public class RequiredList extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     String requested_list;
-    ProgressDialog dialog;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,8 @@ public class RequiredList extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_requiredlist);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        progressBar = findViewById(R.id.progressBar);
 
         recyclerView = findViewById(R.id.recyclerview_requiredlist);
         linearLayoutManager = new LinearLayoutManager(RequiredList.this);
@@ -82,7 +84,7 @@ public class RequiredList extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-           dialog =  ProgressDialog.show(RequiredList.this,"","Loading...",true);
+           progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -99,7 +101,7 @@ public class RequiredList extends AppCompatActivity {
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         do {
-                            itemArrayList.  add(new ClassListItems(rs.getString("Group_Id"),rs.getString("SubCategory_Id"),rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
+                            itemArrayList. add(new ClassListItems(rs.getString("Group_Id"),rs.getString("SubCategory_Id"),rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
                         }while (rs.next());
 
                     /* Change below query according to your own database.
@@ -117,7 +119,7 @@ public class RequiredList extends AppCompatActivity {
                         while (shop_rs.next()) {
                             itemArrayList.add(new ClassListItems(shop_rs.getInt("S_ID"),shop_rs.getString("S_Name"),shop_rs.getString("Address"), shop_rs.getBytes("Shop_Photo")));
                         }*/
-                        isShop=true;
+
                     }
                     ConnectionResult = "successful";
                     isSuccess = true;
@@ -131,10 +133,10 @@ public class RequiredList extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            //progressBar.setVisibility(View.GONE);
-            dialog.dismiss();
+            progressBar.setVisibility(View.GONE);
+
             if(isSuccess){
-                SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(RequiredList.this, itemArrayList,isShop);
+                SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(RequiredList.this, itemArrayList);
                 recyclerView.setAdapter(myAdapter);
             }
             else {

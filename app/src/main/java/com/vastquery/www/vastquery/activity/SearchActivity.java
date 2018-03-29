@@ -52,11 +52,11 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(newText.length()>1){
-                    //recyclerView.setVisibility(View.VISIBLE);
-                    SearchTask searchTask = new SearchTask();
-                    searchTask.execute(newText);
-                }
+
+                //recyclerView.setVisibility(View.VISIBLE);
+                SearchTask searchTask = new SearchTask();
+                searchTask.execute(newText);
+
                 return false;
             }
         });
@@ -83,14 +83,14 @@ public class SearchActivity extends AppCompatActivity {
                    message = "Check your Internet Access";
                }else{
                    success = true;
-                   String query = "(select SubCategory_Name,Group_Id,SubCategory_Id from tblSubCategory where SubCategory_Name like '"+text[0]+"%')" +
-                           "union" +
-                           "(select Product_name,,Group_Id,SubCategory_Id from tblSubCategoryProducts where Product_name like '"+text[0]+"%')";
+                   String query = "select SubCategory_Name,Group_Id,SubCategory_Id from tblSubCategory where SubCategory_Name like '"+text[0]+"%'" +
+                           " union" +
+                           " select Product_name,Group_Id,SubCategory_Id from tblSubCategoryProducts where Product_name like '"+text[0]+"%'";
                    Statement stmt = connect.createStatement();
                    ResultSet rs = stmt.executeQuery(query);
                    if(rs.next()){
                        do {
-                           results.add(new SearchClass(rs.getString("U_Name"),rs.getString(",Group_Id"),rs.getString("SubCategory_Id")));
+                           results.add(new SearchClass(rs.getString("SubCategory_Name"),rs.getString("Group_Id"),rs.getString("SubCategory_Id")));
                        }while(rs.next());
                    }
                }
@@ -103,8 +103,8 @@ public class SearchActivity extends AppCompatActivity {
 
        @Override
        protected void onPostExecute(String s) {
+            progressBar.setVisibility(View.GONE);
             if(success){
-                progressBar.setVisibility(View.GONE);
                 if(results.isEmpty()) Toast.makeText(SearchActivity.this,"No Results found",Toast.LENGTH_LONG).show();
                 else {
                     GridAdapter gridAdapter = new GridAdapter(SearchActivity.this, results);

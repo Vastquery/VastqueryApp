@@ -73,6 +73,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
                 Intent intent = new Intent(context, ProductDetail.class);
                 intent.putExtra("id",product.getId());
                 intent.putExtra("front",product.getFront());
+                intent.putExtra("back",product.getFront());
+                intent.putExtra("side",product.getFront());
                 context.startActivity(intent);
             }
         });
@@ -92,14 +94,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
         LikeButton heart_button;
         public MyHolder(View itemView) {
             super(itemView);
-
             mview=itemView;
             product_imageview = itemView.findViewById(R.id.product_image);
             product_name = itemView.findViewById(R.id.product_name);
             product_price = itemView.findViewById(R.id.product_price);
             heart_button = itemView.findViewById(R.id.heart_button);
-
-
         }
     }
 }

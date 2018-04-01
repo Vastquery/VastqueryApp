@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
+import com.vastquery.www.vastquery.DatabaseConnection.GetId;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.PrefManager;
 
@@ -67,6 +68,7 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
     HashMap<String, String> profile;
     SimpleDateFormat formattedDate;
     Date inputDate;
+    String s_id;
 
     @SuppressLint("SimpleDateFormat")
     @Override
@@ -102,7 +104,8 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
         GetData getNames = new GetData("select Category_Name from tblCategory where Group_Id='G_1'", "Category_Name");
         names = getNames.doInBackground();
         mUserItems = new ArrayList<>();
-
+        s_id = getId("select max(SubCategory_Id) as maximum from tblSubCategory","maximum");
+        Toast.makeText(postShopForm.this,s_id,Toast.LENGTH_LONG).show();
         shop_type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -430,5 +433,10 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
             dialog.dismiss();
             Toast.makeText(postShopForm.this,s,Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static String getId(String query,String maximum){
+        GetId getid = new GetId(query,maximum);
+        return String.valueOf(getid.execute());
     }
 }

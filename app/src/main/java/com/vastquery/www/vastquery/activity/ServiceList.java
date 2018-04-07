@@ -1,9 +1,11 @@
 package com.vastquery.www.vastquery.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
@@ -36,21 +39,39 @@ public class ServiceList extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
     int facility_id;
     ProgressBar progressBar;
+    TextView addservice;
+    CardView addcard;
+    String cat_id,facilitydesc;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_required_list);
+        setContentView(R.layout.activity_service);
 
         facility_id = getIntent().getIntExtra("facility",0);
-        toolbar = findViewById(R.id.toolbar_requiredlist);
+        cat_id = getIntent().getStringExtra("catId");
+        facilitydesc = getIntent().getStringExtra("facilitydesc");
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        addcard = findViewById(R.id.addcard);
         progressBar = findViewById(R.id.progressBar);
+        addservice = findViewById(R.id.addservice);
+        addservice.setText("Add Your Service");
 
-        recyclerView = findViewById(R.id.recyclerview_requiredlist);
+        addcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ServiceList.this, ServicePostForm.class);
+                intent.putExtra("catId",cat_id);
+                intent.putExtra("facilitydesc",facilitydesc);
+                intent.putExtra("new",false);
+                startActivity(intent);
+            }
+        });
+        recyclerView = findViewById(R.id.recyclerview);
         linearLayoutManager = new LinearLayoutManager(ServiceList.this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);

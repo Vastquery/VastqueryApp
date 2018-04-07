@@ -1,10 +1,12 @@
 package com.vastquery.www.vastquery.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +33,8 @@ public class ServiceActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     List<FacilityClass> facility;
-    String cat_id;
+    String cat_id,group_id;
+    CardView addcard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +43,12 @@ public class ServiceActivity extends AppCompatActivity {
 
         cat_id = getIntent().getStringExtra("cat_id");
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        addcard = findViewById(R.id.addcard);
         progressBar = findViewById(R.id.progressBar);
         facility = new ArrayList<>();
 
@@ -51,6 +56,15 @@ public class ServiceActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(ServiceActivity.this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        addcard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent intent = new Intent(ServiceActivity.this,AddFacility.class);
+                    intent.putExtra("catid",cat_id);
+                    startActivity(intent);
+            }
+        });
 
         Syncdata_facility syncfacility = new Syncdata_facility();
         syncfacility.execute();

@@ -21,30 +21,37 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.vastquery.www.vastquery.DatabaseConnection.AddRatting;
+import com.vastquery.www.vastquery.DatabaseConnection.AddToGroup;
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
 
 import com.vastquery.www.vastquery.DatabaseConnection.GetContact;
 import com.vastquery.www.vastquery.PropertyClasses.ContactInfo;
 import com.vastquery.www.vastquery.PropertyClasses.ShopClass;
 import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.helper.PrefManager;
 
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 
 
 public class ReviewActivity extends Fragment{
     Context context;
     RatingBar ratingBar,rate;
     TextView ratingtext,owner_name,phonenumber,detail_addres;
-    ImageView imageView_owner,imageView_logo;
+    ImageView imageView_owner,imageView_logo,group;
     ShopClass details;
-    String Shop_id ;
+    String Shop_id,group_id;
     float r;
     ContactInfo info;
     Dialog rankDialog;
     ProgressDialog dialog;
+    PrefManager pref;
+    HashMap<String, String> profile;
+    int id;
 
     @Nullable
     @Override
@@ -59,13 +66,28 @@ public class ReviewActivity extends Fragment{
         imageView_logo = view.findViewById(R.id.imageView_logo);
         ratingBar = view.findViewById(R.id.ratingbar);
         ratingtext = view.findViewById(R.id.ratingText);
+        group = view.findViewById(R.id.group);
+
+        pref = new PrefManager(getActivity().getApplicationContext());
+        profile = pref.getUserDetails();
+        //id = Integer.parseInt(profile.get("id"));
 
 
         info = new ContactInfo();
 
         Shop_id = getArguments().getString("data");
+        group_id = getArguments().getString("group_id");
+
         SyncData_details syncData_details = new SyncData_details();
         syncData_details.execute();
+
+        group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddToGroup addToGroup = new AddToGroup(context,Shop_id,group_id,id);
+                addToGroup.execute();
+            }
+        });
 
         ratingtext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +108,8 @@ public class ReviewActivity extends Fragment{
                 rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override
                     public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                        Toast.makeText(context,"Thank you for rating",Toast.LENGTH_LONG).show();
+                        AddRatting  addRatting = new AddRatting(context,Shop_id,id,(int) v);
+                        addRatting.execute();
                         rankDialog.dismiss();
                     }
                 });

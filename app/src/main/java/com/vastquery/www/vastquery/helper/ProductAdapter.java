@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.vastquery.www.vastquery.DatabaseConnection.DeleteRow;
+import com.vastquery.www.vastquery.DatabaseConnection.InsetSkills;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.PropertyClasses.ProductClass;
 import com.vastquery.www.vastquery.activity.ProductActivity;
@@ -23,6 +25,7 @@ import com.vastquery.www.vastquery.activity.ProductDetail;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -32,10 +35,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
 
     Context context;
     List<ProductClass> products;
+    String cat_id;
 
-    public ProductAdapter(Context context, List<ProductClass> products) {
+    public ProductAdapter(Context context, List<ProductClass> products,String cat_id) {
         this.context = context;
         this.products = products;
+        this.cat_id = cat_id;
     }
 
     @Override
@@ -52,18 +57,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
         context = holder.mview.getContext();
         holder.product_name.setText(product.getProduct_name());
         holder.product_price.setText(""+product.getPrice());
+        PrefManager pref = new PrefManager(context);
+        HashMap<String,String> profile = pref.getUserDetails();
+        final int user_id = Integer.parseInt(profile.get("id"));
         byte[] decodestring = product.getFront();
         Bitmap decodebitmap = BitmapFactory.decodeByteArray(decodestring,0,decodestring.length);
         holder.product_imageview.setImageBitmap(decodebitmap);
+        final String check = "Select * from tblWishlist where Prod_ID = '"+product.getId()+"'" +
+                " and Ur_ID='"+user_id+"'";
         holder.heart_button.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                Toast.makeText(holder.mview.getContext(),"liked",Toast.LENGTH_LONG).show();
+                InsetSkills insetSkills = new InsetSkills(context,"Insert into tblWishlist(Ur_ID,Shop_ID,Prod_ID)" +
+                        " values ('"+user_id+"','"+cat_id+"','"+product.getId()+"')",check);
+                insetSkills.execute();
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                Toast.makeText(holder.mview.getContext(),"unliked",Toast.LENGTH_LONG).show();
+                DeleteRow deleteRow = new DeleteRow(context,"Delete from tblWishlist where Prod_ID = '"+product.getId()+"' and Ur_ID='"+user_id+"'");
+                deleteRow.execute();
             }
         });
         holder.product_imageview.setOnClickListener(new View.OnClickListener() {

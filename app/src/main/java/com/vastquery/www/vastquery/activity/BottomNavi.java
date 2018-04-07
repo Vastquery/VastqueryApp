@@ -64,6 +64,8 @@ public class BottomNavi extends AppCompatActivity {
                     loadFragment(fragment);
                     return true;
                 case R.id.chat:
+                    fragment = new ChatGroup();
+                    loadFragment(fragment);
                     return true;
                 case R.id.post_ads:
                     fragment = new PostAdd();

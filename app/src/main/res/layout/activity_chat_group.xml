@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.vastquery.www.vastquery.activity.RequiredList"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -25,49 +23,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.CardView
-        android:id = "@+id/addcard"
-        android:layout_below="@+id/appbar"
-        android:layout_width="365dp"
-        android:layout_height="90dp"
-        android:layout_margin="10dp">
-
-        <LinearLayout
-            style="@style/Widget.CardContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/imageView_logo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:clickable="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_add_circle" />
-
-        <TextView
-            android:id="@+id/addservice"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Add Facility" />
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-
-
-
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/addcard"
         android:layout_marginTop="10dp"
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
         android:clipToPadding="false"
         android:scrollbars="vertical"/>
-
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="50dp"
@@ -76,9 +39,18 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginBottom="60dp"
-        android:indeterminateTint="@color/colorAccent"
+        android:indeterminateTint="#fe485a"
         android:indeterminateTintMode="src_atop"
         android:layout_marginTop="200dp"
         android:visibility="gone"
         />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/myshop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="290dp"
+        android:src="@drawable/ic_shop" />
+
 </RelativeLayout>

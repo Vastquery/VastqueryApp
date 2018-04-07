@@ -43,6 +43,8 @@ public class FacilityAdapter extends RecyclerView.Adapter<FacilityAdapter.MyHold
                 Context context = view.getContext();
                 Intent intent = new Intent(context, ServiceList.class);
                 intent.putExtra("facility",facility.getFaciliti_Id());
+                intent.putExtra("catId",facility.getCat_Id());
+                intent.putExtra("facilitydesc",facility.getFacilities_desc());
                 context.startActivity(intent);
             }
         });

@@ -36,16 +36,6 @@ public class category_fragment extends Fragment {
     GridLayoutManager gridLayoutManager;
     Context context;
     List<CategoryDetails> details;
-    String[] names = {"Agriculture", "Accommodation", "Caterers", "Civil Contractor", "Daily Needs", "Dance & Music",
-            "Driving School", "Education & Training", "Electronics", "Emergency", "Fitness", "Hospitals", "Hotels",
-            "House keeping", "Jobs consultancy", "Real Estate", "Repairs", "Transporters", "Travels", "Wedding"};
-
-    int[] images = {R.drawable.farmer, R.drawable.accommodation, R.drawable.utensils, R.drawable.construcion,
-            R.drawable.furniture, R.drawable.ic_music, R.drawable.drivingschool, R.drawable.trainingcenter,
-            R.drawable.computers, R.drawable.ic_favorite, R.drawable.fitnesscentre, R.drawable.hospital,
-            R.drawable.hotel, R.drawable.theaters, R.drawable.jobconsultancy, R.drawable.construcion,
-            R.drawable.mechanicshop, R.drawable.automobileshop, R.drawable.travel, R.drawable.florist};
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -34,7 +34,7 @@ public class RequiredList extends AppCompatActivity {
     public List<ClassListItems> itemArrayList;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
-    String requested_list;
+    String requested_list,group_id;
     ProgressBar progressBar;
 
     @Override

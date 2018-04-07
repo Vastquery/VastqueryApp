@@ -29,7 +29,7 @@ public class PrefManager {
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_MOBILE = "mobile";
-    //private static final int KEY_ID = 0;
+    private static final String KEY_ID = "id";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -55,11 +55,12 @@ public class PrefManager {
         return pref.getString(KEY_MOBILE_NUMBER, null);
     }
 
-    public void createLogin(String name, String email, String mobile) {
+    public void createLogin(String name, String email, String mobile,String id) {
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_MOBILE, mobile);
         editor.putBoolean(KEY_IS_LOGGED_IN, true);
+        editor.putString(KEY_ID,id);
         editor.commit();
     }
 
@@ -77,6 +78,7 @@ public class PrefManager {
         profile.put("name", pref.getString(KEY_NAME, null));
         profile.put("email", pref.getString(KEY_EMAIL, null));
         profile.put("mobile", pref.getString(KEY_MOBILE, null));
+        profile.put("id",pref.getString(KEY_ID,null));
         return profile;
     }
 }

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -54,18 +53,6 @@
                 android:id="@+id/shop_name"
                 android:layout_marginBottom="10dp"
                 />
-            <Button
-                android:hint="Enter Shop type"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/rounded_white"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:textSize="14sp"
-                android:drawablePadding="5dp"
-                android:paddingRight="170dp"
-                android:id="@+id/shop_type"
-                android:layout_marginBottom="10dp" />
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -157,7 +144,6 @@
                     android:src="@drawable/ic_edit_mobile"
                     />
 
-
                 <!--<AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -178,6 +164,7 @@
                     android:scaleType="centerCrop"
                     android:background="@drawable/rounded_white"
                     android:clickable="true"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -206,6 +193,7 @@
                     android:paddingLeft="10dp"
                     android:id="@+id/shop_photo"
                     android:layout_marginBottom="10dp"/> -->
+
                 <ImageView
                     android:layout_marginLeft="20dp"
                     android:id="@+id/image_photo"
@@ -234,17 +222,18 @@
                     />
 
 
-               <!-- <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:hint="Owner Photo"
-                    android:background="@drawable/rounded_white"
-                    android:textSize="14sp"
-                    android:drawablePadding="5dp"
-                    android:paddingLeft="10dp"
-                    android:id="@+id/shop_ownerphoto"
-                    android:layout_marginBottom="10dp"/>
-                -->
+                <!-- <AutoCompleteTextView
+                     android:layout_width="match_parent"
+                     android:layout_height="40dp"
+                     android:hint="Owner Photo"
+                     android:background="@drawable/rounded_white"
+                     android:textSize="14sp"
+                     android:drawablePadding="5dp"
+                     android:paddingLeft="10dp"
+                     android:id="@+id/shop_ownerphoto"
+                     android:layout_marginBottom="10dp"/>
+                 -->
+
                 <ImageView
                     android:layout_marginLeft="20dp"
                     android:id="@+id/owner_photo"
@@ -270,6 +259,7 @@
                 android:id="@+id/shop_phone"
                 android:layout_marginBottom="10dp"
                 />
+
             <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -367,16 +357,16 @@
                     android:background="@drawable/register_button"
                     android:layout_marginRight="10dp"
                     />
-                 <Button
-                     android:id="@+id/shop_submit"
-                     android:layout_width="wrap_content"
-                     android:layout_height="50dp"
-                     android:textColor="@color/white"
-                     android:text="Submit"
-                     android:textStyle="normal"
-                     android:background="@drawable/register_button"
-                     android:paddingLeft="5dp" />
-             </LinearLayout>
+                <Button
+                    android:id="@+id/shop_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textColor="@color/white"
+                    android:text="Submit"
+                    android:textStyle="normal"
+                    android:background="@drawable/register_button"
+                    android:paddingLeft="5dp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

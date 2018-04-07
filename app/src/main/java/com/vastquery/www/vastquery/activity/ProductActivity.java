@@ -36,13 +36,15 @@ public class ProductActivity extends Fragment {
     List<ProductClass> products;
     Context context;
     ProgressBar progressBar;
-    public String Shop_id;
+    public String Shop_id,group_id;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.category_activity, container,false);
+
         Shop_id = getArguments().getString("data");
         context = view.getContext();
         progressBar = view.findViewById(R.id.progressBar);
@@ -104,10 +106,10 @@ public class ProductActivity extends Fragment {
             progressBar.setVisibility(View.GONE);
             if(isSuccess){
                 if(hasProduct) {
-                    ProductAdapter productAdapter = new ProductAdapter(context, products);
+                    ProductAdapter productAdapter = new ProductAdapter(context, products,Shop_id);
                     recyclerView.setAdapter(productAdapter);
                 }
-                else Toast.makeText(context,"No products Found"+Shop_id,Toast.LENGTH_LONG).show();
+                else Toast.makeText(context,"No products Found",Toast.LENGTH_LONG).show();
             }
             else Toast.makeText(context,s,Toast.LENGTH_LONG).show();
         }

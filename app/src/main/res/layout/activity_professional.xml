@@ -2,7 +2,6 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:design="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -57,6 +56,74 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="24dp">
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
+
+                    <LinearLayout
+                        style="@style/Widget.CardContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+
+                            <ImageView
+                                android:id="@+id/group"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_group"
+                                android:layout_marginStart="20dp"
+                                android:clickable="true"
+                                android:layout_marginLeft="20dp" />
+
+                            <ImageView
+                                android:layout_marginStart="140dp"
+                                android:layout_marginLeft="10dp"
+                                android:id="@+id/chat"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:src="@drawable/ic_chat"
+                                android:clickable="true"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:text="Add me"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:text="Ask questions"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"

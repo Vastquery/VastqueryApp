@@ -17,25 +17,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.vastquery.www.vastquery.DatabaseConnection.AddToGroup;
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
 import com.vastquery.www.vastquery.DatabaseConnection.GetContact;
 import com.vastquery.www.vastquery.PropertyClasses.ContactInfo;
 import com.vastquery.www.vastquery.PropertyClasses.ProfClass;
 import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.helper.PrefManager;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 
 public class ProfessionalActivity extends AppCompatActivity {
 
-    String id;
+    String id,group_id;
+    int user_id;
     TextView phone_number,address,sub_type,vp_id,mail_id,decription;
+    ImageView group;
 
     ProfClass prof;
     ProgressDialog dialog;
     CollapsingToolbarLayout collapsingToolbar;
     ContactInfo info;
+    PrefManager pref;
+    HashMap<String,String> profile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,7 @@ public class ProfessionalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_professional);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
+        group_id = intent.getStringExtra("group_id");
         /*name = intent.getStringExtra("name");
         Address = intent.getStringExtra("address");
         bitmap = intent.getParcelableExtra("image");*/
@@ -53,13 +62,25 @@ public class ProfessionalActivity extends AppCompatActivity {
         sub_type = findViewById(R.id.sub_type);
         mail_id = findViewById(R.id.maild_id);
         decription = findViewById(R.id.description);
+        group = findViewById(R.id.group);
 
         info = new ContactInfo();
         Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        pref = new PrefManager(ProfessionalActivity.this);
+        profile = pref.getUserDetails();
+        //user_id = Integer.parseInt(profile.get("id"));
         collapsingToolbar = findViewById(R.id.collapsing_toolbar_details);
+
+        group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddToGroup addToGroup = new AddToGroup(ProfessionalActivity.this,id,group_id,user_id);
+                addToGroup.execute();
+            }
+        });
 
         SyncData_prof syncDataProf = new SyncData_prof();
         syncDataProf.execute();

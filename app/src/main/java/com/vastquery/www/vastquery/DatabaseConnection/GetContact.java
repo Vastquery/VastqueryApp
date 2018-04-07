@@ -10,10 +10,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-/**
- * Created by pooja on 4/3/18.
- */
-
 public class GetContact  {
 
     String id,ConnectionResult;

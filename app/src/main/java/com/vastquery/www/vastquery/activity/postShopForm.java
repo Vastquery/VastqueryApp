@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
 import com.vastquery.www.vastquery.DatabaseConnection.GetId;
+import com.vastquery.www.vastquery.DatabaseConnection.GetIntId;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.PrefManager;
 
@@ -52,23 +53,24 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
     private static final int RESULT_LOAD_IMAGE = 1;
 
 
-    private AutoCompleteTextView shop_name,shop_email,shop_address, shop_city, shop_pincode, shop_phone, whatsapp, facebook,twitter, shop_website, shop_owner;
+    private AutoCompleteTextView description,shop_name,shop_email,shop_address, shop_city, shop_pincode, shop_phone, whatsapp, facebook,twitter, shop_website, shop_owner;
     private Spinner  shop_state, shop_district;
     private Button shop_type,shop_clear,shop_submit;
     private ImageView image_photo,owner_photo,image_logo;
     private ImageButton shoplogo_button,shopphoto_button,ownerphoto_button;
     int value;
     byte[] shop,logo,owner;
-    String shopname,shoptype,shopstate,shopemail,shopdistrict,shopaddress,shopcity,shoppincode,shopphone,shopmobile1,shopmobile2,shopwebsite,ownername;
+    String state,subcategory_id,rollnum,rollid,shopdescription,shopname,shopstate,shopemail,shopdistrict,shopaddress,shopcity,shoppincode,shopphone,shopwhatsapp,shopfacebook,shopwebsite,ownername;
+    int id;
     private ProgressDialog dialog;
     boolean[] checkedItems;
-    List<String> names;
+    List<String> names,Cat_Id;
     ArrayList<Integer> mUserItems;
     PrefManager pref;
     HashMap<String, String> profile;
     SimpleDateFormat formattedDate;
     Date inputDate;
-    String s_id;
+
 
     @SuppressLint("SimpleDateFormat")
     @Override
@@ -98,14 +100,17 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
         shoplogo_button = findViewById(R.id.shoplogo_button);
         shopphoto_button = findViewById(R.id.shopphoto_button);
         ownerphoto_button = findViewById(R.id.ownerphoto_button);
+        description = findViewById(R.id.description);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         GetData getNames = new GetData("select Category_Name from tblCategory where Group_Id='G_1'", "Category_Name");
         names = getNames.doInBackground();
         mUserItems = new ArrayList<>();
-        s_id = getId("select max(SubCategory_Id) as maximum from tblSubCategory","maximum");
-        Toast.makeText(postShopForm.this,s_id,Toast.LENGTH_LONG).show();
+
+        GetData getCatId = new GetData("select Cat_Id from tblCategory where Group_Id='G_1'","Cat_Id");
+        Cat_Id = getCatId.doInBackground();
+
         shop_type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,9 +123,9 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
                         if(isChecked){
-                            mUserItems.add(position+1);
+                            mUserItems.add(position);
                         }else{
-                            mUserItems.remove(Integer.valueOf(position+1));
+                            mUserItems.remove(Integer.valueOf(position));
                         }
                     }
                 });
@@ -128,7 +133,6 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
                 mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                     }
                 });
                 mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
@@ -245,8 +249,9 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
         }
     }
     //clear button
-    private void clearData() {
+    private  void clearData() {
         shop_name.setText("");
+        description.setText("");
         mUserItems.clear();
         shop_state.setSelection(0);
         shop_address.setText("");
@@ -272,12 +277,14 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
         shopcity = shop_city.getText().toString().trim();
         shoppincode = shop_pincode.getText().toString().trim();
         shopphone = shop_phone.getText().toString().trim();
-        shopmobile1 = whatsapp.getText().toString().trim();
-        shopmobile2 = facebook.getText().toString().trim();
+        shopwhatsapp = whatsapp.getText().toString().trim();
+        shopfacebook = facebook.getText().toString().trim();
         shopwebsite = shop_website.getText().toString().trim();
         ownername = shop_owner.getText().toString().trim();
         shopdistrict = shop_district.getSelectedItemPosition()+"";
         shopemail = shop_email.getText().toString().trim();
+        shopdescription = description.getText().toString().trim();
+
         if(shopname.length()==0 || mUserItems.isEmpty() || shopstate.equals("-select the state-") || shopaddress.length()==0||
                 shopcity.length()==0 || shoppincode.length()==0 || ownername.length()==0 || shopdistrict.equals("-select the District-")){
             Toast.makeText(postShopForm.this,"EnterValid Details",Toast.LENGTH_LONG).show();
@@ -288,8 +295,11 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
                 if(image_logo.getDrawable()==null && image_photo.getDrawable()==null && owner_photo.getDrawable() == null){
                     Toast.makeText(postShopForm.this,"select the pohotos",Toast.LENGTH_LONG).show();
                 }else{
-                        InputData inputData = new InputData();
-                        inputData.execute();
+                    GetAllIds getAllIds = new GetAllIds();
+                    getAllIds.execute();
+
+                    InputData inputData = new InputData();
+                    inputData.execute();//data should be added for every category
                 }
             }
         }
@@ -408,12 +418,15 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    String query = "Insert into tblSubCategory(SubCategory_Name,SubCategory_Address,SubCategory_City,SubCategory_Country," +
+
+                    String query = "Insert into tblSubCategory(Group_Id,Cat_Id,SubCategory_Id,SubCategory_Name," +
+                            "SubCategory_Address,SubCategory_City,SubCategory_Country," +
                             "SubCategory_State,SubCategory_District,SubCategory_Pincode"+
-                       ",SubCategory_Logo,SubCategory_FrontLogo,SubCategory_OwnerName,SubCategory_OwnerPhoto)"+
-                            " values ('"+shopname+"','"+shopaddress+"','"+shopcity+"','India','"+shopstate+"'" +
-                            ",'"+shopdistrict+"','"+shoppincode
-                            +"',?,?,'"+ownername+"',?)";
+                       ",SubCategory_Logo,SubCategory_FrontLogo,SubCategory_OwnerName,SubCategory_OwnerPhoto,Id,RollNo,RollId," +
+                            "SubCategory_Description,SubCategory_Addby)"+
+                            " values ('G_1','"+Cat_Id.get(0)+"','"+subcategory_id+"','"+shopname+"','"+shopaddress+"','"
+                            +shopcity+"','India','"+state+"'" + ",'"+shopdistrict+"','"+shoppincode
+                            +"',?,?,'"+ownername+"',?,'"+id+"','"+rollnum+"','"+rollid+"','"+shopdescription+"','"+profile.get("id")+"')";
                     PreparedStatement preStmt = connect.prepareStatement(query);
                     preStmt.setBytes(1,logo);
                     preStmt.setBytes(2,shop);
@@ -434,9 +447,43 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(postShopForm.this,s,Toast.LENGTH_LONG).show();
         }
     }
-
-    public static String getId(String query,String maximum){
+    // get subcategory id
+    public static String GetsId(String query, String maximum){
         GetId getid = new GetId(query,maximum);
-        return String.valueOf(getid.execute());
+        return incrementId(getid.getS_Id());
+    }
+    // increment id
+    public static String incrementId(String s){
+        String[] temp = s.split("_");
+        int value = Integer.parseInt(temp[1]);
+        value++;
+        return temp[0]+"_"+value;
+    }
+    // to get id
+    public static int GetId(String query , String maxi){
+        GetIntId getid = new GetIntId(query,maxi);
+        return (getid.getId()+1);
+    }
+    // to get all the ids
+    public class GetAllIds extends AsyncTask<String,String,String>{
+        String message="";
+        @Override
+        protected String doInBackground(String... strings) {
+            GetId getStateId = new GetId("select State_ID where State_Name='"+shopstate+"'","State_ID");
+            try {
+                message = "Id created";
+                subcategory_id = GetsId("select max(SubCategory_Id) as maximum from tblSubCategory", "maximum");
+                id = GetId("select max(Id) as maxi from tblSubCategory", "maxi");
+                state = getStateId.getS_Id();
+            }catch(Exception ex){
+                message = ex.getMessage();
+            }
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Toast.makeText(postShopForm.this,s,Toast.LENGTH_LONG).show();
+        }
     }
 }

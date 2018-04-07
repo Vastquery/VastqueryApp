@@ -51,9 +51,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
                 if(detail.getGroupid().equals("G_3")){
                     intent = new Intent(context, ServiceActivity.class);
                     intent.putExtra("cat_id", detail.getCatId());
+
                 }else {
                     intent = new Intent(context, RequiredList.class);
                     intent.putExtra(RequiredList.extra_name, detail.getCatId());
+
                 }
                 context.startActivity(intent);
             }

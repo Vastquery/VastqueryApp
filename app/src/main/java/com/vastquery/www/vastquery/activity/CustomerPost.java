@@ -44,6 +44,7 @@ public class CustomerPost extends Fragment {
     public List<ClassListItems> itemArrayList;
     PrefManager pref;
     HashMap<String, String> profile;
+    int user_id;
 
 
     @Override
@@ -76,7 +77,7 @@ public class CustomerPost extends Fragment {
 
         pref = new PrefManager(getActivity().getApplicationContext());
         profile = pref.getUserDetails();
-
+        //user_Id = Integer.parseInt(profile.get("id"));
 
         SyncData_customerpost synData = new SyncData_customerpost();
         synData.execute();
@@ -114,7 +115,9 @@ public class CustomerPost extends Fragment {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory  where SubCategory_Addedby=(select Usr_ID from tblUser where U_Mobile='"+profile.get("mobile")+"'";
+                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory " +
+                            "join tblCategoryCustomer on tblSubCategory.SubCategory_Id = tblCategoryCustomer.Shop_Id " +
+                            "where tblCategoryCustomer.User_Id='"+user_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {

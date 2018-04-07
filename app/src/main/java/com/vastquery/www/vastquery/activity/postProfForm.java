@@ -24,6 +24,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
+import com.vastquery.www.vastquery.DatabaseConnection.GetId;
+import com.vastquery.www.vastquery.DatabaseConnection.GetIntId;
+import com.vastquery.www.vastquery.DatabaseConnection.InsetSkills;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.PrefManager;
 
@@ -44,9 +47,9 @@ import static com.vastquery.www.vastquery.activity.RegisterActivity.isValidPhone
 public class postProfForm extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RESULT_LOAD_IMAGE = 1;
-    private AutoCompleteTextView prof_name,prof_email,prof_address,prof_subtye,prof_city,prof_pincode,prof_phone,whatsapp,facebook,prof_website;
+    private AutoCompleteTextView skillset,description,prof_name,prof_email,prof_address,prof_subtye,prof_city,prof_pincode,prof_phone,whatsapp,facebook,prof_website;
     private Spinner prof_state,prof_district;
-    private Button prof_type,prof_clear;
+    private Button prof_type,prof_clear,prof_submit;
     private ImageButton shoplogo_button;
     private ImageView image_photo;
     byte[] byteArray;
@@ -55,10 +58,11 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
     Date inputDate;
     PrefManager pref;
     HashMap<String, String> profile;
-    String shopname,shoptype,shopstate,shopemail,shopdistrict,shopaddress,shopcity,shoppincode,shopphone,shopmobile1,shopmobile2,shopwebsite,ownername;
+    String state,skillsettext,shopdescribtion,subcategory_id,shopname,shoptype,shopstate,shopemail,shopdistrict,shopaddress,shopcity,shoppincode,shopphone,shopmobile1,shopmobile2,shopwebsite,ownername;
+    int id,skill_id;
 
     boolean[] checkedItems;
-    List<String> names;
+    List<String> names,Cat_Id;
     ArrayList<Integer> mUserItems;
 
 
@@ -85,6 +89,9 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
         shoplogo_button = findViewById(R.id.shoplogo_button);
         image_photo = findViewById(R.id.image_photo);
         prof_email = findViewById(R.id.prof_email);
+        description = findViewById(R.id.description);
+        skillset = findViewById(R.id.skillset);
+        prof_submit = findViewById(R.id.prof_submit);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -92,6 +99,8 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
         names = getNames.doInBackground();
         mUserItems = new ArrayList<>();
         postShopForm.setDistrictState(postProfForm.this,prof_state,prof_district);
+        postShopForm.GetData getCatIds = new postShopForm.GetData("select Cat_Id from tblCategory where Group_Id='G_2'","Cat_Id");
+        Cat_Id = getCatIds.doInBackground();
 
         prof_type.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,9 +113,9 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
                         if(isChecked){
-                            mUserItems.add(position+1);
+                            mUserItems.add(position);
                         }else{
-                            mUserItems.remove(Integer.valueOf(position+1));
+                            mUserItems.remove(Integer.valueOf(position));
                         }
                     }
                 });
@@ -143,6 +152,8 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
         //Button action
         prof_clear.setOnClickListener(this);
         shoplogo_button.setOnClickListener(this);
+        prof_submit.setOnClickListener(this);
+
     }
 
     @Override
@@ -187,9 +198,11 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
         shopwebsite = prof_website.getText().toString().trim();
         shopdistrict = prof_district.getSelectedItemPosition()+"";
         shopemail = prof_email.getText().toString().trim();
-        if(shopname.length()==0 || shoptype.equals("-select the shop type-") || shopstate.equals("-select the state-") || shopaddress.length()==0||
+        shopdescribtion = description.getText().toString().trim();
+        skillsettext = skillset.getText().toString().trim();
+        if(skillsettext.length() == 0||shopname.length()==0 || shoptype.equals("-select the shop type-") || shopstate.equals("-select the state-") || shopaddress.length()==0||
                 shopcity.length()==0 || shoppincode.length()==0 || ownername.length()==0 || shopdistrict.equals("-select the District-")){
-            Toast.makeText(postProfForm.this,"EnterValid Details",Toast.LENGTH_LONG).show();
+            Toast.makeText(postProfForm.this,"Fill all Details",Toast.LENGTH_LONG).show();
         }else{
             if(!isValidPhoneNumber(shopphone)&&!isValidEmail(shopemail)){
                 Toast.makeText(postProfForm.this,"Enter valid phone number",Toast.LENGTH_LONG).show();
@@ -197,8 +210,18 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
                 if(image_photo.getDrawable()==null){
                     Toast.makeText(postProfForm.this,"select the pohotos",Toast.LENGTH_LONG).show();
                 }else{
+
+                    GetAllIdsprof getAllIdsprof = new GetAllIdsprof();
+                    getAllIdsprof.execute();
+
+                    final String check = "Select * from tblSubcategorySkills where Skill_Id='"+skill_id+"'";
+                    InsetSkills insetSkills = new InsetSkills(postProfForm.this,"Insert into tblSubcategorySkills(Group_Id,Cat_Id,SubCategory_Id,Skill_Id,Skill_desc)" +
+                            " values ('G_2','"+Cat_Id+"','"+subcategory_id+"','"+skill_id+"','"+skillsettext+"')",check);
+                    insetSkills.execute();
+
                     InputDataProf inputDataProf = new InputDataProf();
                     inputDataProf.execute();
+
                 }
             }
         }
@@ -272,12 +295,14 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    String query = "Insert into tblShop(Prof_Name,Prof_type,Address,City,District,State,Pin_Code,Email,"+
-                            "Phone,Mobile1,Mobile2,Website,Logo,Added_By,A_Date,M_Date)"+
-                            " values ('"+shopname+"','"+shoptype+"','"+shopaddress+"','"+shopcity+"','"+shopdistrict+"'" +
-                            ",'"+shopstate+"','"+shoppincode+"','"+shopemail+"','"+shopphone+"','"+shopmobile1+"'" +
-                            ",'"+shopmobile2+"','"+shopwebsite+"',?,'"+ownername+"','"+profile.get("email")+"'" +
-                            ",'"+formattedDate.format(inputDate)+"','"+formattedDate.format(inputDate)+"')";
+                    String query = "Insert into tblSubCategory(Group_Id,Cat_Id,SubCategory_Id,SubCategory_Name," +
+                            "SubCategory_Address,SubCategory_City,SubCategory_Country," +
+                            "SubCategory_State,SubCategory_District,SubCategory_Pincode"+
+                            ",SubCategory_Logo,Id" +
+                            "SubCategory_Description,SubCategory_Addby)"+
+                            " values ('G_2','"+Cat_Id.get(0)+"','"+subcategory_id+"','"+shopname+"','"+shopaddress+"','"
+                            +shopcity+"','India','"+state+"'" + ",'"+shopdistrict+"','"+shoppincode
+                            +"',?,'"+id+"','"+shopdescribtion+"','"+profile.get("id")+"')";
                     PreparedStatement preStmt = connect.prepareStatement(query);
                     preStmt.setBytes(1,byteArray);
                     preStmt.execute();
@@ -293,6 +318,47 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
+            Toast.makeText(postProfForm.this,s,Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // get subcategory id
+    public static String GetsId(String query, String maximum){
+        GetId getid = new GetId(query,maximum);
+        return incrementId(getid.getS_Id());
+    }
+    // increment id
+    public static String incrementId(String s){
+        String[] temp = s.split("_");
+        int value = Integer.parseInt(temp[1]);
+        value++;
+        return temp[0]+"_"+value;
+    }
+    // to get id
+    public static int GetId(String query , String maxi){
+        GetIntId getid = new GetIntId(query,maxi);
+        return (getid.getId()+1);
+    }
+    // to get all the ids
+    public class GetAllIdsprof extends AsyncTask<String,String,String>{
+        String message="";
+        @Override
+        protected String doInBackground(String... strings) {
+            GetId getStateId = new GetId("select State_ID where State_Name='"+shopstate+"'","State_ID");
+            try {
+                message = "Id created";
+                subcategory_id = GetsId("select max(SubCategory_Id) as maximum from tblSubCategory", "maximum");
+                id = GetId("select max(Id) as maxi from tblSubCategory", "maxi");
+                skill_id = GetId("select max(Skill_Id) as maxi from tblSubCategorySkills","maxi");
+                state = getStateId.getS_Id();
+            }catch(Exception ex){
+                message = ex.getMessage();
+            }
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
             Toast.makeText(postProfForm.this,s,Toast.LENGTH_LONG).show();
         }
     }

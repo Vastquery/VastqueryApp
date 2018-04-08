@@ -71,14 +71,18 @@ public class ProfessionalActivity extends AppCompatActivity {
 
         pref = new PrefManager(ProfessionalActivity.this);
         profile = pref.getUserDetails();
-        //user_id = Integer.parseInt(profile.get("id"));
+        user_id = Integer.parseInt(profile.get("id"));
         collapsingToolbar = findViewById(R.id.collapsing_toolbar_details);
 
         group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddToGroup addToGroup = new AddToGroup(ProfessionalActivity.this,id,group_id,user_id);
-                addToGroup.execute();
+                if(prof.getAddedby() != user_id) {
+                    AddToGroup addToGroup = new AddToGroup(ProfessionalActivity.this, id, group_id, user_id);
+                    addToGroup.execute();
+                }else
+                    Toast.makeText(ProfessionalActivity.this,"you are the owner",Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -129,14 +133,14 @@ public class ProfessionalActivity extends AppCompatActivity {
 
                     GetContact contact = new GetContact(id,ProfessionalActivity.this);
                     info = contact.getInfo();
-                    String query = "select SubCategory_Name,SubCategory_Address,SubCategory_Pincode,SubCategory_City,SubCategory_Logo,RollNo,SubCategory_Description,tblSubcategorySkills.Skill_desc as skill from tblSubCategory join tblSubcategorySkills on " +
+                    String query = "select SubCategory_Name,SubCategory_Address,SubCategory_Pincode,SubCategory_City,SubCategory_Logo,RollNo,SubCategory_Description,SubCategory_Addby,tblSubcategorySkills.Skill_desc as skill from tblSubCategory join tblSubcategorySkills on " +
                             "tblSubCategory.SubCategory_Id=tblSubcategorySkills.SubCategory_Id  where tblSubCategory.SubCategory_Id='"+id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         isSuccess = true;
                         prof = new ProfClass(rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"),rs.getString("SubCategory_Pincode")
-                        ,rs.getString("SubCategory_City"),rs.getBytes("SubCategory_Logo"),rs.getString("RollNo"),rs.getString("SubCategory_Description"),rs.getString("skill"));
+                        ,rs.getString("SubCategory_City"),rs.getBytes("SubCategory_Logo"),rs.getString("RollNo"),rs.getString("SubCategory_Description"), rs.getInt("SubCategory_Addby"),rs.getString("skill"));
                     }
                     ConnectionResult = "successful";
                     connect.close();

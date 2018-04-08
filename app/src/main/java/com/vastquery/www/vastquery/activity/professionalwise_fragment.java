@@ -26,28 +26,7 @@ public class professionalwise_fragment extends Fragment {
     GridLayoutManager gridLayoutManager;
 
 
-    String[] names = {"Accountant","Adminstrator","Analyst","Architect","Archivist","Artist","Author",
-                        "Baker","Barber","Bartender","Beautician","Broadcaster","Bookkeeper","Bricklayer",
-                        "Care worker","Carpenter","Chef","Cleaner","Counselor","Decorater",
-                        "Doctor","Driver","Electrician","Engineer","Enterpreneur",
-                        "Firefighter","Farmer","Florist","Instructor","Journalist","Labourer",
-                        "Lawyer","Librarian","Mechanic","Masseur","Musician",
-                        "Nurse","Painter","Photographer","Plumber","Police","Politician","Scientist",
-                        "Social worker","Stock broker","Vocalist","Water supplier"};
 
-    int images[] = { R.drawable.accountant,R.drawable.administrator,R.drawable.analyst,R.drawable.architech,
-                    R.drawable.architech,R.drawable.archivist,R.drawable.artist,R.drawable.author,
-                    R.drawable.baker,R.drawable.barber,R.drawable.bartender,R.drawable.beautician,
-                    R.drawable.broadcaster,R.drawable.bookkeeper,R.drawable.dricklayer,R.drawable.careworker,
-                    R.drawable.carpenter,R.drawable.chef,R.drawable.cleaner,R.drawable.counselor,
-                    R.drawable.decorator,R.drawable.doctor,R.drawable.driver,R.drawable.electrician,
-                    R.drawable.engineer,R.drawable.entrepreneur,R.drawable.farmer,
-                    R.drawable.instructor,R.drawable.firefighter,R.drawable.journalist,R.drawable.labourer,
-                    R.drawable.lawyer,R.drawable.librarian,R.drawable.mechanic,R.drawable.masseur,
-                    R.drawable.musician,R.drawable.nurse,R.drawable.painter,R.drawable.photographer,
-                    R.drawable.plumber,R.drawable.police,R.drawable.politician,R.drawable.scientist,
-                    R.drawable.socialworker,R.drawable.stockbroker,R.drawable.vocalist,R.drawable.watersupplyer
-    };
 
     @Nullable
     @Override

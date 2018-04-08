@@ -1,6 +1,7 @@
 package com.vastquery.www.vastquery.helper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.vastquery.www.vastquery.PropertyClasses.ClassListItems;
 import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.activity.UsersOfShop;
 
 import java.util.List;
 
@@ -36,17 +38,25 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.MyHold
     }
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position) {
-        holder.textView.setText(requiredList.get(position).getName()+"");
+    public void onBindViewHolder(MyHolder holder, final int position) {
+        holder.textView.setText(requiredList.get(position).getName());
         final byte[] decodestring = requiredList.get(position).getImg();
         final Bitmap decodebitmap = BitmapFactory.decodeByteArray(decodestring,0,decodestring.length);
         holder.recycler_imageview.setImageBitmap(decodebitmap);
         holder.address.setText(requiredList.get(position).getAddress());
-        if(decision){
+        holder.mview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(decision){
 
-        }else{
-            
-        }
+                }else{
+                    Intent intent = new Intent(context, UsersOfShop.class);
+                    intent.putExtra("cat_id",requiredList.get(position).getId());
+                    context.startActivity(intent);
+                }
+            }
+        });
+
     }
 
     @Override

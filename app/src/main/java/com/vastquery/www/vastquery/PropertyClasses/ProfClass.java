@@ -4,16 +4,24 @@ package com.vastquery.www.vastquery.PropertyClasses;
 public class ProfClass {
     String name,address,pincode,city,code,description,skills;
     byte[] photo;
+    int addedby;
 
-    public ProfClass(String name, String address, String pincode, String city, byte[] photo, String code, String description,String skills) {
+    public ProfClass(String name, String address, String pincode, String city, byte[] photo, String code, String description,int addedby, String skills) {
         this.name = name;
         this.address = address;
         this.pincode = pincode;
         this.city = city;
-        this.photo = photo;
-        this.description = description;
         this.code = code;
+        this.description = description;
         this.skills = skills;
+        this.photo = photo;
+        this.addedby = addedby;
+    }
+
+
+
+    public int getAddedby() {
+        return addedby;
     }
 
     public String getName() {

@@ -15,10 +15,11 @@ import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
 import com.vastquery.www.vastquery.PropertyClasses.ClassListItems;
+import com.vastquery.www.vastquery.PropertyClasses.UserDetails;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.ChatListAdapter;
 import com.vastquery.www.vastquery.helper.PrefManager;
-import com.vastquery.www.vastquery.helper.SimpleStringRecyclerViewAdapter;
+import com.vastquery.www.vastquery.helper.UserListAdapter;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,43 +28,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OwnerChat extends AppCompatActivity {
+public class UsersOfShop extends AppCompatActivity {
 
     ProgressBar progressBar;
     RecyclerView recyclerview;
     LinearLayoutManager linearLayoutManager;
     PrefManager pref;
     HashMap<String,String> profile;
-    int user_id;
-    public List<ClassListItems> itemArrayList;
-    Toolbar toolbar;
+
+    String shop_id;
+    public List<UserDetails> itemArrayList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_required_list);
 
-        //toolbar
-        toolbar = findViewById(R.id.toolbar_requiredlist);
+        shop_id = getIntent().getStringExtra("cat_id");
+
+        Toolbar toolbar = findViewById(R.id.toolbar_requiredlist);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        itemArrayList = new ArrayList<>();
         progressBar = findViewById(R.id.progressBar);
         recyclerview = findViewById(R.id.recyclerview_requiredlist);
 
-        pref = new PrefManager(OwnerChat.this);
-        profile = pref.getUserDetails();
-        user_id = Integer.parseInt(profile.get("id"));
-
-        itemArrayList = new ArrayList<>();
-
         recyclerview = findViewById(R.id.recyclerview_requiredlist);
-        linearLayoutManager = new LinearLayoutManager(OwnerChat.this);
+        linearLayoutManager = new LinearLayoutManager(UsersOfShop.this);
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(linearLayoutManager);
 
-        SyncData_customerpost syncData_customerpost = new SyncData_customerpost();
-        syncData_customerpost.execute();
+        SyncData_Users syncData_users = new SyncData_Users();
+        syncData_users.execute();
+
 
     }
 
@@ -81,7 +81,8 @@ public class OwnerChat extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class SyncData_customerpost extends AsyncTask<String,String,String> {
+
+    public class SyncData_Users extends AsyncTask<String,String,String> {
 
         String ConnectionResult;
         boolean isSuccess;
@@ -100,16 +101,14 @@ public class OwnerChat extends AppCompatActivity {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-
-                    String query = "select tblSubCategory.Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory " +
-                            "join tblCategoryCustomer on tblSubCategory.SubCategory_Id = tblCategoryCustomer.Shop_Id " +
-                            "where tblCategoryCustomer.User_Id='"+user_id+"'";
+                    isSuccess = true;
+                    String query = "select Usr_ID,U_Name,U_Mobile from tblUser join tblCategoryCustomer on " +
+                            "tblUser.Usr_ID = tblCategoryCustomer.User_Id where tblCategoryCustomer.Shop_Id='"+shop_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
-                        isSuccess = true;
                         do {
-                            itemArrayList.add(new ClassListItems(rs.getString("Group_Id"), rs.getString("SubCategory_Id"), rs.getString("SubCategory_Name"), rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
+                            itemArrayList.add(new UserDetails(rs.getInt("Usr_ID"),rs.getString("U_Name"),rs.getString("U_Mobile"))) ;
                         } while (rs.next());
                     }
 
@@ -125,11 +124,11 @@ public class OwnerChat extends AppCompatActivity {
         protected void onPostExecute(String s) {
             progressBar.setVisibility(View.GONE);
             if(isSuccess){
-                ChatListAdapter chatListAdapter = new ChatListAdapter(OwnerChat.this,itemArrayList,false);
-                recyclerview.setAdapter(chatListAdapter);
+                UserListAdapter userListAdapter = new UserListAdapter(UsersOfShop.this,itemArrayList);
+                recyclerview.setAdapter(userListAdapter);
             }
             else {
-                Toast.makeText(OwnerChat.this,s,Toast.LENGTH_LONG).show();
+                Toast.makeText(UsersOfShop.this,s,Toast.LENGTH_LONG).show();
 
             }
         }

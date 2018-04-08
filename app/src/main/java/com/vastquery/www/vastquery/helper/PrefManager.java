@@ -78,7 +78,7 @@ public class PrefManager {
         profile.put("name", pref.getString(KEY_NAME, null));
         profile.put("email", pref.getString(KEY_EMAIL, null));
         profile.put("mobile", pref.getString(KEY_MOBILE, null));
-        profile.put("id",pref.getString(KEY_ID,null));
+        profile.put("id","2");
         return profile;
     }
 }

@@ -39,7 +39,8 @@
         <activity android:name=".activity.ServiceList" />
         <activity android:name=".activity.ServicePostForm" />
         <activity android:name=".activity.AddFacility" />
-        <activity android:name=".activity.OwnerChat"></activity>
+        <activity android:name=".activity.OwnerChat" />
+        <activity android:name=".activity.UsersOfShop"></activity>
     </application>
 
 </manifest>

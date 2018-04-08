@@ -38,7 +38,7 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<Simple
 
     @Override
     public void onBindViewHolder(final MyHolder holder, final int position) {
-        holder.textView.setText(requiredList.get(position).getName()+"");
+        holder.textView.setText(requiredList.get(position).getName());
         final byte[] decodestring = requiredList.get(position).getImg();
         final Bitmap decodebitmap = BitmapFactory.decodeByteArray(decodestring,0,decodestring.length);
         holder.recycler_imageview.setImageBitmap(decodebitmap);

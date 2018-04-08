@@ -29,6 +29,7 @@ import com.vastquery.www.vastquery.helper.SimpleStringRecyclerViewAdapter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -75,9 +76,11 @@ public class CustomerPost extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        itemArrayList = new ArrayList<>();
+
         pref = new PrefManager(getActivity().getApplicationContext());
         profile = pref.getUserDetails();
-        //user_Id = Integer.parseInt(profile.get("id"));
+        user_id = Integer.parseInt(profile.get("id"));
 
         SyncData_customerpost synData = new SyncData_customerpost();
         synData.execute();
@@ -99,7 +102,7 @@ public class CustomerPost extends Fragment {
     public class SyncData_customerpost extends AsyncTask<String,String,String> {
 
         String ConnectionResult;
-        boolean isSuccess,isShop=false;
+        boolean isSuccess;
 
         @Override
         protected void onPreExecute() {
@@ -115,12 +118,13 @@ public class CustomerPost extends Fragment {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory " +
+                    String query = "select tblSubCategory.Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory " +
                             "join tblCategoryCustomer on tblSubCategory.SubCategory_Id = tblCategoryCustomer.Shop_Id " +
                             "where tblCategoryCustomer.User_Id='"+user_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
+                        isSuccess = true;
                         do {
                             itemArrayList.add(new ClassListItems(rs.getString("Group_Id"), rs.getString("SubCategory_Id"), rs.getString("SubCategory_Name"), rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
                         } while (rs.next());

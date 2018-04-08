@@ -2,6 +2,7 @@ package com.vastquery.www.vastquery.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -77,7 +78,7 @@ public class ChatGroup extends Fragment {
 
         pref = new PrefManager(context);
         profile = pref.getUserDetails();
-        //user_id = Integer.parseInt(profile.get("id"));
+        user_id = Integer.parseInt(profile.get("id"));
 
         linearLayoutManager = new LinearLayoutManager(context);
         recyclerview.setHasFixedSize(true);
@@ -87,7 +88,8 @@ public class ChatGroup extends Fragment {
         myshop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(context,OwnerChat.class);
+                context.startActivity(intent);
             }
         });
 

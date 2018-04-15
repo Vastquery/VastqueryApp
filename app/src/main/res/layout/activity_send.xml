@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter the message"
+        android:textColor="#000"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <AutoCompleteTextView
+        android:id="@+id/sendtext"
+        android:layout_marginTop="5dp"
+        android:layout_width="245dp"
+        android:hint="Message"
+        android:layout_height="wrap_content"
+        android:stepSize="1"
+        android:background="@drawable/rounded_white"
+        android:theme="@style/RatingBar"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:id="@+id/send"
+        android:layout_margin="10dp"
+        android:text="send"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:background="@drawable/register_button"
+        />
+
+
+
+</LinearLayout>

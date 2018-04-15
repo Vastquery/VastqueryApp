@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:padding="10dp"
+        android:background="@drawable/balloon_outgoing_normal"
+        android:id="@+id/in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="right"
+        android:text="Hello bubbles!"
+        android:textColor="@android:color/primary_text_light"/>
+
+
+    <TextView
+        android:padding="10dp"
+        android:background="@drawable/balloon_incoming_normal"
+        android:id="@+id/out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="left"
+        android:text="Thank You for your Interest we wil reply soon"
+        android:textColor="@android:color/primary_text_light"/>
+
+</LinearLayout>

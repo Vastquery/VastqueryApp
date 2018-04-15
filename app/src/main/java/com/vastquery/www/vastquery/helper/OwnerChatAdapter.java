@@ -1,0 +1,95 @@
+package com.vastquery.www.vastquery.helper;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.vastquery.www.vastquery.DatabaseConnection.UpdateOwnerMessage;
+import com.vastquery.www.vastquery.PropertyClasses.ChatDetails;
+import com.vastquery.www.vastquery.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by aj-ajay on 4/9/18.
+ */
+
+public class OwnerChatAdapter extends RecyclerView.Adapter<OwnerChatAdapter.MyHolder> {
+
+    Context context;
+    List<ChatDetails> details;
+    SimpleDateFormat formatter;
+    Date date;
+
+    public OwnerChatAdapter(Context context, List<ChatDetails> details) {
+        this.context = context;
+        this.details = details;
+    }
+
+    @Override
+    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_owner_chat,null);
+        OwnerChatAdapter.MyHolder myHolder = new OwnerChatAdapter.MyHolder(layout);
+        return myHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(final MyHolder holder, int position) {
+        final ChatDetails detail = details.get(position);
+        final String[] message = new String[1];
+        formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+
+        holder.in.setText(detail.getMessage());
+        if(detail.getStatus().equals("R")){
+            holder.out.setText(detail.getReply());
+        }else{
+            holder.out.setText("Click here to reply");
+            holder.out.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    date = new Date();
+                    Dialog dialog = new Dialog(context,R.style.FullHeightDialog);
+                    dialog.setContentView(R.layout.activity_send);
+                    dialog.setCancelable(true);
+
+
+                    AutoCompleteTextView sendtext = dialog.findViewById(R.id.sendtext);
+                    message[0] = sendtext.getText().toString().trim();
+
+                    final Button send = dialog.findViewById(R.id.send);
+                    send.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            UpdateOwnerMessage ownerMessage = new UpdateOwnerMessage(context,detail.getId(),message[0],formatter.format(date),holder.out);
+                            ownerMessage.execute();
+                        }
+                    });
+                    dialog.show();
+                }
+            });
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return details.size();
+    }
+
+    public static class MyHolder extends RecyclerView.ViewHolder{
+
+        TextView in,out;
+        public MyHolder(View itemView) {
+            super(itemView);
+            in = itemView.findViewById(R.id.in);
+            out = itemView.findViewById(R.id.out);
+        }
+    }
+}

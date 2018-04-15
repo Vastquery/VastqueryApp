@@ -55,7 +55,7 @@ public class PrefManager {
         return pref.getString(KEY_MOBILE_NUMBER, null);
     }
 
-    public void createLogin(String name, String email, String mobile,String id) {
+    public void createLogin(String id,String name, String email, String mobile) {
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_MOBILE, mobile);
@@ -78,7 +78,7 @@ public class PrefManager {
         profile.put("name", pref.getString(KEY_NAME, null));
         profile.put("email", pref.getString(KEY_EMAIL, null));
         profile.put("mobile", pref.getString(KEY_MOBILE, null));
-        profile.put("id","2");
+        profile.put("id",pref.getString(KEY_ID,null));
         return profile;
     }
 }

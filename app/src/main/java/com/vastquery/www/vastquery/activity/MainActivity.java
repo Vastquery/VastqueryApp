@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 
 import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.helper.PrefManager;
 import com.vastquery.www.vastquery.helper.ViewPageAdapter;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class MainActivity extends Fragment {
     LinearLayout sliderDotsPanel;
     private int dotscount;
     private ImageView[] dots;
-
+    PrefManager pref;
     Context context;
 
     private FragmentActivity myContext;
@@ -101,6 +102,8 @@ public class MainActivity extends Fragment {
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
 
+
+        pref = new PrefManager(context);
         mDrawerLayout = view.findViewById(R.id.drawer_layout);
         NavigationView navigationView = view.findViewById(R.id.nav_view);
         if (navigationView != null) {
@@ -167,7 +170,7 @@ public class MainActivity extends Fragment {
                                 toast("change number yet to be created");
                                 break;
                             case R.id.nav_affiliatedwork:
-                                toast("affiliatedwork yet to be created");
+                                logout();
                                 break;
                         }
                         menuItem.setChecked(true);
@@ -176,7 +179,11 @@ public class MainActivity extends Fragment {
                     }
                 });
     }
-
+    private void logout(){
+        pref.clearSession();
+        Intent intent = new Intent(context,LoginActivity.class);
+        context.startActivity(intent);
+    }
 
     private void setupViewPager(ViewPager viewPager) {
 

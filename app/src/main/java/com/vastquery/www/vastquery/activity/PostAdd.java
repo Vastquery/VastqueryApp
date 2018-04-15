@@ -41,8 +41,8 @@ public class PostAdd extends Fragment implements View.OnClickListener{
         prof_edit = view.findViewById(R.id.prof_edit);
         shop_post.setOnClickListener(this);
         shop_edit.setOnClickListener(this);
-        prof_post.setOnClickListener(this);
-        prof_edit.setOnClickListener(this);
+        /*prof_post.setOnClickListener(this);
+        prof_edit.setOnClickListener(this);*/
         return view;
     }
 
@@ -54,6 +54,7 @@ public class PostAdd extends Fragment implements View.OnClickListener{
                 context.startActivity(intent);
                 break;
             case R.id.shop_edit:
+
                 break;
             case R.id.prof_edit:
                 break;

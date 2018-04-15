@@ -96,12 +96,12 @@ public class RequiredList extends AppCompatActivity {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory  where Cat_Id='"+requested_list+"'";
+                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo,SubCategory_Addby from tblSubCategory  where Cat_Id='"+requested_list+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         do {
-                            itemArrayList. add(new ClassListItems(rs.getString("Group_Id"),rs.getString("SubCategory_Id"),rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
+                            itemArrayList. add(new ClassListItems(rs.getString("Group_Id"),rs.getString("SubCategory_Id"),rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo"),rs.getInt("SubCategory_Addby")));
                         }while (rs.next());
 
                     /* Change below query according to your own database.

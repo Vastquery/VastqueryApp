@@ -44,7 +44,7 @@ public class ChatGroup extends Fragment {
     PrefManager pref;
     HashMap<String,String> profile;
     int user_id;
-    public List<ClassListItems> itemArrayList;
+    List<ClassListItems> itemArrayList;
     Context context;
 
     @Override
@@ -130,25 +130,30 @@ public class ChatGroup extends Fragment {
                     ConnectionResult = "Check Your Internet Access!";
                 }else{
                     isSuccess = true;
-                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory " +
+                    String query = "select tblSubCategory.Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo,SubCategory_Addby from tblSubCategory " +
                             "join tblCategoryCustomer on tblSubCategory.SubCategory_Id = tblCategoryCustomer.Shop_Id " +
                             "where tblCategoryCustomer.User_Id='"+user_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
-                        itemArrayList. add(new ClassListItems(rs.getString("Group_Id"),rs.getString("SubCategory_Id"),rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
+                        do {
+                            itemArrayList.add(new ClassListItems(rs.getString("Group_Id"), rs.getString("SubCategory_Id"), rs.getString("SubCategory_Name"), rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo"), rs.getInt("SubCategory_Addby")));
+                        }while(rs.next());
                     }
+                    ConnectionResult="success";
+                    connect.close();
                 }
             }catch(Exception ex){
                 ConnectionResult = ex.getMessage();
             }
-                return ConnectionResult;
+            return ConnectionResult;
         }
 
         @Override
         protected void onPostExecute(String s) {
             progressBar.setVisibility(View.GONE);
             if(isSuccess){
+                Toast.makeText(context,s,Toast.LENGTH_LONG).show();
                 ChatListAdapter myAdapter = new ChatListAdapter(context, itemArrayList,true);
                 recyclerview.setAdapter(myAdapter);
             }else{

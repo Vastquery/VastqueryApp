@@ -100,16 +100,14 @@ public class OwnerChat extends AppCompatActivity {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-
-                    String query = "select tblSubCategory.Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory " +
-                            "join tblCategoryCustomer on tblSubCategory.SubCategory_Id = tblCategoryCustomer.Shop_Id " +
-                            "where tblCategoryCustomer.User_Id='"+user_id+"'";
+                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo,SubCategory_Addby from tblSubCategory " +
+                            "where SubCategory_Addby='"+user_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         isSuccess = true;
                         do {
-                            itemArrayList.add(new ClassListItems(rs.getString("Group_Id"), rs.getString("SubCategory_Id"), rs.getString("SubCategory_Name"), rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
+                            itemArrayList.add(new ClassListItems(rs.getString("Group_Id"), rs.getString("SubCategory_Id"), rs.getString("SubCategory_Name"), rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo"),rs.getInt("SubCategory_Addby")));
                         } while (rs.next());
                     }
 

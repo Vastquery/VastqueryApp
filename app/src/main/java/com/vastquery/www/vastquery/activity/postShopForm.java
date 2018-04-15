@@ -272,7 +272,6 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
 
     public void validateForm(){
         shopname = shop_name.getText().toString().trim();
-        shopstate = shop_state.getSelectedItem().toString().trim();
         shopaddress = shop_address.getText().toString().trim();
         shopcity = shop_city.getText().toString().trim();
         shoppincode = shop_pincode.getText().toString().trim();
@@ -284,22 +283,28 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
         shopdistrict = shop_district.getSelectedItemPosition()+"";
         shopemail = shop_email.getText().toString().trim();
         shopdescription = description.getText().toString().trim();
+        shopstate = shop_state.getSelectedItem().toString().trim();
 
         if(shopname.length()==0 || mUserItems.isEmpty() || shopstate.equals("-select the state-") || shopaddress.length()==0||
                 shopcity.length()==0 || shoppincode.length()==0 || ownername.length()==0 || shopdistrict.equals("-select the District-")){
             Toast.makeText(postShopForm.this,"EnterValid Details",Toast.LENGTH_LONG).show();
         }else{
             if(!isValidPhoneNumber(shopphone)&&!isValidEmail(shopemail)){
-                Toast.makeText(postShopForm.this,"Enter valid phone number",Toast.LENGTH_LONG).show();
+                Toast.makeText(postShopForm.this,"Enter valid or email phone number",Toast.LENGTH_LONG).show();
             }else{
                 if(image_logo.getDrawable()==null && image_photo.getDrawable()==null && owner_photo.getDrawable() == null){
                     Toast.makeText(postShopForm.this,"select the pohotos",Toast.LENGTH_LONG).show();
                 }else{
                     GetAllIds getAllIds = new GetAllIds();
                     getAllIds.execute();
-
-                    InputData inputData = new InputData();
-                    inputData.execute();//data should be added for every category
+                    if(rollid.equals("district full")){
+                        Toast.makeText(postShopForm.this,rollid,Toast.LENGTH_LONG).show();
+                    }else {
+                        for(Integer items : mUserItems) {
+                            InputData inputData = new InputData();
+                            inputData.execute(Cat_Id.get(items));//data should be added for every category
+                        }
+                    }
                 }
             }
         }
@@ -309,7 +314,6 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            ;
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
 
         } catch (Exception e) {
@@ -424,7 +428,7 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
                             "SubCategory_State,SubCategory_District,SubCategory_Pincode"+
                        ",SubCategory_Logo,SubCategory_FrontLogo,SubCategory_OwnerName,SubCategory_OwnerPhoto,Id,RollNo,RollId," +
                             "SubCategory_Description,SubCategory_Addby)"+
-                            " values ('G_1','"+Cat_Id.get(0)+"','"+subcategory_id+"','"+shopname+"','"+shopaddress+"','"
+                            " values ('G_1','"+strings[0]+"','"+subcategory_id+"','"+shopname+"','"+shopaddress+"','"
                             +shopcity+"','India','"+state+"'" + ",'"+shopdistrict+"','"+shoppincode
                             +"',?,?,'"+ownername+"',?,'"+id+"','"+rollnum+"','"+rollid+"','"+shopdescription+"','"+profile.get("id")+"')";
                     PreparedStatement preStmt = connect.prepareStatement(query);
@@ -432,7 +436,7 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
                     preStmt.setBytes(2,shop);
                     preStmt.setBytes(3,owner);
                     preStmt.execute();
-                    ConnectionResult = "Inserted successful";
+                    ConnectionResult = "Inserted successful"+strings[0];
                     connect.close();
                 }
             } catch (Exception ex) {
@@ -450,6 +454,7 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
     // get subcategory id
     public static String GetsId(String query, String maximum){
         GetId getid = new GetId(query,maximum);
+        if(getid.getS_Id() == null) return "S_1";
         return incrementId(getid.getS_Id());
     }
     // increment id
@@ -459,22 +464,58 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
         value++;
         return temp[0]+"_"+value;
     }
-    // to get id
+    // to   id
     public static int GetId(String query , String maxi){
         GetIntId getid = new GetIntId(query,maxi);
         return (getid.getId()+1);
     }
+
+    //getRollId
+    public static String getNum(int num){
+        String s = num+"";
+        while(num<100){
+            s = "0"+s;
+            num*=10;
+        }
+        return s;
+    }
+
+    //getRollNUmber
+    public static String IncrementRollId(String alpha,int num){
+        char c = alpha.charAt(0);
+        if(num == 999 && c=='Z')
+            return "district full";
+        if(num == 999 ){
+            c+=1;
+            return c+"001";
+        }
+        return c+getNum(num+1);
+
+    }
+    //roll id
+    public static String GetRollId(String query,String maxi){
+        GetId getid = new GetId(query,maxi);
+        String s = getid.getS_Id();
+        if(s.length()==0) return "A001";
+        int num = Integer.parseInt(s.substring(1));
+        return IncrementRollId(s.substring(0,1),num);
+    }
+
     // to get all the ids
+    @SuppressLint("StaticFieldLeak")
     public class GetAllIds extends AsyncTask<String,String,String>{
         String message="";
-        @Override
         protected String doInBackground(String... strings) {
-            GetId getStateId = new GetId("select State_ID where State_Name='"+shopstate+"'","State_ID");
-            try {
-                message = "Id created";
-                subcategory_id = GetsId("select max(SubCategory_Id) as maximum from tblSubCategory", "maximum");
-                id = GetId("select max(Id) as maxi from tblSubCategory", "maxi");
-                state = getStateId.getS_Id();
+             try {
+                 message = "Id created";
+                 subcategory_id = GetsId("select max(SubCategory_Id) as maximum from tblSubCategory", "maximum");
+                 id = GetId("select max(Id) as maxi from tblSubCategory", "maxi");
+                 GetId getStateId = new GetId("select State_ID  from tblStates where State_Name='"+shopstate+"'","State_ID");
+                 state = getStateId.getS_Id();
+                 rollid = GetRollId("select max(RollId) as roll from tblSubCategory where" +
+                        " SubCategory_District = '"+shopdistrict+"' and SubCategory_State='"+state+"' and Group_Id='G_1'","roll" );
+                 rollnum = state+shopdistrict+"S"+rollid;
+                 message = rollnum;
             }catch(Exception ex){
                 message = ex.getMessage();
             }
@@ -483,7 +524,8 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String s) {
-            Toast.makeText(postShopForm.this,s,Toast.LENGTH_LONG).show();
+            //Toast.makeText(postShopForm.this,s,Toast.LENGTH_LONG).show();
+
         }
     }
 }

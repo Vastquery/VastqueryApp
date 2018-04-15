@@ -17,12 +17,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
 import com.vastquery.www.vastquery.PropertyClasses.ClassListItems;
+import com.vastquery.www.vastquery.PropertyClasses.EditItems;
 import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.helper.EditAdapter;
 import com.vastquery.www.vastquery.helper.PrefManager;
 import com.vastquery.www.vastquery.helper.SimpleStringRecyclerViewAdapter;
 
@@ -42,7 +45,7 @@ public class CustomerPost extends Fragment {
     LinearLayoutManager linearLayoutManager;
     Context context;
     ProgressBar progressBar;
-    public List<ClassListItems> itemArrayList;
+    public List<EditItems> itemArrayList;
     PrefManager pref;
     HashMap<String, String> profile;
     int user_id;
@@ -118,15 +121,14 @@ public class CustomerPost extends Fragment {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    String query = "select tblSubCategory.Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory " +
-                            "join tblCategoryCustomer on tblSubCategory.SubCategory_Id = tblCategoryCustomer.Shop_Id " +
-                            "where tblCategoryCustomer.User_Id='"+user_id+"'";
+                    String query = "select Group_Id,SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo,Id,SubCategory_Addby from tblSubCategory " +
+                            "where SubCategory_Addby='"+user_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         isSuccess = true;
                         do {
-                            itemArrayList.add(new ClassListItems(rs.getString("Group_Id"), rs.getString("SubCategory_Id"), rs.getString("SubCategory_Name"), rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
+                            itemArrayList.add(new EditItems(rs.getString("Group_Id"), rs.getString("SubCategory_Id"), rs.getString("SubCategory_Name"), rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo"),rs.getInt("Id"),rs.getInt("SubCategory_Addby")));
                         } while (rs.next());
                     }
                     /* Change below query according to your own database.
@@ -160,8 +162,8 @@ public class CustomerPost extends Fragment {
         protected void onPostExecute(String s) {
             progressBar.setVisibility(View.GONE);
             if(isSuccess){
-                SimpleStringRecyclerViewAdapter myAdapter = new SimpleStringRecyclerViewAdapter(context, itemArrayList);
-                recyclerView.setAdapter(myAdapter);
+                EditAdapter editAdapter = new EditAdapter(context,itemArrayList);
+                recyclerView.setAdapter(editAdapter);
             }
             else {
                 Toast.makeText(context,s,Toast.LENGTH_LONG).show();

@@ -1,16 +1,20 @@
 package com.vastquery.www.vastquery.helper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vastquery.www.vastquery.PropertyClasses.UserDetails;
 import com.vastquery.www.vastquery.R;
+import com.vastquery.www.vastquery.activity.OwnerChatView;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -34,9 +38,26 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyHold
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-        UserDetails details = userList.get(position);
+        final UserDetails details = userList.get(position);
+        PrefManager pref = new PrefManager(context);
+        HashMap<String,String> profile = pref.getUserDetails();
+        final int user_id = Integer.parseInt(profile.get("id"));
         holder.user_name.setText(details.getName());
         holder.mobile.setText(details.getMobile());
+        holder.mview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(details.getUser_id() == user_id){
+                    Toast.makeText(context,"It is you",Toast.LENGTH_LONG).show();
+                }else {
+                    Intent intent = new Intent(context, OwnerChatView.class);
+                    intent.putExtra("shop_id", details.getShop_id());
+                    intent.putExtra("user_id", details.getUser_id());
+                    context.startActivity(intent);
+                }
+            }
+        });
+
     }
 
     @Override

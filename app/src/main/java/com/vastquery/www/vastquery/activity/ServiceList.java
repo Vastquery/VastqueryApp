@@ -114,14 +114,14 @@ public class ServiceList extends AppCompatActivity {
                 if (connect == null) {
                     ConnectionResult = "Check Your Internet Access!";
                 } else {
-                    String query = "select tblSubCategory.Group_Id,tblSubCategory.SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo from tblSubCategory join tblSubCategoryFacility" +
+                    String query = "select tblSubCategory.Group_Id,tblSubCategory.SubCategory_Id,SubCategory_Name,SubCategory_Address,SubCategory_Logo,SubCategory_Addby from tblSubCategory join tblSubCategoryFacility" +
                             " on tblSubCategory.SubCategory_Id = tblSubCategoryFacility.SubCategory_Id" +
                             " where tblSubCategoryFacility.Facility_Id ="+facility_id;
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         do {
-                            itemArrayList.  add(new ClassListItems(rs.getString("Group_Id"),rs.getString("SubCategory_Id"),rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo")));
+                            itemArrayList.  add(new ClassListItems(rs.getString("Group_Id"),rs.getString("SubCategory_Id"),rs.getString("SubCategory_Name"),rs.getString("SubCategory_Address"), rs.getBytes("SubCategory_Logo"),rs.getInt("SubCategory_Addby")));
                         }while (rs.next());
 
                     /* Change below query according to your own database.

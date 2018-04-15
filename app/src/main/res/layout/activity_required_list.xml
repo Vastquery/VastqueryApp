@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/appbar_requiredlist"
             android:clipToPadding="false"
-                android:scrollbars="vertical"/>
+            android:scrollbars="vertical"/>
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="50dp"

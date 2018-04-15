@@ -108,7 +108,7 @@ public class UsersOfShop extends AppCompatActivity {
                     ResultSet rs = stmt.executeQuery(query);
                     if(rs.next()) {
                         do {
-                            itemArrayList.add(new UserDetails(rs.getInt("Usr_ID"),rs.getString("U_Name"),rs.getString("U_Mobile"))) ;
+                            itemArrayList.add(new UserDetails(rs.getInt("Usr_ID"),rs.getString("U_Name"),rs.getString("U_Mobile"),shop_id)) ;
                         } while (rs.next());
                     }
 

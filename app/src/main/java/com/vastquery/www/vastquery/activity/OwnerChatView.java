@@ -114,7 +114,7 @@ public class OwnerChatView extends AppCompatActivity {
                     message = "Check Your Internet Access!";
                 } else {
                     String query = "Select User_Id,Message,Reply,SubCategory_Id,Owner_Id,Status,Id" +
-                            "from tblMessageBox where User_Id='"+user_id+"' and SubCategory_Id='"+shop_id+"' " +
+                            " from tblMessageBox where User_Id='"+user_id+"' and SubCategory_Id='"+shop_id+"' " +
                             "and Owner_Id='"+owner_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);

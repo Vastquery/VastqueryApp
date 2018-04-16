@@ -36,7 +36,7 @@ public class ChatMessagesAdapter extends RecyclerView.Adapter<ChatMessagesAdapte
     public void onBindViewHolder(MyHolder holder, int position) {
         ChatDetails detail = details.get(position);
         holder.in.setText(detail.getMessage());
-        if(detail.getStatus().equals("Y")){
+        if(detail.getStatus().equals("R")){
             holder.out.setText(detail.getReply());
         }else{
             holder.out.setText("Thanks for the Interest we'll reply soon");

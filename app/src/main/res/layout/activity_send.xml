@@ -16,11 +16,12 @@
 
     <AutoCompleteTextView
         android:id="@+id/sendtext"
-        android:layout_marginTop="5dp"
+        android:layout_margin="10dp"
         android:layout_width="245dp"
         android:hint="Message"
         android:layout_height="wrap_content"
         android:stepSize="1"
+        android:textColor="#000"
         android:background="@drawable/rounded_white"
         android:theme="@style/RatingBar"/>
     <Button
@@ -29,6 +30,7 @@
         android:id="@+id/send"
         android:layout_margin="10dp"
         android:text="send"
+        android:layout_gravity="right"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:paddingLeft="5dp"

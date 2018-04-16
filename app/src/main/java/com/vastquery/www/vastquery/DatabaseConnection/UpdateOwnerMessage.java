@@ -41,9 +41,8 @@ public class UpdateOwnerMessage extends AsyncTask<String,String,String>{
             if (connect == null) {
                 ConnectionResult = "Check Your Internet Access!";
             }else{
-                String query = "Update tblMessageBox set Reply='"+message+"',Reply_datetime=?,Status='R'";
+                String query = "Update tblMessageBox set Reply='"+message+"',Reply_datetime='"+date+"',Status='R' where Id="+Id;
                 PreparedStatement preStmt = connect.prepareStatement(query);
-                preStmt.setDate(1, java.sql.Date.valueOf(date));
                 preStmt.execute();
                 ConnectionResult = "updated successful";
                 connect.close();

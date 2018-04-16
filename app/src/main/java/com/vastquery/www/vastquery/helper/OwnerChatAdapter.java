@@ -56,20 +56,22 @@ public class OwnerChatAdapter extends RecyclerView.Adapter<OwnerChatAdapter.MyHo
                 @Override
                 public void onClick(View view) {
                     date = new Date();
-                    Dialog dialog = new Dialog(context,R.style.FullHeightDialog);
+                    final Dialog dialog = new Dialog(context,R.style.FullHeightDialog);
                     dialog.setContentView(R.layout.activity_send);
                     dialog.setCancelable(true);
 
 
-                    AutoCompleteTextView sendtext = dialog.findViewById(R.id.sendtext);
-                    message[0] = sendtext.getText().toString().trim();
+                    final AutoCompleteTextView sendtext = dialog.findViewById(R.id.sendtext);
+
 
                     final Button send = dialog.findViewById(R.id.send);
                     send.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            UpdateOwnerMessage ownerMessage = new UpdateOwnerMessage(context,detail.getId(),message[0],formatter.format(date),holder.out);
+                            message[0] = sendtext.getText().toString().trim();
+                            UpdateOwnerMessage ownerMessage = new UpdateOwnerMessage(context,detail.getId(), message[0],formatter.format(date),holder.out);
                             ownerMessage.execute();
+                            dialog.dismiss();
                         }
                     });
                     dialog.show();

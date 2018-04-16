@@ -86,14 +86,17 @@ public class UserChat extends AppCompatActivity {
 
         GetChats getChats = new GetChats();
         getChats.execute();
+
+        final UpdateTime updateTime = new UpdateTime();
         formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 message = chatText.getText().toString().trim();
-                date = new Date();
-                UpdateTime updateTime = new UpdateTime();
-                updateTime.execute();
+                if(message.length()!=0){
+                    date = new Date();
+                    updateTime.execute();
+                }
             }
         });
 
@@ -132,7 +135,7 @@ public class UserChat extends AppCompatActivity {
                     message = "Check Your Internet Access!";
                 } else {
                     String query = "Select User_Id,Message,Reply,SubCategory_Id,Owner_Id,Status,Id" +
-                            "from tblMessageBox where User_id='"+user_id+"' and SubCategory_Id='"+shop_id+"' " +
+                            " from tblMessageBox where User_Id='"+user_id+"' and SubCategory_Id='"+shop_id+"' " +
                             "and Owner_Id='"+owner_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
@@ -183,14 +186,12 @@ public class UserChat extends AppCompatActivity {
                     result = "Check Your Internet Access!";
                 } else {
                     issuccess = true;
-                    String query = "Insert into tblMessageBox(User_Id,Message,SubCategory_Id,Owner_Id,Msg_Posted_Time)" +
-                            " values('"+user_id+"','"+message+"','"+shop_id+"','"+owner_id+"',?)";
+                    String query = "Insert into tblMessageBox(User_Id,Message,SubCategory_Id,Owner_Id,Msg_Posted_Time,Status)" +
+                            " values ('"+user_id+"','"+message+"','"+shop_id+"','"+owner_id+"','"+formatter.format(date)+"','N')";
                     PreparedStatement preStmt = connect.prepareStatement(query);
-                    preStmt.setDate(1, java.sql.Date.valueOf(formatter.format(date)));
                     preStmt.execute();
+                    result = "updated";
                     connect.close();
-
-
                 }
             } catch (Exception ex) {
                 result = ex.getMessage();
@@ -203,6 +204,7 @@ public class UserChat extends AppCompatActivity {
         protected void onPostExecute(String s) {
             dialog.dismiss();
             if(issuccess){
+                itemArrayList.clear();
                 chatText.setText("");
                 GetChats getChats = new GetChats();
                 getChats.execute();

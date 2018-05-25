@@ -6,11 +6,9 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.vastquery.www.vastquery.activity.UserChat;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.Date;
+
 
 
 public class UpdateOwnerMessage extends AsyncTask<String,String,String>{

@@ -34,6 +34,7 @@ public class GetIntId {
             }
         } catch (Exception ex) {
         }
+        if(!isSuccess) return 0;
         return id;
     }
 }

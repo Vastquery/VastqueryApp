@@ -11,8 +11,7 @@
         android:layout_height="100dp"
         android:src="@drawable/logo"
         android:scaleType="fitCenter"
-        android:layout_marginBottom="10dp"
-        />
+        android:layout_marginBottom="10dp" />
 
     <ScrollView
         android:layout_width="match_parent"

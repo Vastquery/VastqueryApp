@@ -496,7 +496,7 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
     public static String GetRollId(String query,String maxi){
         GetId getid = new GetId(query,maxi);
         String s = getid.getS_Id();
-        if(s.length()==0) return "A001";
+        if(s == null) return "A001";
         int num = Integer.parseInt(s.substring(1));
         return IncrementRollId(s.substring(0,1),num);
     }
@@ -524,7 +524,7 @@ public class postShopForm extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String s) {
-            //Toast.makeText(postShopForm.this,s,Toast.LENGTH_LONG).show();
+            Toast.makeText(postShopForm.this,s,Toast.LENGTH_LONG).show();
 
         }
     }

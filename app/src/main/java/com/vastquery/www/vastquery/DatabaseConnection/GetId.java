@@ -40,7 +40,8 @@ public class GetId {
             connect.close();
         }catch (Exception ignored){
         }
-        return s_id;
+        if(isSuccess) return s_id;
+        return "notexist";
     }
 
 }

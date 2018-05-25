@@ -1,6 +1,8 @@
 package com.vastquery.www.vastquery.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -13,105 +15,64 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
+import com.vastquery.www.vastquery.DatabaseConnection.GetId;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.PrefManager;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import static com.vastquery.www.vastquery.activity.postShopForm.setDistrictState;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static String TAG = RegisterActivity.class.getSimpleName();
-    private ViewPager viewPager;
-    private ViewPagerAdapter adapter;
-    private Button btnRequestSms, btnVerifyOtp;
-    private AutoCompleteTextView inputName, inputEmail, inputMobile, inputOtp, password, confirmpassword;
-    private ProgressBar progressBar;
+    private Button signup;
+    private AutoCompleteTextView inputName, inputEmail, inputMobile, password, confirmpassword,town;
     private PrefManager pref;
-    private ImageButton btnEditMobile;
-    private TextView txtEditMobile;
-    private LinearLayout layoutEditMobile;
-
+    private ProgressDialog dialog;
+    public String name,email,mobile,pwd,cpwd,userdistrict,userstate,usertown;
+    public Spinner user_district,user_state;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        getWindow().setBackgroundDrawableResource(R.drawable.background);
 
-        viewPager =  findViewById(R.id.viewPagerVertical);
+
         inputName =  findViewById(R.id.inputName);
         inputEmail =  findViewById(R.id.inputEmail);
         inputMobile =  findViewById(R.id.inputMobile);
-        inputOtp =  findViewById(R.id.inputOtp);
-        btnRequestSms =  findViewById(R.id.btn_request_sms);
-        btnVerifyOtp =  findViewById(R.id.btn_verify_otp);
-        progressBar =  findViewById(R.id.progressBar);
-        btnEditMobile =  findViewById(R.id.btn_edit_mobile);
-        txtEditMobile =  findViewById(R.id.txt_edit_mobile);
-        layoutEditMobile =  findViewById(R.id.layout_edit_mobile);
+        signup =  findViewById(R.id.signup);
         password = findViewById(R.id.userPassword);
         confirmpassword = findViewById(R.id.userCPassword);
-
-        //view click listener
-        btnEditMobile.setOnClickListener(this);
-        btnRequestSms.setOnClickListener(this);
-        btnVerifyOtp.setOnClickListener(this);
+        user_district = findViewById(R.id.user_district);
+        user_state = findViewById(R.id.user_state);
+        town = findViewById(R.id.town);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        layoutEditMobile.setVisibility(View.GONE);
 
         pref = new PrefManager(this);
 
-        // Checking for user session
-        // if user is already logged in, take him to main activity
-        if (pref.isLoggedIn()) {
-            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        }
+        setDistrictState(RegisterActivity.this,user_state,user_district);
 
-        adapter = new ViewPagerAdapter();
-        viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
-            @Override
-            public void onPageSelected(int position) {}
+        //view click listener
+        signup.setOnClickListener(this);
 
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });
-
-        /**
-         * Checking if the device is waiting for sms
-         * showing the user OTP screen
-         */
-        if (pref.isWaitingForSms()) {
-            viewPager.setCurrentItem(1);
-            layoutEditMobile.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.btn_request_sms:
+            case R.id.signup:
                 validateForm();
-                break;
-
-            case R.id.btn_verify_otp:
-                verifyOtp();
-                break;
-
-            case R.id.btn_edit_mobile:
-                viewPager.setCurrentItem(0);
-                layoutEditMobile.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
-                pref.setIsWaitingForSms(false);
                 break;
         }
     }
@@ -121,11 +82,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * Validating user details form
      */
     private void validateForm() {
-        String name = inputName.getText().toString().trim();
-        String email = inputEmail.getText().toString().trim();
-        String mobile = inputMobile.getText().toString().trim();
-        String pwd = password.getText().toString().trim();
-        String cpwd = confirmpassword.getText().toString().trim();
+        name = inputName.getText().toString().trim();
+        email = inputEmail.getText().toString().trim();
+        mobile = inputMobile.getText().toString().trim();
+        pwd = password.getText().toString().trim();
+        cpwd = confirmpassword.getText().toString().trim();
+        userdistrict = user_district.getSelectedItemPosition()+"";
+        userstate = user_state.getSelectedItem().toString().trim();
+        usertown = town.getText().toString().trim();
 
         // validating empty name and email
         if (name.length() == 0 || email.length() == 0) {
@@ -137,14 +101,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         // it should be of 10 digits length
         if (isValidPhoneNumber(mobile) && isValidEmail(email) && pwd.equals(cpwd)) {
 
-            // request for sms
-            progressBar.setVisibility(View.VISIBLE);
-
             // saving the mobile number in shared preferences
             pref.setMobileNumber(mobile);
-
-            //request sms
-            requestForSMS(name,email,mobile);
+            Signup signup = new Signup();
+            signup.execute();
 
         }else{
             Toast.makeText(getApplicationContext(), "Please enter valid information", Toast.LENGTH_SHORT).show();
@@ -170,71 +130,47 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return email.matches(regEx);
     }
 
-    //request sms
-    private void requestForSMS(final String name, final String email, final String mobile){
-            // checking for error, if not error SMS is initiated
-            // device should receive it shortly
-            // boolean flag saying device is waiting for sms
-            pref.setIsWaitingForSms(true);
-
-            // moving the screen to next pager item i.e otp screen
-            viewPager.setCurrentItem(1);
-            txtEditMobile.setText(pref.getMobileNumber());
-            layoutEditMobile.setVisibility(View.VISIBLE);
-
-            Toast.makeText(getApplicationContext(), "sms is send to you", Toast.LENGTH_SHORT).show();
-
-        }
-
-
-
-    //verify otp
-    /**
-     * sending the OTP to server and activating the user
-     */
-    private void verifyOtp() {
-        String otp = inputOtp.getText().toString().trim();
-
-        if (!otp.isEmpty()) {
-            Intent intent = new Intent(getApplicationContext(), BottomNavi.class);
-            //grapprIntent.putExtra("otp", otp);
-            //startService(grapprIntent);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(getApplicationContext(), "Please enter the OTP", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-
-    //Adapter class
-    class ViewPagerAdapter extends PagerAdapter {
-
+    public class Signup extends AsyncTask<String,String,String>{
+        String message,presence;
+        boolean success;
+        GetId getId;
         @Override
-        public int getCount() {
-            return 2;
+        protected void onPreExecute() {
+            getId = new GetId("Select U_Mobile from tblUser where U_Mobile ='"+mobile+"'","U_Mobile");
+            dialog =  ProgressDialog.show(RegisterActivity.this,"","Signing...",true);
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == ( object);
-        }
-
-        public Object instantiateItem(View collection, int position) {
-
-            int resId = 0;
-            switch (position) {
-                case 0:
-                    resId = R.id.layout_sms;
-                    break;
-                case 1:
-                    resId = R.id.layout_otp;
-                    break;
+        protected String doInBackground(String... strings) {
+            presence = getId.getS_Id();
+            try {
+                ConnectionHelper con = new ConnectionHelper();
+                Connection connect = con.connectionclass();// Connect to database
+                if (connect == null) {
+                    message = "Check Your Internet Access!";
+                } else {
+                    if ( presence.equals("notexist")) message = "Phone Number exist";
+                    else {
+                        String query = "Insert into tblUser(U_Name,Email,Pswd,U_Mobile,U_District,U_TownVillage,U_State,U_Terms," +
+                                "U_Type) values ('" + name + "','" + email + "','" + pwd + "','" + mobile + "','" + userdistrict + "','" + usertown + "'" +
+                                ",'" + userstate + "','Y','O')";
+                        PreparedStatement preStmt = connect.prepareStatement(query);
+                        preStmt.execute();
+                        message = "Signed successful";
+                        connect.close();
+                    }
+                }
+            }catch (Exception ex){
+                message = ex.getMessage();
             }
-            return findViewById(resId);
+            return message;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            Toast.makeText(RegisterActivity.this,s,Toast.LENGTH_LONG).show();
+            startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
         }
     }
-
 }

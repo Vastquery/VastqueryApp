@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
-import com.vastquery.www.vastquery.PropertyClasses.UserDetails;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.PrefManager;
 
@@ -28,7 +27,7 @@ import static com.vastquery.www.vastquery.activity.RegisterActivity.isValidPhone
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button login_Button;
-    private TextView goto_Register;
+    private TextView register,forgetPassword;
     private AutoCompleteTextView phone_number,user_password;
     String number,password;
     PrefManager pref;
@@ -43,14 +42,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //initialization
         login_Button =  findViewById(R.id.login_button);
-        goto_Register = findViewById(R.id.Goto_Register);
+        forgetPassword = findViewById(R.id.forgetPassword);
+        register = findViewById(R.id.register);
         phone_number = findViewById(R.id.Phone_number);
         user_password = findViewById(R.id.userPassword);
 
+        pref = new PrefManager(this);
+
+        // Checking for user session
+        // if user is already logged in, take him to main activity
+        if (pref.isLoggedIn()) {
+            Intent intent = new Intent(LoginActivity.this, BottomNavi.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
 
 
+        forgetPassword.setOnClickListener(this);
         login_Button.setOnClickListener(this);
-        goto_Register.setOnClickListener(this);
+        register.setOnClickListener(this);
 
     }
 
@@ -68,7 +79,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     login.execute();
                 }
                 break;
-            case R.id.Goto_Register:
+            case R.id.forgetPassword:
+                startActivity(new Intent(LoginActivity.this,ForgetPassword.class));
+                break;
+            case R.id.register:
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
                 break;
             default:

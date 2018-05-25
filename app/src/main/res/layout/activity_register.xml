@@ -3,16 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
-    <com.vastquery.www.vastquery.helper.MyViewPager
-        android:id="@+id/viewPagerVertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+
         <LinearLayout
             android:id="@+id/layout_sms"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/bgBottomNavigation"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -58,9 +54,7 @@
                         android:textSize="12sp"
                         android:layout_marginBottom="30dp"
                         android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-
-                        />
+                        android:paddingEnd="10dp" />
                     <AutoCompleteTextView
                         android:id="@+id/inputName"
                         android:layout_width="match_parent"
@@ -122,9 +116,7 @@
                         android:inputType="textPassword"
                         android:id="@+id/userPassword"
                         android:layout_marginBottom="10dp"
-
                         android:paddingLeft="10dp" />
-
 
                     <AutoCompleteTextView
                         android:layout_width="match_parent"
@@ -142,12 +134,50 @@
                         android:layout_marginBottom="10dp"
                         android:paddingLeft="10dp" />
 
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="Town"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:drawableLeft="@drawable/ic_confirm_icon"
+                        android:textSize="14sp"
+                        android:drawablePadding="5dp"
+                        android:paddingStart="10dp"
+                        android:id="@+id/town"
+                        android:layout_marginBottom="10dp"
+                        android:paddingLeft="10dp" />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="5sp"
+                        android:drawablePadding="5dp"
+                        android:paddingLeft="10dp"
+                        android:id="@+id/user_state"
+                        android:layout_marginBottom="10dp" />
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_white"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:textSize="14sp"
+                        android:drawablePadding="5dp"
+                        android:paddingLeft="10dp"
+                        android:id="@+id/user_district"
+                        android:layout_marginBottom="10dp" />
+
                     <Button
-                        android:id="@+id/btn_request_sms"
+                        android:id="@+id/signup"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:textColor="@color/white"
-                        android:text="@string/lbl_next"
+                        android:text="signup"
                         android:textStyle="normal"
                         android:background="@drawable/register_button"
                         android:layout_gravity="center"
@@ -159,112 +189,5 @@
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
-        
-        <LinearLayout
-            android:id="@+id/layout_otp"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:src="@drawable/logo"
-                android:scaleType="fitCenter"
-                android:layout_marginBottom="30dp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:gravity="center_horizontal"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:text="@string/msg_sit_back"
-                android:textColor="#000000"
-                android:textSize="16dp" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
-                android:gravity="center_horizontal"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:text="@string/msg_manual_otp"
-                android:textColor="#000000"
-                android:textSize="12dp" />
-
-            <AutoCompleteTextView
-                android:id="@+id/inputOtp"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="@string/lbl_enter_otp"
-                android:background="@drawable/rounded_white"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:drawableLeft="@drawable/ic_user_icon"
-                android:textSize="14sp"
-                android:drawablePadding="5dp"
-                android:paddingStart="10dp"
-                android:layout_marginBottom="10dp"
-                android:paddingLeft="10dp"
-                android:maxLength="6"/>
-
-            <Button
-                android:id="@+id/btn_verify_otp"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:textColor="#000000"
-                android:text="@string/lbl_submit"
-                android:textStyle="normal"
-                android:background="@drawable/register_button"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="36dp"
-                />
-        </LinearLayout>
-    </com.vastquery.www.vastquery.helper.MyViewPager>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="60dp"
-        android:indeterminateTint="@color/colorAccent"
-        android:indeterminateTintMode="src_atop"
-        android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/layout_edit_mobile"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/txt_edit_mobile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="16dp" />
-
-        <ImageButton
-            android:id="@+id/btn_edit_mobile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:background="@null"
-            android:src="@drawable/ic_edit_mobile" />
-    </LinearLayout>
-
 
 </RelativeLayout>

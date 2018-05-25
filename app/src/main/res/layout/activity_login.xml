@@ -2,11 +2,12 @@
 
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context="com.vastquery.www.vastquery.activity.MainActivity">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.vastquery.www.vastquery.activity.MainActivity">
 
 <!-- Comment this ImageView after you have handled the image background with Java at the Activity-->
 <!--    <ImageView
@@ -18,6 +19,7 @@ tools:context="com.vastquery.www.vastquery.activity.MainActivity">
         />-->
 
 <ImageView
+    android:layout_marginTop="70dp"
     android:id="@+id/login_logo"
     android:layout_width="match_parent"
     android:layout_height="100dp"
@@ -36,33 +38,11 @@ tools:context="com.vastquery.www.vastquery.activity.MainActivity">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/trans_white_rectangle"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LogIn"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingTop="10dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Login to use the app"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:layout_marginBottom="30dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            />
+        android:layout_marginEnd="30dp">
+
         <AutoCompleteTextView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="Mobile"
@@ -78,6 +58,7 @@ tools:context="com.vastquery.www.vastquery.activity.MainActivity">
             />
 
         <AutoCompleteTextView
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="Password"
@@ -91,32 +72,7 @@ tools:context="com.vastquery.www.vastquery.activity.MainActivity">
             android:inputType="textPassword"
             android:id="@+id/userPassword"
             android:layout_marginBottom="10dp"
-
             />
-
-        <TextView
-            android:id="@+id/Goto_Register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/don_t_have_account"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:button="@drawable/radio_button"
-            android:paddingLeft="5dp"
-            android:textSize="13sp" />
-
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:id="@+id/forgetPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forget Password"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:button="@drawable/radio_button"
-            android:paddingLeft="5dp"
-            android:textSize="13sp" />
 
 
         <Button
@@ -130,9 +86,40 @@ tools:context="com.vastquery.www.vastquery.activity.MainActivity">
             android:layout_gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="36dp"
+            android:layout_marginTop="50dp"
             />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginLeft="50dp">
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/forgetPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forget Password?"
+            android:textColor="#fe485a"
+            android:layout_gravity="center"
+            android:button="@drawable/radio_button"
+            android:paddingLeft="5dp"
+            android:textSize="13sp"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  NewAccount?"
+            android:textColor="#fe485a"
+            android:layout_gravity="center"
+            android:button="@drawable/radio_button"
+            android:paddingLeft="5dp"
+            android:textSize="13sp"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
 
     </LinearLayout>
 

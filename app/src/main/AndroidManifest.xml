@@ -43,7 +43,8 @@
         <activity android:name=".activity.UsersOfShop" />
         <activity android:name=".activity.UserChat" />
         <activity android:name=".activity.OwnerChatView" />
-        <activity android:name=".activity.EditShop"></activity>
+        <activity android:name=".activity.EditShop" />
+        <activity android:name=".activity.ForgetPassword"></activity>
     </application>
 
 </manifest>

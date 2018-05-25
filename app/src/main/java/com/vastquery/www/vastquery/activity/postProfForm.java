@@ -251,7 +251,6 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
 
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            // getting the selected image, setting in imageview and converting it to byte and base 64
             Bitmap originBitmap = null;
             Uri selectedImage = data.getData();
             Toast.makeText(postProfForm.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
@@ -307,7 +306,7 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
                             "SubCategory_State,SubCategory_District,SubCategory_Pincode"+
                             ",SubCategory_Logo,Id,RollNo,RollId," +
                             "SubCategory_Description,SubCategory_Addby)"+
-                            " values ('G_2','"+Cat_Id.get(0)+"','"+subcategory_id+"','"+shopname+"','"+shopaddress+"','"
+                            " values ('G_2','"+strings[0]+"','"+subcategory_id+"','"+shopname+"','"+shopaddress+"','"
                             +shopcity+"','India','"+state+"'" + ",'"+shopdistrict+"','"+shoppincode
                             +"',?,'"+id+"','"+rollnum+"','"+rollid+"','"+shopdescribtion+"','"+profile.get("id")+"')";
                     PreparedStatement preStmt = connect.prepareStatement(query);
@@ -367,7 +366,7 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
                 skill_id = GetId("select max(Skill_Id) as maxi from tblSubCategorySkills","maxi");
 
                 rollid = GetRollId("select max(RollId) as roll from tblSubCategory where" +
-                        " SubCategory_District ='21' and SubCategory_State='TN'" +
+                        " SubCategory_District ='"+shopdistrict+"' and SubCategory_State='"+state+"'" +
                         " and Group_Id='G_2'","roll");
                 rollnum = state+shopdistrict+"P"+rollid;
 
@@ -381,7 +380,6 @@ public class postProfForm extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(String s) {
             Toast.makeText(postProfForm.this,s,Toast.LENGTH_LONG).show();
-
         }
     }
 }

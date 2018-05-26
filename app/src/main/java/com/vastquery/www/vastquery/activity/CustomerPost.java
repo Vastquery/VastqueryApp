@@ -125,6 +125,7 @@ public class CustomerPost extends Fragment {
                             "where SubCategory_Addby='"+user_id+"'";
                     Statement stmt = connect.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
+                    ConnectionResult = "No shops posted";
                     if(rs.next()) {
                         isSuccess = true;
                         do {

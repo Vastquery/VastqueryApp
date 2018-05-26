@@ -69,7 +69,7 @@ public class OwnerChatAdapter extends RecyclerView.Adapter<OwnerChatAdapter.MyHo
                         @Override
                         public void onClick(View view) {
                             message[0] = sendtext.getText().toString().trim();
-                            UpdateOwnerMessage ownerMessage = new UpdateOwnerMessage(context,detail.getId(), message[0],formatter.format(date),holder.out);
+                            UpdateOwnerMessage ownerMessage = new UpdateOwnerMessage(context,detail.getId(), message[0],holder.out);
                             ownerMessage.execute();
                             dialog.dismiss();
                         }

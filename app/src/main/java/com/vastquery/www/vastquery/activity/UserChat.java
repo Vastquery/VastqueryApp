@@ -52,6 +52,7 @@ public class UserChat extends AppCompatActivity {
     Date date;
     SimpleDateFormat formatter;
     ProgressDialog dialog;
+    Object param;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,7 @@ public class UserChat extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         itemArrayList = new ArrayList<>();
 
+
         GetChats getChats = new GetChats();
         getChats.execute();
 
@@ -95,7 +97,9 @@ public class UserChat extends AppCompatActivity {
                 message = chatText.getText().toString().trim();
                 if(message.length()!=0){
                     date = new Date();
+                    param = new java.sql.Timestamp(date.getTime());
                     updateTime.execute();
+
                 }
             }
         });
@@ -187,8 +191,9 @@ public class UserChat extends AppCompatActivity {
                 } else {
                     issuccess = true;
                     String query = "Insert into tblMessageBox(User_Id,Message,SubCategory_Id,Owner_Id,Msg_Posted_Time,Status)" +
-                            " values ('"+user_id+"','"+message+"','"+shop_id+"','"+owner_id+"','"+formatter.format(date)+"','N')";
+                            " values ('"+user_id+"','"+message+"','"+shop_id+"','"+owner_id+"','?','N')";
                     PreparedStatement preStmt = connect.prepareStatement(query);
+                    preStmt.setObject(1,param);
                     preStmt.execute();
                     result = "updated";
                     connect.close();

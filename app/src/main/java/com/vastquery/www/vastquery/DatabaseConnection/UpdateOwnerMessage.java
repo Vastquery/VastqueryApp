@@ -8,19 +8,21 @@ import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
+import java.util.Date;
 
 
 public class UpdateOwnerMessage extends AsyncTask<String,String,String>{
     int Id;
-    String message,ConnectionResult,date;
+    String message,ConnectionResult;
     Context context;
     ProgressDialog dialog;
     TextView out;
-    public UpdateOwnerMessage(Context context,int id, String message, String date,TextView out) {
+    Date date;
+    Object param;
+
+    public UpdateOwnerMessage(Context context,int id, String message,TextView out) {
         Id = id;
         this.message = message;
-        this.date = date;
         this.context = context;
         this.out = out;
     }
@@ -28,7 +30,8 @@ public class UpdateOwnerMessage extends AsyncTask<String,String,String>{
     @Override
     protected void onPreExecute() {
         dialog =  ProgressDialog.show(context,"","Loading...",true);
-
+        date = new Date();
+        param = new java.sql.Timestamp(date.getTime());
     }
 
     @Override
@@ -39,8 +42,9 @@ public class UpdateOwnerMessage extends AsyncTask<String,String,String>{
             if (connect == null) {
                 ConnectionResult = "Check Your Internet Access!";
             }else{
-                String query = "Update tblMessageBox set Reply='"+message+"',Reply_datetime='"+date+"',Status='R' where Id="+Id;
+                String query = "Update tblMessageBox set Reply='"+message+"',Reply_datetime='?',Status='R' where Id="+Id;
                 PreparedStatement preStmt = connect.prepareStatement(query);
+                preStmt.setObject(1,param);
                 preStmt.execute();
                 ConnectionResult = "updated successful";
                 connect.close();
@@ -50,7 +54,6 @@ public class UpdateOwnerMessage extends AsyncTask<String,String,String>{
         }
         return ConnectionResult;
     }
-
 
     @Override
     protected void onPostExecute(String s) {

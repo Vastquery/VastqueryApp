@@ -73,6 +73,7 @@
             android:inputType="textMultiLine" />
 
         <ImageButton
+            android:layout_marginLeft="2dp"
             android:id="@+id/buttonSend"
             android:layout_width="wrap_content"
             android:layout_height="50dp"

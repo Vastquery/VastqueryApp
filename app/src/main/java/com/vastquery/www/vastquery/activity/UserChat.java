@@ -18,10 +18,10 @@ import android.widget.Toast;
 
 import com.vastquery.www.vastquery.DatabaseConnection.ConnectionHelper;
 import com.vastquery.www.vastquery.PropertyClasses.ChatDetails;
-import com.vastquery.www.vastquery.PropertyClasses.ClassListItems;
 import com.vastquery.www.vastquery.R;
 import com.vastquery.www.vastquery.helper.ChatMessagesAdapter;
 import com.vastquery.www.vastquery.helper.PrefManager;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -50,9 +50,8 @@ public class UserChat extends AppCompatActivity {
     AutoCompleteTextView chatText;
     ImageButton buttonSend;
     Date date;
-    SimpleDateFormat formatter;
     ProgressDialog dialog;
-    Object param;
+    java.sql.Date datesql;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,19 +84,19 @@ public class UserChat extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         itemArrayList = new ArrayList<>();
 
-
         GetChats getChats = new GetChats();
         getChats.execute();
 
-        final UpdateTime updateTime = new UpdateTime();
-        formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+
+
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 message = chatText.getText().toString().trim();
                 if(message.length()!=0){
                     date = new Date();
-                    param = new java.sql.Timestamp(date.getTime());
+                    datesql = new java.sql.Date(date.getTime());
+                    UpdateTime updateTime = new UpdateTime();
                     updateTime.execute();
 
                 }
@@ -191,9 +190,9 @@ public class UserChat extends AppCompatActivity {
                 } else {
                     issuccess = true;
                     String query = "Insert into tblMessageBox(User_Id,Message,SubCategory_Id,Owner_Id,Msg_Posted_Time,Status)" +
-                            " values ('"+user_id+"','"+message+"','"+shop_id+"','"+owner_id+"','?','N')";
+                            " values ('"+user_id+"','"+message+"','"+shop_id+"','"+owner_id+"',?,'N')";
                     PreparedStatement preStmt = connect.prepareStatement(query);
-                    preStmt.setObject(1,param);
+                    preStmt.setDate(1,datesql);
                     preStmt.execute();
                     result = "updated";
                     connect.close();
@@ -201,7 +200,7 @@ public class UserChat extends AppCompatActivity {
             } catch (Exception ex) {
                 result = ex.getMessage();
             }
-            return message;
+            return result;
 
         }
 
@@ -213,7 +212,7 @@ public class UserChat extends AppCompatActivity {
                 chatText.setText("");
                 GetChats getChats = new GetChats();
                 getChats.execute();
-
+                Toast.makeText(UserChat.this,s,Toast.LENGTH_LONG).show();
             }else{
                 Toast.makeText(UserChat.this,"Error in Updating",Toast.LENGTH_LONG).show();
             }

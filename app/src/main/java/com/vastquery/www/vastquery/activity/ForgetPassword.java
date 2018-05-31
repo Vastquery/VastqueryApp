@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class ForgetPassword extends AppCompatActivity {
         confirmpassword = findViewById(R.id.confirmPassword);
         setpassword = findViewById(R.id.setpassword);
 
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         setpassword.setOnClickListener(new View.OnClickListener() {
             @Override

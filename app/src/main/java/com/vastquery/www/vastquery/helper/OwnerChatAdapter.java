@@ -26,8 +26,6 @@ public class OwnerChatAdapter extends RecyclerView.Adapter<OwnerChatAdapter.MyHo
 
     Context context;
     List<ChatDetails> details;
-    SimpleDateFormat formatter;
-    Date date;
 
     public OwnerChatAdapter(Context context, List<ChatDetails> details) {
         this.context = context;
@@ -45,17 +43,15 @@ public class OwnerChatAdapter extends RecyclerView.Adapter<OwnerChatAdapter.MyHo
     public void onBindViewHolder(final MyHolder holder, int position) {
         final ChatDetails detail = details.get(position);
         final String[] message = new String[1];
-        formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
 
-        holder.in.setText(detail.getMessage());
+        holder.out.setText(detail.getMessage());
         if(detail.getStatus().equals("R")){
-            holder.out.setText(detail.getReply());
+            holder.in.setText(detail.getReply());
         }else{
-            holder.out.setText("Click here to reply");
-            holder.out.setOnClickListener(new View.OnClickListener() {
+            holder.in.setText("Click here to reply");
+            holder.in.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    date = new Date();
                     final Dialog dialog = new Dialog(context,R.style.FullHeightDialog);
                     dialog.setContentView(R.layout.activity_send);
                     dialog.setCancelable(true);
@@ -69,7 +65,7 @@ public class OwnerChatAdapter extends RecyclerView.Adapter<OwnerChatAdapter.MyHo
                         @Override
                         public void onClick(View view) {
                             message[0] = sendtext.getText().toString().trim();
-                            UpdateOwnerMessage ownerMessage = new UpdateOwnerMessage(context,detail.getId(), message[0],holder.out);
+                            UpdateOwnerMessage ownerMessage = new UpdateOwnerMessage(context,detail.getId(), message[0],holder.in);
                             ownerMessage.execute();
                             dialog.dismiss();
                         }

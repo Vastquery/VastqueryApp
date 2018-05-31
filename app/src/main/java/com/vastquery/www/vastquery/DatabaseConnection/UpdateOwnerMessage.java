@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -18,7 +19,8 @@ public class UpdateOwnerMessage extends AsyncTask<String,String,String>{
     ProgressDialog dialog;
     TextView out;
     Date date;
-    Object param;
+    SimpleDateFormat formatter;
+    java.sql.Date datesql;
 
     public UpdateOwnerMessage(Context context,int id, String message,TextView out) {
         Id = id;
@@ -30,8 +32,9 @@ public class UpdateOwnerMessage extends AsyncTask<String,String,String>{
     @Override
     protected void onPreExecute() {
         dialog =  ProgressDialog.show(context,"","Loading...",true);
+        formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         date = new Date();
-        param = new java.sql.Timestamp(date.getTime());
+        datesql = new java.sql.Date(date.getTime());
     }
 
     @Override
@@ -42,9 +45,9 @@ public class UpdateOwnerMessage extends AsyncTask<String,String,String>{
             if (connect == null) {
                 ConnectionResult = "Check Your Internet Access!";
             }else{
-                String query = "Update tblMessageBox set Reply='"+message+"',Reply_datetime='?',Status='R' where Id="+Id;
+                String query = "Update tblMessageBox set Reply='"+message+"',Reply_datetime=?,Status='R' where Id="+Id;
                 PreparedStatement preStmt = connect.prepareStatement(query);
-                preStmt.setObject(1,param);
+                preStmt.setDate(1,datesql);
                 preStmt.execute();
                 ConnectionResult = "updated successful";
                 connect.close();

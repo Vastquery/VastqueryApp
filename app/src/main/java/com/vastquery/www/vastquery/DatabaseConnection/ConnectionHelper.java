@@ -19,10 +19,10 @@ public class ConnectionHelper {
     {
 
         // Declaring Server ip, username, database name and password
-        ip = "43.255.152.21";
-        db = "vastquery_";
-        DBUserNameStr = "vastquery_app";
-        DBPasswordStr = "Android_app@123";
+        ip = "";
+        db = "";
+        DBUserNameStr = "";
+        DBPasswordStr = "";
         // Declaring Server ip, username, database name and password
 
 
